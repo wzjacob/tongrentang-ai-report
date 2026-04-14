@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "在 Simple Browser 打开算力摸排与前瞻规划汇报",
+      "type": "shell",
+      "command": "echo",
+      "args": ["${input:openAiMopaiSimpleBrowser}"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "close": true
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "openAiMopaiSimpleBrowser",
+      "type": "command",
+      "command": "simpleBrowser.show",
+      "args": ["http://127.0.0.1:3000/ai-mopai-huibao"]
+    }
+  ]
+}

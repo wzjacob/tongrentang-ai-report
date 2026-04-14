@@ -1,0 +1,30 @@
+
+> tongrentang-ai-report@0.1.0 dev
+> next dev --hostname 0.0.0.0 --port 3000
+
+▲ Next.js 16.2.3 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://0.0.0.0:3000
+✓ Ready in 291ms
+
+ GET /ai-mopai-huibao 200 in 849ms (next.js: 580ms, application-code: 270ms)
+ GET /ai-mopai-huibao 200 in 849ms (next.js: 603ms, application-code: 246ms)
+ GET /ai-mopai-huibao 200 in 70ms (next.js: 2ms, application-code: 68ms)
+ GET /ai-mopai-huibao 200 in 83ms (next.js: 2ms, application-code: 81ms)
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.2.3 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://0.0.0.0:3000
+✓ Ready in 183ms
+
+ GET /ai-mopai-huibao 200 in 420ms (next.js: 91ms, application-code: 329ms)
+ GET /ai-mopai-huibao 200 in 74ms (next.js: 2ms, application-code: 71ms)
+ GET / 200 in 84ms (next.js: 14ms, application-code: 70ms)
+ HEAD / 200 in 57ms (next.js: 1757µs, application-code: 55ms)
+ GET /ai-mopai-huibao 200 in 57ms (next.js: 1340µs, application-code: 56ms)
+ GET /ai-mopai-huibao 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 58ms (next.js: 1355µs, application-code: 57ms)
+ HEAD /ai-mopai-huibao 200 in 48ms (next.js: 1764µs, application-code: 46ms)
+ GET / 200 in 88ms (next.js: 3ms, application-code: 85ms)
+ HEAD / 200 in 80ms (next.js: 3ms, application-code: 77ms)
+[?25h

@@ -1,0 +1,518 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "PingFang SC", "Microsoft YaHei", Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(#8c0012, #d8a67f);
+}
+
+::-webkit-scrollbar-track {
+  background: #2e0005;
+}
+
+/* 冰山页：自上而下淡入 */
+@keyframes iceberg-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iceberg-fade-in-up {
+  opacity: 0;
+  animation: iceberg-fade-in-up 0.75s ease-out forwards;
+}
+
+/* 认知分界线：渐变微光扫过 */
+@keyframes iceberg-waterline-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.iceberg-waterline-bar {
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(165, 180, 252, 0.35),
+    rgba(99, 102, 241, 0.85),
+    rgba(129, 140, 248, 0.95),
+    rgba(99, 102, 241, 0.85),
+    rgba(165, 180, 252, 0.35),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: iceberg-waterline-shimmer 4.5s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+}
+
+@keyframes iceberg-2d-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.iceberg-2d-float {
+  animation: iceberg-2d-float 5.5s ease-in-out infinite;
+}
+
+/* AI 路线图：前四阶段入场 */
+@keyframes roadmap-phase-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.roadmap-phase-card {
+  opacity: 0;
+  animation: roadmap-phase-in 0.55s ease-out forwards;
+}
+
+/* 时间轴：数据流动高光 */
+@keyframes roadmap-flow-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.roadmap-flow-segment {
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.25),
+    rgba(37, 99, 235, 0.95),
+    rgba(96, 165, 250, 0.9),
+    rgba(37, 99, 235, 0.95),
+    rgba(59, 130, 246, 0.25)
+  );
+  background-size: 200% 100%;
+  animation: roadmap-flow-shimmer 2.2s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.25);
+}
+
+@keyframes roadmap-flow-mobile-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+.roadmap-flow-mobile {
+  animation: roadmap-flow-mobile-slide 2.8s ease-in-out infinite;
+}
+
+/* Phase 5：延迟入场 + 一次闪光 */
+@keyframes roadmap-phase5-enter-kf {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    filter: brightness(1.35);
+  }
+  35% {
+    filter: brightness(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
+.roadmap-phase5-enter {
+  opacity: 0;
+  animation: roadmap-phase5-enter-kf 0.85s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+}
+
+@keyframes roadmap-climax-pulse-kf {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.35), 0 0 28px rgba(99, 102, 241, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(168, 85, 247, 0), 0 0 48px rgba(139, 92, 246, 0.45);
+  }
+}
+
+.roadmap-climax-pulse {
+  animation: roadmap-climax-pulse-kf 2.8s ease-in-out infinite;
+}
+
+@keyframes roadmap-climax-bg-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.roadmap-climax-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.roadmap-climax-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    rgba(255, 255, 255, 0.07) 42%,
+    rgba(168, 85, 247, 0.14) 55%,
+    transparent 78%
+  );
+  background-size: 220% 220%;
+  pointer-events: none;
+}
+
+.roadmap-climax-shell.roadmap-climax-active {
+  box-shadow:
+    0 0 0 1px rgba(192, 132, 252, 0.45),
+    0 0 42px rgba(139, 92, 246, 0.35),
+    0 24px 70px -20px rgba(76, 29, 149, 0.55);
+}
+
+.roadmap-climax-shell.roadmap-climax-active::before {
+  opacity: 1;
+  animation: roadmap-climax-bg-shift 4.5s ease-in-out infinite;
+}
+
+.roadmap-outcome-glow {
+  box-shadow: inset 0 1px 0 rgba(251, 191, 36, 0.2), 0 12px 40px -20px rgba(245, 158, 11, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roadmap-phase-card,
+  .roadmap-phase5-enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .roadmap-flow-segment {
+    animation: none;
+    background: rgba(37, 99, 235, 0.85);
+  }
+
+  .roadmap-flow-mobile {
+    animation: none;
+    transform: none;
+  }
+
+  .roadmap-climax-pulse {
+    animation: none;
+  }
+
+  .roadmap-climax-shell.roadmap-climax-active::before {
+    animation: none;
+    opacity: 0.35;
+  }
+
+  .roadmap-climax-shell.roadmap-climax-active {
+    box-shadow: 0 24px 70px -20px rgba(76, 29, 149, 0.55);
+  }
+
+  .vision-tower-north,
+  .vision-tower-engines,
+  .vision-tower-base,
+  .vision-engine-left,
+  .vision-engine-right {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .vision-north-star-icon,
+  .vision-ai-core,
+  .vision-twin-beam {
+    animation: none !important;
+  }
+}
+
+/* AI 愿景页：光塔式自上而下能量传递 */
+@keyframes vision-fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vision-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vision-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vision-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vision-compass-glow {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(1);
+    box-shadow: 0 8px 32px -8px rgba(139, 92, 246, 0.38);
+  }
+  50% {
+    transform: rotate(8deg) scale(1.06);
+    box-shadow: 0 14px 44px -6px rgba(99, 102, 241, 0.52);
+  }
+}
+
+@keyframes vision-core-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 36px -8px rgba(139, 92, 246, 0.45);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 52px -4px rgba(56, 189, 248, 0.35);
+    transform: scale(1.04);
+  }
+}
+
+@keyframes vision-beam-flow {
+  0%,
+  100% {
+    opacity: 0.55;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.25);
+  }
+}
+
+.vision-tower-north {
+  opacity: 0;
+  animation: vision-fade-down 0.72s cubic-bezier(0.22, 1, 0.36, 1) 0.06s forwards;
+}
+
+.vision-tower-engines {
+  opacity: 0;
+  animation: vision-fade-down 0.65s ease-out 0.22s forwards;
+}
+
+.vision-engine-left {
+  opacity: 0;
+  animation: vision-slide-in-left 0.68s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+}
+
+.vision-engine-right {
+  opacity: 0;
+  animation: vision-slide-in-right 0.68s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+}
+
+.vision-tower-base {
+  opacity: 0;
+  animation: vision-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+}
+
+.vision-north-star-icon {
+  animation: vision-compass-glow 3.4s ease-in-out infinite;
+}
+
+.vision-ai-core {
+  animation: vision-core-pulse 2.8s ease-in-out infinite;
+}
+
+.vision-twin-beam {
+  animation: vision-beam-flow 2.4s ease-in-out infinite;
+}
+
+/* 全局汇报可读性增强：放大小字、提升对比、柔化动效 */
+.report-root {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.report-root .text-xs {
+  font-size: 0.82rem !important;
+  line-height: 1.45 !important;
+}
+
+.report-root .text-\[10px\] {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+.report-root .text-\[11px\] {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.report-root .text-\[9px\] {
+  font-size: 11px !important;
+}
+
+.report-root [class*="text-[#94a3b8]"] {
+  color: #64748b !important;
+}
+
+.report-root [class*="text-[#9ca3af]"] {
+  color: #6b7280 !important;
+}
+
+.report-root [class*="text-[#6b7280]"] {
+  color: #475569 !important;
+}
+
+.report-root [class*="text-[#4b5563]"] {
+  color: #334155 !important;
+}
+
+.report-root .shadow-\[0_20px_60px_rgba\(15\,23\,42\,0\.08\)\] {
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.09);
+}
+
+.report-root .transition-all {
+  transition-duration: 220ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.report-root .animate-pulse {
+  animation-duration: 1.8s !important;
+}
+
+.report-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.report-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(#cbd5e1, #94a3b8);
+}
+
+.report-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.report-corner-logo {
+  opacity: 0.96;
+  filter: saturate(1.03) contrast(1.02);
+  isolation: isolate;
+}
+
+@keyframes report-corner-logo-golden-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.report-corner-logo::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(245, 158, 11, 0) 0deg,
+    rgba(250, 204, 21, 0.08) 35deg,
+    rgba(255, 215, 128, 0.95) 70deg,
+    rgba(251, 191, 36, 0.35) 95deg,
+    rgba(245, 158, 11, 0) 145deg,
+    rgba(245, 158, 11, 0) 360deg
+  );
+  filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.45));
+  pointer-events: none;
+  /* 仅在双圆圈之间的环形区域显示流光 */
+  -webkit-mask: radial-gradient(circle, transparent 56%, #000 58%, #000 74%, transparent 76%);
+  mask: radial-gradient(circle, transparent 56%, #000 58%, #000 74%, transparent 76%);
+  animation: report-corner-logo-golden-ring-spin 2.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-corner-logo::after {
+    animation: none;
+    opacity: 0.2;
+  }
+}
