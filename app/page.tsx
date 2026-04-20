@@ -11,21 +11,28 @@ import {
   AlarmClock,
   ArrowRight,
   BarChart3,
+  Blocks,
+  BrainCircuit,
   Brain,
   BookOpen,
   CalendarClock,
+  CheckCircle,
   Cpu,
   Database,
   FileText,
   FlaskConical,
   HardDrive,
   LayoutGrid,
+  LayoutDashboard,
   Lightbulb,
   Network,
+  Server,
+  ShieldCheck,
   Shield,
   Smartphone,
   Sparkles,
   Table2,
+  Target,
   type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -254,18 +261,18 @@ function SlideCatalog() {
   const agendas = [
     {
       index: "01",
-      title: "AI 摸排及通用能力支撑",
-      desc: "全面梳理现有底层算力设施与大模型底座能力，筑牢智能基石",
+      title: "业务规划与需求概览",
+      desc: "明确集团统筹与业务执行的职责边界，并以真实业务需求牵引底层算力建设。",
     },
     {
       index: "02",
-      title: "行业领先实践",
-      desc: "深度解析医药健康领域前沿趋势与同业数智化标杆案例",
+      title: "整体 AI 统筹架构边界",
+      desc: "明确算力池与大模型中台的集团统筹核心，释放数据层与场景层的探索活力",
     },
     {
       index: "03",
-      title: "落地解决方案",
-      desc: "结合实际业务场景，提供切实可行的数字化落地路径与规划",
+      title: "下一步重点工作与落地",
+      desc: "推进产品营销策略等高保真场景攻坚，同步开展算力本地化部署评估",
     },
   ] as const;
 
@@ -275,31 +282,31 @@ function SlideCatalog() {
         <div className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-gradient-to-br from-red-50/50 to-blue-50/30 blur-3xl" />
 
         <div className="relative z-10 mb-10 md:mb-12">
-          <h2 className="text-4xl font-bold tracking-tight text-[#111827] md:text-5xl">目录</h2>
-          <p className="mt-2 text-sm font-medium uppercase tracking-[0.22em] text-gray-400">Contents & Agenda</p>
+          <h2 className="text-4xl font-extrabold tracking-tight text-[#111827] md:text-5xl">目录</h2>
+          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.28em] text-[#9ca3af]">CONTENTS & AGENDA</p>
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col justify-center gap-4 md:gap-6">
           {agendas.map((item) => (
             <div
               key={item.index}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#b91c1c]/20 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] md:p-8"
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#dc2626]/20 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] md:p-8"
             >
-              <div className="absolute -bottom-8 -right-4 select-none text-[120px] font-black text-gray-50 transition-all duration-500 group-hover:-translate-x-4 group-hover:text-[#b91c1c]/5">
+              <div className="absolute -bottom-8 -right-4 select-none text-[120px] font-black text-gray-50 transition-all duration-500 group-hover:-translate-x-4 group-hover:text-[#dc2626]/5">
                 {item.index}
               </div>
 
               <div className="relative z-10 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-4 md:gap-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gray-50 text-lg font-bold text-gray-400 transition-colors group-hover:bg-[#b91c1c]/10 group-hover:text-[#b91c1c] md:h-14 md:w-14 md:text-xl">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gray-50 text-lg font-bold text-gray-400 transition-colors group-hover:bg-[#dc2626]/10 group-hover:text-[#dc2626] md:h-14 md:w-14 md:text-xl">
                     {item.index}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-[#111827] transition-colors group-hover:text-[#b91c1c] md:text-2xl">{item.title}</h3>
-                    <p className="mt-1 text-sm text-gray-500">{item.desc}</p>
+                    <h3 className="text-xl font-bold text-[#111827] transition-colors group-hover:text-[#dc2626] md:text-2xl">{item.title}</h3>
+                    <p className="mt-1 text-sm text-[#6b7280]">{item.desc}</p>
                   </div>
                 </div>
-                <div className="hidden -translate-x-4 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 text-[#b91c1c]">
+                <div className="hidden h-10 w-10 -translate-x-4 items-center justify-center rounded-full bg-gray-50 text-[#dc2626] opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:flex">
                   <ArrowRight size={18} />
                 </div>
               </div>
@@ -371,17 +378,31 @@ function SlideKnowledgeMatrix() {
 }
 
 function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?: () => void }) {
-  const dataset = [
-    { id: 1, title: "AI工业显微镜识别", timeline: "2027年12月", category: "视觉AI", desc: "实验过程自动寻找有效成分，拍照AI形成范式报告", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning" },
-    { id: 2, title: "AI现场生产安全预警", timeline: "十五五期间", category: "视觉AI", desc: "图像识别，SOP动作检测", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning" },
-    { id: 3, title: "财务智能大数据分析", timeline: "2026年", category: "大数据分析", desc: "海量财务数据的整理、分析与预测", hardware: "海光DCU K100 AI 64G PCIe", status: "upcoming" },
-    { id: 4, title: "药物研发发现", timeline: "持续建设", category: "研发大模型", desc: "支撑品种融合信息库文献分类，说明书信息，政策信息问答等", hardware: "NVIDIA L20 48G * 8 (有拓展需求)", status: "ongoing" },
-    { id: 5, title: "营销端AI分析", timeline: "拟建设", category: "营销AI", desc: "内培系统、一线门店音频数据转化与精准营销", hardware: "通用 GPU", status: "proposed" },
-    { id: 6, title: "股份公司智小谱", timeline: "持续建设", category: "企业知识库", desc: "股份公司产品数据知识问答，党建宣传展示等", hardware: "华为昇腾910B 32GB * 8", status: "ongoing" },
-    { id: 7, title: "商业公司辅助诊疗系统", timeline: "核心研发", category: "医疗大模型", desc: "生成名老中医诊疗经验，实现同病不同证/同证不同方等精准医疗", hardware: "NVIDIA A100 80G * 8", status: "core" },
-  ];
   const [mode, setMode] = useState<"grid" | "table">("grid");
-  const domestic = dataset.filter((item) => item.hardware.includes("海光") || item.hardware.includes("华为")).length;
+  const sectionData = {
+    secondary_units: {
+      sectionTitle: "二级单位场景需求",
+      sectionSubtitle: "鼓励各业务单元基于自身痛点进行 AI 场景探索",
+      items: [
+        { id: 1, title: "AI工业显微镜识别", timeline: "2027年12月", category: "视觉AI", desc: "实验过程自动寻找有效成分，拍照AI形成范式报告", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning" },
+        { id: 2, title: "AI现场生产安全预警", timeline: "十五五期间", category: "视觉AI", desc: "图像识别，SOP动作检测", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning" },
+        { id: 3, title: "财务智能大数据分析", timeline: "2026年", category: "大数据分析", desc: "海量财务数据的整理、分析与预测", hardware: "海光DCU K100 AI 64G PCIe", status: "upcoming" },
+        { id: 4, title: "药物研发发现", timeline: "持续建设", category: "研发大模型", desc: "支撑品种融合信息库文献分类，说明书信息，政策信息问答等", hardware: "NVIDIA L20 48G * 8 (有拓展需求)", status: "ongoing" },
+        { id: 6, title: "股份公司智小谱", timeline: "持续建设", category: "企业知识库", desc: "股份公司产品数据知识问答，党建宣传展示等", hardware: "华为昇腾910B 32GB * 8", status: "ongoing" },
+        { id: 7, title: "商业公司辅助诊疗系统", timeline: "核心研发", category: "医疗大模型", desc: "生成名老中医诊疗经验，实现同病不同证/同证不同方等精准医疗", hardware: "NVIDIA A100 80G * 8", status: "core" },
+      ],
+    },
+    group_company: {
+      sectionTitle: "集团公司重点统筹需求",
+      sectionSubtitle: "集团主导的跨业务、高价值核心 AI 场景",
+      items: [
+        { id: 5, title: "营销端AI分析", timeline: "拟建设", category: "营销AI", desc: "内培系统、一线门店音频数据转化与精准营销", hardware: "通用 GPU", status: "proposed" },
+        { id: 8, title: "产品营销策略规划", timeline: "重点攻坚", category: "策略大模型", desc: "根据成药信息，结合营销端海量数据，进行产品与竞品策略的深度 AI 分析", hardware: "集团统筹算力", status: "core" },
+      ],
+    },
+  } as const;
+  const allItems = [...sectionData.secondary_units.items, ...sectionData.group_company.items];
+  const domestic = allItems.filter((item) => item.hardware.includes("海光") || item.hardware.includes("华为")).length;
   const coreCards = 16;
   const statusColor: Record<string, string> = {
     ongoing: "bg-emerald-500",
@@ -397,6 +418,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
     营销AI: "bg-orange-100 text-orange-700",
     企业知识库: "bg-green-100 text-green-700",
     医疗大模型: "bg-red-100 text-red-700",
+    策略大模型: "bg-rose-100 text-rose-700",
   };
 
   return (
@@ -406,22 +428,23 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           <div className="rounded-xl border border-[#e5e7eb] bg-white p-4">
             <p className="text-xs text-[#6b7280]">规划场景总数</p>
-            <p className="mt-1 text-2xl font-semibold text-[#111827]">{dataset.length} 个</p>
+            <p className="mt-1 text-2xl font-semibold text-[#111827]">{allItems.length} 个</p>
           </div>
           <div className="rounded-xl border border-[#e5e7eb] bg-white p-4">
             <p className="text-xs text-[#6b7280]">国产算力项目占比</p>
-            <p className="mt-1 text-2xl font-semibold text-[#111827]">{Math.round((domestic / dataset.length) * 100)}%</p>
+            <p className="mt-1 text-2xl font-semibold text-[#111827]">{Math.round((domestic / allItems.length) * 100)}%</p>
           </div>
           <div className="rounded-xl border border-[#e5e7eb] bg-white p-4">
             <p className="text-xs text-[#6b7280]">核心重磅算力（A100+L20）</p>
             <p className="mt-1 text-2xl font-semibold text-[#111827]">{coreCards} 卡</p>
           </div>
         </div>
+
         <div className="mt-4 flex items-center gap-2">
           <button
             type="button"
             onClick={() => setMode("grid")}
-            className={`inline-flex items-center gap-1 rounded-lg px-3 py-1 text-sm ${mode === "grid" ? "bg-[#111827] text-white" : "bg-white text-[#374151] border border-[#e5e7eb]"}`}
+            className={`inline-flex items-center gap-1 rounded-lg px-3 py-1 text-sm ${mode === "grid" ? "bg-[#111827] text-white" : "border border-[#e5e7eb] bg-white text-[#374151]"}`}
           >
             <LayoutGrid size={14} />
             Grid
@@ -429,7 +452,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
           <button
             type="button"
             onClick={() => setMode("table")}
-            className={`inline-flex items-center gap-1 rounded-lg px-3 py-1 text-sm ${mode === "table" ? "bg-[#111827] text-white" : "bg-white text-[#374151] border border-[#e5e7eb]"}`}
+            className={`inline-flex items-center gap-1 rounded-lg px-3 py-1 text-sm ${mode === "table" ? "bg-[#111827] text-white" : "border border-[#e5e7eb] bg-white text-[#374151]"}`}
           >
             <Table2 size={14} />
             Table
@@ -437,42 +460,92 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
         </div>
 
         {mode === "grid" ? (
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
-            {dataset.map((item) => (
-              <div key={item.id} className="rounded-2xl border border-[#e5e7eb] bg-white p-4 transition-all hover:scale-[1.01] hover:shadow-lg">
-                <div className="flex items-center justify-between">
-                  {item.title === "股份公司智小谱" ? (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        onOpenKnowledgeMatrix?.();
-                      }}
-                      className="relative z-10 cursor-pointer touch-manipulation text-left text-base font-semibold text-[#111827] underline-offset-4 transition hover:text-[#b91c1c] hover:underline"
-                    >
-                      {item.title}
-                    </button>
-                  ) : (
-                    <h4 className="text-base font-semibold text-[#111827]">{item.title}</h4>
-                  )}
-                  <span className={`h-2.5 w-2.5 rounded-full ${statusColor[item.status] ?? "bg-gray-400"}`} />
-                </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">
-                    <CalendarClock size={12} />
-                    {item.timeline}
-                  </span>
-                  <span className={`rounded-full px-2 py-1 text-xs ${categoryStyle[item.category] ?? "bg-gray-100 text-gray-700"}`}>{item.category}</span>
-                </div>
-                <p className="mt-3 text-sm text-[#4b5563]">{item.desc}</p>
-                <div className="mt-3 inline-flex items-center gap-1 rounded-lg bg-[#eef2ff] px-2 py-1 text-xs text-[#3730a3]">
-                  <Cpu size={12} />
-                  {item.hardware}
+          <>
+            <div className="mt-6">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="h-6 w-1.5 rounded-full bg-blue-500" />
+                <div>
+                  <h4 className="text-lg font-semibold text-[#111827]">{sectionData.secondary_units.sectionTitle}</h4>
+                  <p className="text-xs text-[#6b7280]">{sectionData.secondary_units.sectionSubtitle}</p>
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {sectionData.secondary_units.items.map((item) => (
+                  <div key={item.id} className="rounded-2xl border border-[#e5e7eb] bg-white p-4 transition-all hover:scale-[1.01] hover:shadow-lg">
+                    <div className="flex items-center justify-between">
+                      {item.title === "股份公司智小谱" ? (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onOpenKnowledgeMatrix?.();
+                          }}
+                          className="relative z-10 cursor-pointer touch-manipulation text-left text-base font-semibold text-[#111827] underline-offset-4 transition hover:text-[#b91c1c] hover:underline"
+                        >
+                          {item.title}
+                        </button>
+                      ) : (
+                        <h4 className="text-base font-semibold text-[#111827]">{item.title}</h4>
+                      )}
+                      <span className={`h-2.5 w-2.5 rounded-full ${statusColor[item.status] ?? "bg-gray-400"}`} />
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">
+                        <CalendarClock size={12} />
+                        {item.timeline}
+                      </span>
+                      <span className={`rounded-full px-2 py-1 text-xs ${categoryStyle[item.category] ?? "bg-gray-100 text-gray-700"}`}>{item.category}</span>
+                    </div>
+                    <p className="mt-3 text-sm text-[#4b5563]">{item.desc}</p>
+                    <div className="mt-3 inline-flex items-center gap-1 rounded-lg bg-[#eef2ff] px-2 py-1 text-xs text-[#3730a3]">
+                      <Cpu size={12} />
+                      {item.hardware}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-[#fca5a5]/80 to-transparent animate-pulse" />
+
+            <div>
+              <div className="mb-4 flex items-center gap-3">
+                <span className="h-6 w-1.5 rounded-full bg-[#dc2626]" />
+                <div>
+                  <h4 className="text-lg font-semibold text-[#111827]">{sectionData.group_company.sectionTitle}</h4>
+                  <p className="text-xs text-[#6b7280]">{sectionData.group_company.sectionSubtitle}</p>
+                </div>
+              </div>
+
+              <div className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-2">
+                {sectionData.group_company.items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="rounded-2xl border border-[#f3d5d5] bg-white p-4 transition-all hover:scale-[1.01] hover:bg-red-50/20 hover:shadow-[0_16px_36px_rgba(185,28,28,0.16)]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-base font-semibold text-[#111827]">{item.title}</h4>
+                      <span className={`h-2.5 w-2.5 rounded-full ${statusColor[item.status] ?? "bg-gray-400"}`} />
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">
+                        <CalendarClock size={12} />
+                        {item.timeline}
+                      </span>
+                      <span className={`rounded-full px-2 py-1 text-xs ${categoryStyle[item.category] ?? "bg-gray-100 text-gray-700"}`}>{item.category}</span>
+                    </div>
+                    <p className="mt-3 text-sm text-[#4b5563]">{item.desc}</p>
+                    <div className="mt-3 inline-flex items-center gap-1 rounded-lg bg-[#fff1f2] px-2 py-1 text-xs text-[#9f1239]">
+                      <Cpu size={12} />
+                      {item.hardware}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
         ) : (
           <div className="mt-4 overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white">
             <table className="w-full text-sm">
@@ -485,7 +558,12 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                 </tr>
               </thead>
               <tbody>
-                {dataset.map((item) => (
+                <tr className="border-t border-[#f1f5f9] bg-blue-50/40">
+                  <td colSpan={4} className="px-3 py-2 text-xs font-semibold tracking-[0.08em] text-blue-700">
+                    {sectionData.secondary_units.sectionTitle}
+                  </td>
+                </tr>
+                {sectionData.secondary_units.items.map((item) => (
                   <tr key={item.id} className="border-t border-[#f1f5f9]">
                     <td className="px-3 py-2 text-[#111827]">
                       {item.title === "股份公司智小谱" ? (
@@ -509,6 +587,21 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                       <span className={`rounded-full px-2 py-1 text-xs ${categoryStyle[item.category] ?? "bg-gray-100 text-gray-700"}`}>{item.category}</span>
                     </td>
                     <td className="px-3 py-2 text-[#3730a3]">{item.hardware}</td>
+                  </tr>
+                ))}
+                <tr className="border-t border-[#f1f5f9] bg-rose-50/40">
+                  <td colSpan={4} className="px-3 py-2 text-xs font-semibold tracking-[0.08em] text-rose-700">
+                    {sectionData.group_company.sectionTitle}
+                  </td>
+                </tr>
+                {sectionData.group_company.items.map((item) => (
+                  <tr key={item.id} className="border-t border-[#f1f5f9]">
+                    <td className="px-3 py-2 text-[#111827]">{item.title}</td>
+                    <td className="px-3 py-2 text-[#4b5563]">{item.timeline}</td>
+                    <td className="px-3 py-2">
+                      <span className={`rounded-full px-2 py-1 text-xs ${categoryStyle[item.category] ?? "bg-gray-100 text-gray-700"}`}>{item.category}</span>
+                    </td>
+                    <td className="px-3 py-2 text-[#9f1239]">{item.hardware}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1297,7 +1390,7 @@ function SlideComputeFoundationDashboard() {
           <p className="mt-2 text-sm text-[#4b5563]">{computeComparisonData.planB.architecture}</p>
           <div className="mt-3 grid gap-2 text-sm text-[#374151]">
             <div className="rounded-xl border border-sky-100 bg-white/90 px-3 py-2">
-              预估 Capex：<span className="font-semibold text-sky-700">¥{computeComparisonData.planB.capex.toLocaleString("zh-CN")}</span>
+              预估 Capex：<span className="font-semibold text-sky-700">待定</span>
             </div>
             <div className="rounded-xl border border-sky-100 bg-white/90 px-3 py-2">资源平均利用率：{computeComparisonData.planB.utilization}%</div>
             <div className="rounded-xl border border-sky-100 bg-white/90 px-3 py-2">运维复杂度：{computeComparisonData.planB.opexComplexity}</div>
@@ -1373,6 +1466,129 @@ function SlideComputeFoundationDashboard() {
     </div>
   );
 }
+
+function SlideNextStepTaskBoard() {
+  const boardData = {
+    header: {
+      title: "下一步重点工作任务",
+      subtitle: "软硬结合，务实推进：场景攻坚与基建评估双轨并行",
+    },
+    tracks: [
+      {
+        id: "scenario",
+        title: "场景攻坚 (集团主导)",
+        theme: "red",
+        tasks: [
+          {
+            name: "深化“问药”系统 (智小谱)",
+            desc: "依托知识库，打造懂药理、精业务的 AI 智能问答助手",
+            tag: "优先级: 高",
+          },
+          {
+            name: "推进“问数”平台建设",
+            desc: "打破数据壁垒，实现自然语言交互式的企业级数据查询与分析",
+            tag: "规划落地",
+          },
+          {
+            name: "产品营销策略规划",
+            desc: "聚焦核心产品特性与竞品优劣，利用 AI 深度推演并自动生成高转化营销策略",
+            tag: "重点攻坚",
+          },
+        ],
+      },
+      {
+        id: "infrastructure",
+        title: "基础设施建设 (底层保障)",
+        theme: "blue",
+        tasks: [
+          {
+            name: "算力本地化部署评估",
+            desc: "基于核心数据不出域的安全合规要求，全面开展本地算力集群部署方案论证",
+            tag: "推进中",
+          },
+          {
+            name: "算力基础架构专项评审",
+            desc: "暂缓最终造价定论，评审核心转向验证 AI PaaS 平台的弹性调度与池化能力",
+            tag: "关键节点",
+          },
+          {
+            name: "按需资源供给策略落地",
+            desc: "建立业务分级机制：对“初期探索”敏捷供给小算力，对“成熟应用”保障高可用算力",
+            tag: "机制建设",
+          },
+        ],
+      },
+    ],
+  } as const;
+
+  const trackStyles: Record<string, { accent: string; line: string; tag: string; hover: string; icon: LucideIcon }> = {
+    red: {
+      accent: "text-rose-600",
+      line: "from-rose-500/60 to-transparent",
+      tag: "bg-red-50 text-red-600 border-red-100",
+      hover: "hover:-translate-y-1 hover:border-red-200 hover:shadow-[0_14px_28px_rgba(225,29,72,0.14)]",
+      icon: Target,
+    },
+    blue: {
+      accent: "text-blue-600",
+      line: "from-blue-500/60 to-transparent",
+      tag: "bg-blue-50 text-blue-600 border-blue-100",
+      hover: "hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_14px_28px_rgba(37,99,235,0.14)]",
+      icon: Server,
+    },
+  };
+
+  return (
+    <SlideWrap>
+      <div className="h-full overflow-y-auto rounded-2xl bg-[#fcfcfd] p-6">
+        <div className="text-center">
+          <h3 className="text-3xl font-bold text-[#111827] md:text-4xl">{boardData.header.title}</h3>
+          <p className="mt-2 text-sm tracking-[0.08em] text-[#6b7280]">{boardData.header.subtitle}</p>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+          {boardData.tracks.map((track, idx) => {
+            const style = trackStyles[track.theme];
+            const Icon = style.icon;
+            return (
+              <motion.section
+                key={track.id}
+                initial={{ opacity: 0, x: idx === 0 ? -44 : 44 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.55, delay: 0.08 + idx * 0.12 }}
+                className="rounded-2xl border border-[#e5e7eb] bg-white/80 p-4 shadow-sm backdrop-blur-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <Icon className={style.accent} size={18} />
+                  <h4 className="text-lg font-semibold text-[#111827]">{track.title}</h4>
+                </div>
+                <div className={`mt-3 h-px w-full bg-gradient-to-r ${style.line}`} />
+
+                <div className="mt-4 space-y-3">
+                  {track.tasks.map((task) => (
+                    <article
+                      key={task.name}
+                      className={`rounded-xl border border-[#eef2f7] bg-white p-4 shadow-sm transition-all duration-300 ${style.hover}`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <h5 className="text-base font-semibold text-[#111827]">{task.name}</h5>
+                        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium ${style.tag}`}>{task.tag}</span>
+                      </div>
+                      <div className="mt-2 flex items-start gap-2">
+                        <CheckCircle size={14} className={style.accent} />
+                        <p className="text-sm leading-6 text-[#6b7280]">{task.desc}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </motion.section>
+            );
+          })}
+        </div>
+      </div>
+    </SlideWrap>
+  );
+}
 function SlideIcebergWhy() {
   const { title, subtitle } = icebergSlideHeader;
 
@@ -1390,20 +1606,335 @@ function SlideIcebergWhy() {
   );
 }
 
+function SlideGovernanceBoundary() {
+  const [activeLayerId, setActiveLayerId] = useState<string | null>(null);
+  const boundaryData = {
+    header: {
+      title: "整体的统筹边界划分",
+      subtitle: "厘清集团底座与业务场景的权责边界，构建“统分结合”的 AI 创新生态",
+    },
+    architecture: [
+      {
+        id: "layer4",
+        level: "场景应用层",
+        responsibility: "鼓励业务探索",
+        desc: "充分发挥业务侧创新力，结合实际痛点自由探索",
+        colorTheme: "red",
+        items: ["产品营销策略", "工业显微镜识别", "安全预警检测", "辅助诊疗系统", "更多创新场景..."],
+      },
+      {
+        id: "layer3",
+        level: "数据层",
+        responsibility: "集团提供容器，业务各自维护",
+        desc: "集团提供统一知识库工具，各单位独立维护专属文件数据，条件具备后融合互通",
+        colorTheme: "purple",
+        items: ["统一知识库容器 (RAG)", "大兴分厂工艺规程库", "研究院产品知识库", "跨域数据融合引擎"],
+      },
+      {
+        id: "boundary",
+        isBoundary: true,
+        label: "集团统一管控与能力赋能分界线",
+      },
+      {
+        id: "layer2",
+        level: "大模型与中台层",
+        responsibility: "集团统筹建设",
+        desc: "汇聚前沿 AI 能力，屏蔽底层复杂度，向全集团提供标准接口",
+        colorTheme: "blue",
+        items: ["AI PaaS 弹性调度平台", "同仁堂专属大模型", "DeepSeek / Qwen 等开源模型群", "OCR / 意图识别等原子能力"],
+      },
+      {
+        id: "layer1",
+        level: "算力与安全层",
+        responsibility: "集团统筹建设",
+        desc: "筑牢物理基石，确保核心数据不出域及算力资源集约化",
+        colorTheme: "slate",
+        items: ["本地化算力资源池", "异构算力统一纳管", "集团网络与数据安全底座"],
+      },
+    ],
+  } as const;
+
+  const stackOrder = [
+    boundaryData.architecture.find((item) => item.id === "layer1"),
+    boundaryData.architecture.find((item) => item.id === "layer2"),
+    boundaryData.architecture.find((item) => item.id === "boundary"),
+    boundaryData.architecture.find((item) => item.id === "layer3"),
+    boundaryData.architecture.find((item) => item.id === "layer4"),
+  ].filter(Boolean);
+
+  const themeStyle: Record<string, { shell: string; side: string; pill: string; icon: LucideIcon }> = {
+    slate: {
+      shell: "border-slate-300 bg-gradient-to-r from-slate-100/85 via-slate-50 to-white shadow-[0_14px_30px_rgba(15,23,42,0.12)]",
+      side: "bg-slate-800 text-white",
+      pill: "border-slate-300 bg-white text-slate-700",
+      icon: Shield,
+    },
+    blue: {
+      shell: "border-blue-300 bg-gradient-to-r from-blue-100/85 via-blue-50 to-white shadow-[0_16px_34px_rgba(30,64,175,0.15)]",
+      side: "bg-blue-700 text-white",
+      pill: "border-blue-200 bg-white text-blue-800",
+      icon: Cpu,
+    },
+    purple: {
+      shell: "border-purple-300 bg-gradient-to-r from-purple-100/75 via-fuchsia-50/60 to-white shadow-[0_12px_28px_rgba(126,34,206,0.12)]",
+      side: "bg-purple-600 text-white",
+      pill: "border-purple-200 bg-white text-purple-700",
+      icon: Database,
+    },
+    red: {
+      shell: "border-rose-200 bg-white shadow-[0_10px_24px_rgba(225,29,72,0.08)]",
+      side: "bg-rose-500 text-white",
+      pill: "border-rose-200 bg-rose-50/40 text-rose-700",
+      icon: Sparkles,
+    },
+  };
+
+  return (
+    <SlideWrap>
+      <div className="h-full overflow-y-auto rounded-2xl bg-[#fcfcfd] p-5">
+        <div className="rounded-2xl border border-[#e5e7eb] bg-white px-5 py-4">
+          <h3 className="text-2xl font-bold text-[#111827] md:text-3xl">{boundaryData.header.title}</h3>
+          <p className="mt-2 text-sm text-[#6b7280]">{boundaryData.header.subtitle}</p>
+        </div>
+
+        <div className="mt-5 space-y-4">
+          {stackOrder.map((node, idx) => {
+            if (!node) return null;
+            if ("isBoundary" in node && node.isBoundary) {
+              return (
+                <motion.div
+                  key={node.id}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: idx * 0.12 }}
+                  className="relative py-2"
+                >
+                  <div className="h-px w-full bg-gradient-to-r from-transparent via-[#60a5fa] to-transparent" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="rounded-full border border-[#fda4af] bg-gradient-to-r from-blue-600 to-rose-500 px-4 py-1 text-xs font-semibold tracking-[0.08em] text-white shadow-[0_0_16px_rgba(59,130,246,0.35)]">
+                      管控与赋能分界线
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            }
+
+            const style = themeStyle[node.colorTheme];
+            const Icon = style.icon;
+            const focused = activeLayerId === null || activeLayerId === node.id;
+            const isBaseLayer = node.id === "layer1" || node.id === "layer2";
+
+            return (
+              <motion.div
+                key={node.id}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: focused ? 1 : 0.4, y: 0, scale: activeLayerId === node.id ? 1.02 : 1 }}
+                transition={{ duration: 0.45, delay: idx * 0.12 }}
+                onHoverStart={() => setActiveLayerId(node.id)}
+                onHoverEnd={() => setActiveLayerId(null)}
+                className={[
+                  "grid gap-3 rounded-2xl border p-4 md:grid-cols-[220px_1fr_1.1fr] md:items-center",
+                  style.shell,
+                  isBaseLayer ? "ring-1 ring-blue-200/70" : "",
+                ].join(" ")}
+              >
+                <div
+                  className={[
+                    "rounded-xl px-4 py-3 transition-all",
+                    style.side,
+                    activeLayerId === node.id ? "shadow-[0_0_18px_rgba(255,255,255,0.45)]" : "",
+                  ].join(" ")}
+                >
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <Icon size={16} />
+                    <span>{node.level}</span>
+                  </div>
+                  <p className="mt-2 text-xs font-medium tracking-[0.05em] opacity-95">{node.responsibility}</p>
+                </div>
+
+                <div className="rounded-xl border border-white/70 bg-white/80 px-4 py-3">
+                  <p className="text-lg font-semibold text-[#111827]">{node.level}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#4b5563]">{node.desc}</p>
+                </div>
+
+                <div className={node.id === "layer4" ? "grid grid-cols-2 gap-2 lg:grid-cols-3" : "grid grid-cols-2 gap-2"}>
+                  {node.items.map((item) => (
+                    <div
+                      key={item}
+                      className={[
+                        "rounded-full border px-3 py-1.5 text-center text-xs font-medium",
+                        style.pill,
+                        node.id === "layer4" ? "shadow-[0_6px_18px_rgba(225,29,72,0.08)]" : "",
+                      ].join(" ")}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </SlideWrap>
+  );
+}
+
+function SlideDivisionAndInterfaceSplit() {
+  const [boundaryHover, setBoundaryHover] = useState(false);
+  const cardData = {
+    header: {
+      title: "01 | 规划设计的分工与界面切分",
+      subtitle: "依托“云网一体”顶层设计，明确集团筑基与业务创新的权责边界",
+    },
+    layout: {
+      leftPanel: {
+        role: "集团统筹（底座与中台）",
+        motto: "资源集约化运营，保障业务稳定运行",
+        layers: [
+          { name: "统一服务门户", desc: "AI算力平台 / 资源调度平台", icon: LayoutDashboard },
+          { name: "统一技术底座", desc: "同仁堂大模型 / 深层认知中台 / 机器视觉", icon: BrainCircuit },
+          { name: "统一资源调度与安全", desc: "信创AI算力池 / 数据全生命周期安全管控", icon: ShieldCheck },
+        ],
+      },
+      boundary: {
+        label: "标准 API 与容器切分界面",
+      },
+      rightPanel: {
+        role: "业务实施（数据与场景）",
+        motto: "发挥业务创新能力，沉淀高质量私域资产",
+        subsidiaries: ["股份公司", "科技公司", "商业公司", "医养公司", "研究院", "生产基地"],
+        actions: [
+          { name: "管理私域数据", desc: "各单位基于业务维护自身专属文件与知识库", icon: Database },
+          { name: "SaaS 场景研发", desc: "基于集团底座孵化各类智能体（如：培训、问药、安防）", icon: Blocks },
+          { name: "边缘存量纳管", desc: "业务侧边缘计算与存量集群按需接入", icon: Network },
+        ],
+      },
+    },
+  } as const;
+
+  return (
+    <SlideWrap>
+      <div className="h-full overflow-y-auto rounded-2xl bg-[#fcfcfd] p-5">
+        <div className="rounded-2xl border border-[#e5e7eb] bg-white p-4">
+          <h3 className="text-2xl font-bold text-[#111827] md:text-3xl">{cardData.header.title}</h3>
+          <p className="mt-2 text-sm tracking-[0.06em] text-[#6b7280]">{cardData.header.subtitle}</p>
+        </div>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-stretch">
+          <motion.section
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className={`rounded-2xl border border-blue-100 bg-blue-50/40 p-4 backdrop-blur ${boundaryHover ? "ring-1 ring-cyan-300/70" : ""}`}
+          >
+            <h4 className="bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-lg font-bold text-transparent">
+              {cardData.layout.leftPanel.role}
+            </h4>
+            <p className="mt-1 text-xs text-[#4b5563]">{cardData.layout.leftPanel.motto}</p>
+            <div className="mt-4 space-y-3">
+              {cardData.layout.leftPanel.layers.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.name}
+                    className="rounded-xl border border-blue-100 bg-white p-3 shadow-sm transition-all duration-300 hover:translate-x-0.5 hover:shadow-[0_0_20px_rgba(37,99,235,0.18)]"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-700">
+                        <Icon size={16} />
+                      </span>
+                      <p className="text-sm font-semibold text-[#111827]">{item.name}</p>
+                    </div>
+                    <p className="mt-2 text-xs text-[#6b7280]">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.section>
+
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0.6 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ duration: 0.45, delay: 0.22 }}
+            className="relative mx-auto hidden w-16 md:flex md:flex-col md:items-center md:justify-center"
+          >
+            <div className={`h-full w-px border-l border-dashed border-violet-400 ${boundaryHover ? "animate-pulse" : ""}`} />
+            <button
+              type="button"
+              onMouseEnter={() => setBoundaryHover(true)}
+              onMouseLeave={() => setBoundaryHover(false)}
+              className="absolute rounded-full bg-gradient-to-r from-blue-600 via-violet-500 to-rose-500 px-3 py-1 text-[11px] font-semibold text-white shadow-[0_0_18px_rgba(139,92,246,0.4)]"
+            >
+              {cardData.layout.boundary.label}
+            </button>
+          </motion.div>
+
+          <motion.section
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className={`rounded-2xl border border-rose-100 bg-rose-50/40 p-4 backdrop-blur ${boundaryHover ? "ring-1 ring-rose-300/70" : ""}`}
+          >
+            <h4 className="bg-gradient-to-r from-rose-600 to-orange-500 bg-clip-text text-lg font-bold text-transparent">
+              {cardData.layout.rightPanel.role}
+            </h4>
+            <p className="mt-1 text-xs text-[#4b5563]">{cardData.layout.rightPanel.motto}</p>
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              {cardData.layout.rightPanel.subsidiaries.map((name) => (
+                <span key={name} className="rounded-full border border-rose-200 bg-white px-2.5 py-1 text-xs text-rose-700">
+                  {name}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-4 space-y-3">
+              {cardData.layout.rightPanel.actions.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.38, delay: 0.42 + idx * 0.1 }}
+                    className="rounded-xl border border-rose-100 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(244,63,94,0.2)]"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                        <Icon size={16} />
+                      </span>
+                      <p className="text-sm font-semibold text-[#111827]">{item.name}</p>
+                    </div>
+                    <p className="mt-2 text-xs text-[#6b7280]">{item.desc}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.section>
+        </div>
+      </div>
+    </SlideWrap>
+  );
+}
+
 function SlideById({ slide, onOpenKnowledgeMatrix }: { slide: LayoutSlide; onOpenKnowledgeMatrix?: () => void }) {
   if (slide.slide_id === 1) return <SlideCover />;
   if (slide.slide_id === 2) return <SlideCatalog />;
-  if (slide.slide_id === 3) return <SlideChapter index="01" title="AI 摸排及通用能力支撑" />;
+  if (slide.slide_id === 3) return <SlideChapter index="01" title="业务规划与需求概览" />;
+  if (slide.slide_id === 401) return <SlideDivisionAndInterfaceSplit />;
   if (slide.slide_id === 5) return <SlideFiveExecutive onOpenKnowledgeMatrix={onOpenKnowledgeMatrix} />;
   if (slide.slide_id === 702) return <SlideIcebergWhy />;
   if (slide.slide_id === 703) return <AIVisionSlide />;
+  if (slide.slide_id === 704) return <SlideGovernanceBoundary />;
   if (slide.slide_id === 7) return <SlideChapter index="02" title="行业领先实践" />;
   if (slide.slide_id === 8) return <SlideOpenClawVibeFusion />;
   if (slide.slide_id === 9) return <div />;
   if (slide.slide_id === 8001) return <SlideOpenClawStory />;
   if (slide.slide_id === 9001) return <SlideVibeCodingProject />;
   if (slide.slide_id === 10) return <SlideMarketingBadgePanorama />;
-  if (slide.slide_id === 11) return <SlideChapter index="03" title="落地解决方案" sub="ROI+用户体验+可落地" />;
+  if (slide.slide_id === 11) return <SlideChapter index="03" title="下一步重点工作与落地" sub="聚焦可执行、可评估、可复盘" />;
+  if (slide.slide_id === 1100) return <SlideNextStepTaskBoard />;
   if (slide.slide_id === 1101) return <SlideComputeFoundationDashboard />;
   if (slide.slide_id === 12) return <SlideDistillationPanorama />;
   if (slide.slide_id === 13) return <SlideAIBlueprint />;
@@ -1419,7 +1950,9 @@ const snapshotFalse = () => false;
 export default function Home() {
   const [data, setData] = useState<LayoutPayload>(defaultLayoutData);
   const [showKnowledgeMatrixOverlay, setShowKnowledgeMatrixOverlay] = useState(false);
+  const [showFullVersion, setShowFullVersion] = useState(false);
   const isBrowser = useSyncExternalStore(subscribeNoop, snapshotTrue, snapshotFalse);
+  const hiddenSlideIds = new Set([7, 8, 10, 12, 13, 703, 1301]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -1442,6 +1975,26 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isBrowser) return;
+    try {
+      const saved = window.localStorage.getItem("ai-report-show-full-version");
+      if (saved === "1") setShowFullVersion(true);
+      if (saved === "0") setShowFullVersion(false);
+    } catch {
+      // ignore localStorage read errors in restricted environments
+    }
+  }, [isBrowser]);
+
+  useEffect(() => {
+    if (!isBrowser) return;
+    try {
+      window.localStorage.setItem("ai-report-show-full-version", showFullVersion ? "1" : "0");
+    } catch {
+      // ignore localStorage write errors in restricted environments
+    }
+  }, [showFullVersion, isBrowser]);
+
   return (
     <main className="report-root min-h-screen bg-[#f5f6f8] text-[#111827]">
       <div className="fixed inset-0 -z-10">
@@ -1462,6 +2015,17 @@ export default function Home() {
             </div>
           </div>
           <span className="rounded-full border border-[#e5e7eb] bg-[#f9fafb] px-4 py-2 text-xs text-[#374151] md:text-sm">Executive Presentation Mode</span>
+          <button
+            type="button"
+            onClick={() => setShowFullVersion((prev) => !prev)}
+            className={`rounded-full border px-4 py-2 text-xs transition-colors md:text-sm ${
+              showFullVersion
+                ? "border-[#bfdbfe] bg-[#eff6ff] text-[#1d4ed8]"
+                : "border-[#fecaca] bg-[#fff1f2] text-[#b91c1c]"
+            }`}
+          >
+            {showFullVersion ? "当前：全量版（点击切换精简版）" : "当前：精简版（点击切换全量版）"}
+          </button>
         </div>
       </div>
 
@@ -1469,13 +2033,15 @@ export default function Home() {
         {data.slides
           .filter((slide) => slide.slide_id !== 4 && slide.slide_id !== 6 && slide.slide_id !== 9)
           .flatMap((slide) => {
-            if (slide.slide_id === 11) return [slide, { slide_id: 1101, elements: [] }];
+            if (slide.slide_id === 5) return [{ slide_id: 401, elements: [] }, slide, { slide_id: 1101, elements: [] }];
+            if (slide.slide_id === 11) return [slide, { slide_id: 1100, elements: [] }];
             if (slide.slide_id === 7)
-              return [{ slide_id: 702, elements: [] }, { slide_id: 703, elements: [] }, slide];
+              return [{ slide_id: 702, elements: [] }, { slide_id: 703, elements: [] }, { slide_id: 704, elements: [] }, slide];
             if (slide.slide_id === 13)
               return [slide, { slide_id: 1301, elements: [] }, { slide_id: 1399, elements: [] }];
             return [slide];
           })
+          .filter((slide) => showFullVersion || !hiddenSlideIds.has(slide.slide_id))
           .map((slide) => {
           return (
             <section key={slide.slide_id} className="mx-auto mb-6 min-h-[calc(100vh-6.5rem)] max-w-7xl snap-start">
