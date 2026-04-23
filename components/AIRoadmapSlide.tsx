@@ -5,20 +5,20 @@ import { Bot, Brain, CheckCircle2, Cpu, Sparkles } from "lucide-react";
 
 const roadmapData = {
   header: {
-    title: "十五五同仁堂AI平台实施路线图",
-    subtitle: "从数据聚合到业务执行的 AI 演进路径",
+    title: "路线不要大而全，要一阶段一个结果",
+    subtitle: "从底座到场景再到规模化，按阶段验收推进",
   },
   phases: [
     {
-      step: "Phase 01",
+      step: "阶段 01",
       name: "基建与速赢",
       type: "foundation" as const,
       dataFocus: "数据聚合与底座",
       dataDesc: "算力统建，打破孤岛，存量数据清洗入库",
-      tasks: ["统一部署通用算力底座", "构建集团统一知识库", "部署通用大语言模型 (LLM)"],
+      tasks: ["统一部署通用算力底座", "构建集团统一知识库", "部署通用大语言模型"],
     },
     {
-      step: "Phase 02",
+      step: "阶段 02",
       name: "场景与数据",
       type: "foundation" as const,
       dataFocus: "场景反哺与生成",
@@ -26,15 +26,15 @@ const roadmapData = {
       tasks: ["上线 AI 智能工牌等端侧硬件", "赋能一线门店与生产工厂", "持续精进知识库丰容度"],
     },
     {
-      step: "Phase 03",
+      step: "阶段 03",
       name: "表达与交互",
       type: "foundation" as const,
       dataFocus: "高保真数据输出",
       dataDesc: "利用高质量图谱，实现复杂知识可视化",
-      tasks: ["建设重交互产品培训系统", "探索中医药“讲清楚、说明白”", "古籍与现代语境的 AI 映射"],
+      tasks: ["建设重交互产品培训系统", "探索中医药“讲清楚、说明白”", "古籍与现代语境的智能映射"],
     },
     {
-      step: "Phase 04",
+      step: "阶段 04",
       name: "预测与决策",
       type: "foundation" as const,
       dataFocus: "多模态数据智能",
@@ -42,15 +42,15 @@ const roadmapData = {
       tasks: ["商业公司辅助诊疗系统落地", "新药研发与大分子成分预测"],
     },
     {
-      step: "Phase 05",
+      step: "阶段 05",
       name: "AI 指挥官 (全面智能体化)",
       type: "climax" as const,
-      dataFocus: "脑手合一 (Brain + Hands)",
-      dataDesc: "超越大语言模型，通过 AI 与 RPA 的深度融合，实现执行自动化",
+      dataFocus: "脑手合一（大脑 + 执行）",
+      dataDesc: "超越单点问答，通过智能体与流程自动化深度融合，实现执行自动化",
       tasks: [
-        "部署基于 Clawbot 的 AI 核心调度枢纽",
+        "部署基于 OpenClaw 的 AI 核心调度枢纽",
         "扩展挂载 Skills 插件与 RPA 执行器",
-        "员工角色重塑：从执行者变为 Workflow 管理者",
+        "员工角色重塑：从执行者变为流程管理者",
       ],
       outcome: "重塑企业生产力结构，让每一位员工拥有专属 AI 团队",
     },
@@ -80,7 +80,7 @@ export default function AIRoadmapSlide() {
       {/* 区域 A：前四阶段 */}
       <div className="mx-auto max-w-7xl">
         <p className="mb-4 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-[#94a3b8] md:text-xs">
-          前沿积累区 · Phase 01 — 04
+          前沿积累区 · 阶段 01 — 04
         </p>
 
         <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 md:grid md:snap-none md:grid-cols-4 md:gap-4 md:overflow-visible md:pb-0">
@@ -99,10 +99,11 @@ export default function AIRoadmapSlide() {
                 onMouseEnter={() => setSpotlight(index)}
                 onMouseLeave={() => setSpotlight(null)}
               >
-                <div className="border-b border-rose-100/80 bg-white p-4 md:p-5">
+                {/* min-height：桌面四列网格下统一上半区高度，使中间流程条横向对齐 */}
+                <div className="flex min-h-[200px] flex-col border-b border-rose-100/80 bg-white p-4 md:min-h-[19rem] md:p-5">
                   <p className="text-[10px] font-semibold uppercase tracking-wider text-rose-600">{phase.step}</p>
                   <h3 className="mt-1 text-base font-semibold text-[#111827] md:text-lg">{phase.name}</h3>
-                  <ul className="mt-3 space-y-2">
+                  <ul className="mt-3 flex-1 space-y-2">
                     {phase.tasks.map((t) => (
                       <li key={t} className="flex gap-2 text-left text-[11px] leading-snug text-[#374151] md:text-xs">
                         <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-600" aria-hidden />
@@ -193,7 +194,7 @@ export default function AIRoadmapSlide() {
                 <Sparkles className="absolute -right-1 -top-1 h-5 w-5 text-amber-200/90" />
               </div>
               <p className="text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-purple-200/80">
-                Brain + Hands
+                大脑 + 执行
               </p>
             </div>
 

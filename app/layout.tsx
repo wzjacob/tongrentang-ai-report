@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "同仁堂集团算力摸排与ai前瞻规划汇报",
-  description: "同仁堂集团算力摸排与ai前瞻规划汇报",
+  title: "同仁堂集团算力摸排与AI前瞻规划汇报",
+  description: "同仁堂集团算力摸排与AI前瞻规划汇报",
 };
 
 export default function RootLayout({

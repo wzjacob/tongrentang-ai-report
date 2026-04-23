@@ -31,15 +31,21 @@ body {
 
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: linear-gradient(#8c0012, #d8a67f);
+  border: 2px solid #f1f5f9;
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
 }
 
 ::-webkit-scrollbar-track {
-  background: #2e0005;
+  background: #f1f5f9;
 }
 
 /* 冰山页：自上而下淡入 */
@@ -241,6 +247,14 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .iceberg-fade-in-up,
+  .iceberg-waterline-bar,
+  .iceberg-2d-float {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .roadmap-phase-card,
   .roadmap-phase5-enter {
     animation: none;
@@ -409,8 +423,15 @@ body {
 
 /* 全局汇报可读性增强：放大小字、提升对比、柔化动效 */
 .report-root {
+  color-scheme: light;
+  font-size: clamp(15px, 0.28vw + 0.88rem, 18px);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+.report-root .text-sm {
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
 }
 
 .report-root .text-xs {
@@ -452,13 +473,14 @@ body {
   box-shadow: 0 16px 44px rgba(15, 23, 42, 0.09);
 }
 
-.report-root .transition-all {
-  transition-duration: 220ms !important;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
-}
-
 .report-root .animate-pulse {
   animation-duration: 1.8s !important;
+}
+
+.report-scroll {
+  scroll-padding-top: 5rem;
+  scroll-padding-bottom: 1.75rem;
+  scrollbar-gutter: stable;
 }
 
 .report-scroll::-webkit-scrollbar {
@@ -466,7 +488,13 @@ body {
 }
 
 .report-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(#cbd5e1, #94a3b8);
+  border-radius: 999px;
+  border: 2px solid #f1f5f9;
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+}
+
+.report-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
 }
 
 .report-scroll::-webkit-scrollbar-track {

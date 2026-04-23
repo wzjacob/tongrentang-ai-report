@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>同仁堂 AI 汇报 · 本地入口</title>
+  <style>
+    :root {
+      --trt: #b91c1c;
+      --trt-light: #fff1f2;
+      --border: #e8eaed;
+      --text: #111827;
+      --muted: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 15%, rgba(239, 68, 68, 0.12), transparent 42%),
+        radial-gradient(circle at 85% 80%, rgba(99, 102, 241, 0.12), transparent 40%),
+        #f5f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--trt);
+    }
+    .sub {
+      margin: 0 0 24px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    ol {
+      margin: 0 0 24px;
+      padding-left: 1.25rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      line-height: 1.75;
+    }
+    code {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.82rem;
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    a.btn-primary {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.35);
+    }
+    a.btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(185, 28, 28, 0.4);
+    }
+    a.btn-secondary {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+    }
+    a.btn-secondary:hover {
+      background: #f9fafb;
+    }
+    .hint {
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--trt-light);
+      border: 1px solid #fecaca;
+      font-size: 0.8rem;
+      color: #7f1d1d;
+      line-height: 1.55;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>同仁堂集团 · 算力摸排与 AI 前瞻规划汇报</h1>
+    <p class="sub">本页为<strong>本地快捷入口</strong>。完整汇报为 Next.js 项目，需先在本机启动开发服务后再打开。</p>
+
+    <ol>
+      <li>在资源管理器中进入本 HTML 所在文件夹（项目根目录 <code>tongrentang-ai-report</code>）。</li>
+      <li>打开终端，执行：<code>npm install</code>（首次）然后 <code>npm run dev</code>。</li>
+      <li>看到服务就绪后，点击下方按钮在浏览器中打开汇报。</li>
+    </ol>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="http://127.0.0.1:3333/" target="_blank" rel="noopener">打开汇报（127.0.0.1:3333）</a>
+      <a class="btn btn-secondary" href="http://localhost:3333/" target="_blank" rel="noopener">备用地址（localhost:3333）</a>
+    </div>
+
+    <div class="hint">
+      若点击后无法打开：请确认终端里 <code>npm run dev</code> 已正常运行，且端口为 <strong>3333</strong>（与 <code>package.json</code> 中配置一致）。
+    </div>
+
+    <footer>文件位置：与 package.json 同目录，可随意复制到桌面使用。</footer>
+  </div>
+</body>
+</html>

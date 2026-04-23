@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# 脚本生成的 PPTX 与临时导出
+/pptx-export/
+
 # production
 /build
 

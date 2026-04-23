@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "start:local": "next start -p 3333",
-    "lint": "eslint"
+    "lint": "eslint",
+    "export:pptx": "node scripts/export-pptx.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -26,6 +27,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "pptxgenjs": "^3.12.0",
+    "puppeteer-core": "^24.41.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
