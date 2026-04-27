@@ -5,54 +5,54 @@ import { Bot, Brain, CheckCircle2, Cpu, Sparkles } from "lucide-react";
 
 const roadmapData = {
   header: {
-    title: "路线不要大而全，要一阶段一个结果",
-    subtitle: "从底座到场景再到规模化，按阶段验收推进",
+    title: "实施路线总结：分阶段推进，逐项验收",
+    subtitle: "按照“基础建设—试点验证—推广复制—体系完善”稳步实施",
   },
   phases: [
     {
       step: "阶段 01",
-      name: "基建与速赢",
+      name: "统一底座",
       type: "foundation" as const,
-      dataFocus: "数据聚合与底座",
-      dataDesc: "算力统建，打破孤岛，存量数据清洗入库",
-      tasks: ["统一部署通用算力底座", "构建集团统一知识库", "部署通用大语言模型"],
+      dataFocus: "阶段目标：打牢基础",
+      dataDesc: "完成算力、数据、模型的统一建设，形成可复用的基础能力",
+      tasks: ["统一算力与模型服务入口", "建立集团知识库与数据标准", "完成首批重点数据清洗入库"],
     },
     {
       step: "阶段 02",
-      name: "场景与数据",
+      name: "样板验证",
       type: "foundation" as const,
-      dataFocus: "场景反哺与生成",
-      dataDesc: "硬件作为传感器，捕捉一线真实互动数据",
-      tasks: ["上线 AI 智能工牌等端侧硬件", "赋能一线门店与生产工厂", "持续精进知识库丰容度"],
+      dataFocus: "阶段目标：形成样板",
+      dataDesc: "围绕门店和工厂关键环节开展试点，验证应用效果和业务价值",
+      tasks: ["部署端侧能力，采集一线数据", "建设门店/工厂样板应用", "根据试点结果优化知识库"],
     },
     {
       step: "阶段 03",
-      name: "表达与交互",
+      name: "能力产品化",
       type: "foundation" as const,
-      dataFocus: "高保真数据输出",
-      dataDesc: "利用高质量图谱，实现复杂知识可视化",
-      tasks: ["建设重交互产品培训系统", "探索中医药“讲清楚、说明白”", "古籍与现代语境的智能映射"],
+      dataFocus: "阶段目标：规范交付",
+      dataDesc: "将已验证能力沉淀为标准化产品，提升可用性与可推广性",
+      tasks: ["建设标准化交互培训系统", "形成中医药知识表达模板", "完善古籍知识与现代语境映射"],
     },
     {
       step: "阶段 04",
-      name: "预测与决策",
+      name: "规模复制",
       type: "foundation" as const,
-      dataFocus: "多模态数据智能",
-      dataDesc: "全量数据质变，驱动核心生产力重构",
-      tasks: ["商业公司辅助诊疗系统落地", "新药研发与大分子成分预测"],
+      dataFocus: "阶段目标：推广应用",
+      dataDesc: "通过统一方法和组件复用，推动成熟方案在多业务线复制落地",
+      tasks: ["推广辅助诊疗等成熟方案", "拓展研发预测等重点场景", "建立跨部门协同推进机制"],
     },
     {
       step: "阶段 05",
-      name: "AI 指挥官 (全面智能体化)",
+      name: "体系完善与持续优化",
       type: "climax" as const,
-      dataFocus: "脑手合一（大脑 + 执行）",
-      dataDesc: "超越单点问答，通过智能体与流程自动化深度融合，实现执行自动化",
+      dataFocus: "阶段目标：形成长效机制",
+      dataDesc: "以统一调度、流程自动化和治理规范为抓手，提升整体运行效率与管理水平",
       tasks: [
-        "部署基于 OpenClaw 的 AI 核心调度枢纽",
-        "扩展挂载 Skills 插件与 RPA 执行器",
-        "员工角色重塑：从执行者变为流程管理者",
+        "建设统一 AI 调度与治理能力",
+        "打通智能体、技能插件与执行系统",
+        "优化岗位分工与流程管理方式",
       ],
-      outcome: "重塑企业生产力结构，让每一位员工拥有专属 AI 团队",
+      outcome: "形成可持续、可评估、可迭代的企业级 AI 应用体系",
     },
   ],
 } as const;
@@ -80,7 +80,7 @@ export default function AIRoadmapSlide() {
       {/* 区域 A：前四阶段 */}
       <div className="mx-auto max-w-7xl">
         <p className="mb-4 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-[#94a3b8] md:text-xs">
-          前沿积累区 · 阶段 01 — 04
+          实施思路分阶段总结 · 阶段 01 — 04
         </p>
 
         <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 md:grid md:snap-none md:grid-cols-4 md:gap-4 md:overflow-visible md:pb-0">
@@ -151,7 +151,7 @@ export default function AIRoadmapSlide() {
       {/* 区域 B：终局质变 */}
       <div className="mx-auto mt-10 max-w-7xl md:mt-14">
         <p className="mb-4 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-[#94a3b8] md:text-xs">
-          终局质变区
+          体系完善阶段
         </p>
 
         <div className="roadmap-phase5-enter">

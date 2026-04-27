@@ -5,6 +5,14 @@ import IcebergFlatIllustration from "@/components/IcebergFlatIllustration";
 import AIRoadmapSlide from "@/components/AIRoadmapSlide";
 import ThankYouSlide from "@/components/ThankYouSlide";
 import AIVisionSlide from "@/components/AIVisionSlide";
+import AgentOneMedicineDeepDiveSlide from "@/components/AgentOneMedicineDeepDiveSlide";
+import AgentTwoDataDeepDiveSlide from "@/components/AgentTwoDataDeepDiveSlide";
+import AgentThreeStrategyDeepDiveSlide from "@/components/AgentThreeStrategyDeepDiveSlide";
+import AIArchitecturePanoramaSlide from "@/components/AIArchitecturePanoramaSlide";
+import LowCodeAgileAndCollabSlide from "@/components/LowCodeAgileAndCollabSlide";
+import LocalComputeCenterPhysicalArchSlide from "@/components/LocalComputeCenterPhysicalArchSlide";
+import OverallBudgetAndCostPlanSlide from "@/components/OverallBudgetAndCostPlanSlide";
+import ImplementationRoadmapAndRoiSlide from "@/components/ImplementationRoadmapAndRoiSlide";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import {
@@ -84,7 +92,7 @@ const defaultLayoutData: LayoutPayload = {
 };
 
 const aiBlueprint = {
-  title: "底座先统一，应用才能规模化复制",
+  title: "统一底座后推进应用复制",
   layers: [
     {
       id: "saas",
@@ -172,7 +180,7 @@ const painBridgeData = {
 
 const distillationData = {
   core_process: {
-    title: "有了底座，再做自研才不烧钱",
+    title: "基于统一底座推进自研模型",
     base_model: "通用大模型",
     target_model: "同仁堂大模型",
     action: "DeepSeek 蒸馏",
@@ -207,7 +215,7 @@ const distillationData = {
 } as const;
 
 const computeComparisonData = {
-  pageTitle: "统建底座不是多花钱，是少走弯路",
+  pageTitle: "统建底座方案对比与投入分析",
   planA: {
     title: "方案A：分散异构建设（现状）",
     architecture: "烟囱式建设，包含 NVIDIA、华为、海光等多种底层栈。",
@@ -228,12 +236,12 @@ const computeComparisonData = {
 
 const localComputePlanningData = {
   header: {
-    title: "第一步：先把统一底座建起来",
-    subtitle: "先把 AI 的“水电煤”打通，少重复采购、少重复建设",
+    title: "第一步：建设统一算力与模型底座",
+    subtitle: "先把 AI 的“水电煤”打通，通过统建统管减少重复采购与重复建设",
   },
   investment: {
     total: "300 万",
-    desc: "首期统建核心投入预估，彻底终结各单位分散采购的资源浪费",
+    desc: "首期统建核心投入预估，用于减少各单位分散采购带来的重复投入",
     breakdown: [
       { name: "国产算力集群", amount: "约 200万", share: "67%", detail: "部署千问 72B/32B 大模型，保障核心数据自主可控", color: "bg-emerald-500", theme: "emerald" },
       { name: "通用算力集群", amount: "约 80万", share: "26%", detail: "支撑传统多元化业务平滑迁移及特殊渲染需求", color: "bg-blue-500", theme: "blue" },
@@ -263,8 +271,8 @@ const localComputePlanningData = {
 
 const buildMethodData = {
   header: {
-    title: "不是只上系统，要把人和机制一起建起来",
-    subtitle: "低代码快跑 + 专业开发攻坚，三方协同闭环推进",
+    title: "同步推进系统建设与组织机制建设",
+    subtitle: "采用低代码与专业开发协同模式，建立三方协同机制",
   },
   columns: {
     left: {
@@ -310,8 +318,8 @@ const buildMethodData = {
 
 const localModelHybridData = {
   header: {
-    title: "第二步：72B管通用，32B做专业",
-    subtitle: "能力和成本两头兼顾，先满足业务再持续优化",
+    title: "第二步：72B 覆盖通用，32B 聚焦专业",
+    subtitle: "兼顾能力与成本，先满足核心业务需求，再持续优化",
   },
   models: [
     {
@@ -433,18 +441,18 @@ function SlideCatalog() {
   const agendas = [
     {
       index: "01",
-      title: "先把底座搭好（省钱、省事、可复用）",
+      title: "各二级单位摸排情况",
       desc: "统一算力、统一数据、统一接口，先把重复建设和信息孤岛问题解决掉。",
     },
     {
       index: "02",
-      title: "底座怎么建（算力、模型、组织三件事）",
-      desc: "一手抓底座投资回报，一手抓混合模型部署，再把组织机制配齐。",
+      title: "算力底座建设评估及集团管控边界",
+      desc: "底座建设的投资回报，模型部署方式，组织配套。",
     },
     {
       index: "03",
-      title: "怎么落地见效（90/180/365 天）",
-      desc: "按里程碑推进样板场景，用责任人和验收指标保证每一步都可复盘。",
+      title: "底座实施及应用构建路线图",
+      desc: "构建统一底座后集团公司AI推进路线",
     },
   ] as const;
 
@@ -544,17 +552,17 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
       sectionTitle: "场景池（单位申报，集团评审）",
       sectionSubtitle: "每个场景必须绑定责任人、里程碑和验收指标，纳入季度经营复盘",
       items: [
-        { id: 1, title: "AI工业显微镜识别", timeline: "2026Q3 上线", category: "视觉AI", desc: "实验过程自动寻找有效成分，拍照 AI 形成范式报告", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "研发中心", metric: "识别准确率 >= 95%" },
-        { id: 2, title: "AI现场生产安全预警", timeline: "2026Q4 试运行", category: "视觉AI", desc: "图像识别 + SOP 动作检测，形成实时预警闭环", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "生产运营部", metric: "高风险动作漏检率 <= 5%" },
-        { id: 3, title: "财务智能大数据分析", timeline: "2026Q3 交付", category: "大数据分析", desc: "海量财务数据整理、分析与预测，支撑预算与审计协同", hardware: "海光 DCU K100 AI 64G PCIe", status: "upcoming", owner: "财务共享中心", metric: "月结周期缩短 >= 30%" },
+        { id: 1, title: "AI工业显微镜识别", timeline: "2026Q3 上线", category: "视觉AI", desc: "实验过程自动寻找有效成分，拍照 AI 形成范式报告", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "股份公司工装部", metric: "识别准确率 >= 95%" },
+        { id: 2, title: "AI现场生产安全预警", timeline: "2026Q4 试运行", category: "视觉AI", desc: "图像识别 + SOP 动作检测，形成实时预警闭环", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "股份公司安全保障部", metric: "高风险动作漏检率 <= 5%" },
+        { id: 3, title: "财务智能大数据分析", timeline: "2026Q3 交付", category: "大数据分析", desc: "海量财务数据整理、分析与预测，支撑预算与审计协同", hardware: "海光 DCU K100 AI 64G PCIe", status: "upcoming", owner: "股份公司财务部", metric: "月结周期缩短 >= 30%" },
         { id: 4, title: "药物研发发现", timeline: "2026Q4 扩容", category: "研发大模型", desc: "支撑文献分类、说明书信息抽取与政策问答等研发任务", hardware: "NVIDIA L20 48G * 8 (有拓展需求)", status: "ongoing", owner: "研究院", metric: "研发检索耗时下降 >= 40%" },
-        { id: 6, title: "股份公司智小谱", timeline: "2026Q2 优化", category: "企业知识库", desc: "产品数据知识问答、党建宣传展示与门店知识触达", hardware: "华为昇腾910B 32GB * 8", status: "ongoing", owner: "股份信息中心", metric: "首问命中率 >= 85%" },
-        { id: 7, title: "商业公司辅助诊疗系统", timeline: "2026Q4 评估", category: "医疗大模型", desc: "沉淀名老中医经验，实现同病不同证/同证不同方辅助建议", hardware: "NVIDIA A100 80G * 8", status: "core", owner: "商业医疗事业部", metric: "知识复用率 >= 70%" },
+        { id: 6, title: "股份公司智小谱", timeline: "2026Q2 优化", category: "企业知识库", desc: "产品数据知识问答、党建宣传展示与门店知识触达", hardware: "华为昇腾910B 32GB * 8", status: "ongoing", owner: "股份公司", metric: "首问命中率 >= 85%" },
+        { id: 7, title: "商业公司辅助诊疗系统", timeline: "2026Q4 评估", category: "医疗大模型", desc: "沉淀名老中医经验，实现同病不同证/同证不同方辅助建议", hardware: "NVIDIA A100 80G * 8", status: "core", owner: "商业公司", metric: "知识复用率 >= 70%" },
       ],
     },
     group_company: {
-      sectionTitle: "集团级重点样板（首年必达）",
-      sectionSubtitle: "面向经营管理价值优先推进，作为统一底座投资回报验证样板",
+      sectionTitle: "集团级重点样板",
+      sectionSubtitle: "集团在统一底座上的计划尝试",
       items: [
         { id: 5, title: "营销端AI分析", timeline: "2026Q3 上线", category: "营销AI", desc: "内培系统 + 门店音频转写 + 会员触达策略闭环", hardware: "通用 GPU", status: "proposed", owner: "市场营销中心", metric: "活动转化率提升 >= 15%" },
         { id: 8, title: "产品营销策略规划", timeline: "2026Q4 验收", category: "策略大模型", desc: "结合成药信息和终端数据，输出可执行的竞品对标与营销策略", hardware: "集团统筹算力", status: "core", owner: "战略发展部", metric: "策略生成周期缩短 >= 50%" },
@@ -584,7 +592,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
   return (
     <SlideWrap>
       <div className="min-h-full overflow-y-auto bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.12),transparent_35%)]">
-        <h3 className="text-3xl font-semibold text-[#111827] md:text-4xl">先拿结果：首批场景经营看板</h3>
+        <h3 className="text-center text-3xl font-semibold text-[#111827] md:text-4xl">摸排结果：首批场景经营看板</h3>
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           <div className="rounded-xl border border-[#e5e7eb] bg-white p-4">
             <p className="text-xs text-[#6b7280]">纳入经营管理的场景数</p>
@@ -665,7 +673,6 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                     </div>
                     <div className="mt-3 space-y-1 rounded-lg border border-[#e5e7eb] bg-[#f8fafc] px-3 py-2 text-xs text-[#4b5563]">
                       <p>责任单位：{item.owner}</p>
-                      <p>验收指标：{item.metric}</p>
                     </div>
                   </div>
                 ))}
@@ -707,7 +714,6 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                     </div>
                     <div className="mt-3 space-y-1 rounded-lg border border-[#fecaca] bg-[#fff7f7] px-3 py-2 text-xs text-[#7f1d1d]">
                       <p>责任单位：{item.owner}</p>
-                      <p>验收指标：{item.metric}</p>
                     </div>
                   </div>
                 ))}
@@ -724,12 +730,11 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                   <th className="px-3 py-2">类别</th>
                   <th className="px-3 py-2">硬件</th>
                   <th className="px-3 py-2">责任单位</th>
-                  <th className="px-3 py-2">验收指标</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t border-[#f1f5f9] bg-blue-50/40">
-                  <td colSpan={6} className="px-3 py-2 text-xs font-semibold tracking-[0.08em] text-blue-700">
+                  <td colSpan={5} className="px-3 py-2 text-xs font-semibold tracking-[0.08em] text-blue-700">
                     {sectionData.secondary_units.sectionTitle}
                   </td>
                 </tr>
@@ -758,11 +763,10 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                     </td>
                     <td className="px-3 py-2 text-[#3730a3]">{item.hardware}</td>
                     <td className="px-3 py-2 text-[#4b5563]">{item.owner}</td>
-                    <td className="px-3 py-2 text-[#4b5563]">{item.metric}</td>
                   </tr>
                 ))}
                 <tr className="border-t border-[#f1f5f9] bg-rose-50/40">
-                  <td colSpan={6} className="px-3 py-2 text-xs font-semibold tracking-[0.08em] text-rose-700">
+                  <td colSpan={5} className="px-3 py-2 text-xs font-semibold tracking-[0.08em] text-rose-700">
                     {sectionData.group_company.sectionTitle}
                   </td>
                 </tr>
@@ -775,7 +779,6 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                     </td>
                     <td className="px-3 py-2 text-[#9f1239]">{item.hardware}</td>
                     <td className="px-3 py-2 text-[#4b5563]">{item.owner}</td>
-                    <td className="px-3 py-2 text-[#4b5563]">{item.metric}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1163,32 +1166,6 @@ function SlideOpenClawVibeFusion() {
   return (
     <SlideWrap>
       <div className="min-h-full overflow-hidden">
-        <div className="mb-2 flex items-center justify-between">
-          <div className="text-xs text-[#6b7280]">支持：鼠标拖动 / 方向键切页</div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => goToPage(currentPage - 1)}
-              disabled={currentPage === 0}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#374151] transition enabled:hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-45"
-              aria-label="上一页"
-            >
-              <ChevronLeft size={14} />
-            </button>
-            <span className="text-xs text-[#6b7280]">
-              {currentPage + 1}/{totalPages}
-            </span>
-            <button
-              type="button"
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage === totalPages - 1}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#374151] transition enabled:hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-45"
-              aria-label="下一页"
-            >
-              <ChevronRight size={14} />
-            </button>
-          </div>
-        </div>
         <div
           ref={sliderRef}
           tabIndex={0}
@@ -1901,7 +1878,7 @@ function SlideLocalComputeInvestmentPlan() {
 function SlideNextStepTaskBoard() {
   const boardData = {
     header: {
-      title: "先拿结果，再扩范围（90/180/365）",
+      title: "分阶段推进计划（90/180/365）",
       subtitle: "按里程碑、责任人和验收指标推进，季度复盘、滚动扩面",
     },
     milestones: ["90 天：完成 3 个样板场景 PoC", "180 天：上线集团知识库 1.0", "365 天：形成 8-10 个可复用场景"],
@@ -2038,7 +2015,6 @@ function SlideNextStepTaskBoard() {
                       <div className="mt-3 grid gap-2 rounded-lg border border-[#e5e7eb] bg-[#f8fafc] px-3 py-2 text-xs text-[#4b5563]">
                         <p>责任人：{task.owner}</p>
                         <p>时间节点：{task.deadline}</p>
-                        <p>验收指标：{task.metric}</p>
                       </div>
                     </article>
                   ))}
@@ -2166,7 +2142,7 @@ function SlideGovernanceBoundary() {
     <SlideWrap>
       <div className="min-h-full overflow-y-auto">
         <div className="border-b border-[#e5e7eb] pb-4">
-          <h3 className="text-2xl font-bold text-[#111827] md:text-3xl">{boundaryData.header.title}</h3>
+          <h3 className="text-center text-2xl font-bold text-[#111827] md:text-3xl">{boundaryData.header.title}</h3>
           <p className="mt-2 text-sm text-[#6b7280]">{boundaryData.header.subtitle}</p>
         </div>
 
@@ -2816,7 +2792,23 @@ function SlideLocalModelHybridDeployment() {
   );
 }
 
-function SlideById({ slide, onOpenKnowledgeMatrix }: { slide: LayoutSlide; onOpenKnowledgeMatrix?: () => void }) {
+function SlideById({
+  slide,
+  onOpenKnowledgeMatrix,
+  showFullVersion,
+}: {
+  slide: LayoutSlide;
+  onOpenKnowledgeMatrix?: () => void;
+  showFullVersion?: boolean;
+}) {
+  if (slide.slide_id === 1400) return <AgentOneMedicineDeepDiveSlide showFullVersion={showFullVersion} />;
+  if (slide.slide_id === 1401) return <AgentTwoDataDeepDiveSlide showFullVersion={showFullVersion} />;
+  if (slide.slide_id === 1402) return <AgentThreeStrategyDeepDiveSlide showFullVersion={showFullVersion} />;
+  if (slide.slide_id === 1403) return <AIArchitecturePanoramaSlide />;
+  if (slide.slide_id === 1404) return <LowCodeAgileAndCollabSlide />;
+  if (slide.slide_id === 1405) return <LocalComputeCenterPhysicalArchSlide />;
+  if (slide.slide_id === 1406) return <OverallBudgetAndCostPlanSlide />;
+  if (slide.slide_id === 1407) return <ImplementationRoadmapAndRoiSlide />;
   if (slide.slide_id === 1) return <SlideCover />;
   if (slide.slide_id === 2) return <SlideCatalog />;
   if (slide.slide_id === 401) return <SlideDivisionAndInterfaceSplit />;
@@ -2854,8 +2846,16 @@ export default function Home() {
   const [data, setData] = useState<LayoutPayload>(defaultLayoutData);
   const [showKnowledgeMatrixOverlay, setShowKnowledgeMatrixOverlay] = useState(false);
   const [showFullVersion, setShowFullVersion] = useState(false);
+  const strategicSliderRef = useRef<HTMLDivElement | null>(null);
+  const strategicDragRef = useRef<{ active: boolean; startX: number; startScrollLeft: number }>({
+    active: false,
+    startX: 0,
+    startScrollLeft: 0,
+  });
+  const [isStrategicDragging, setIsStrategicDragging] = useState(false);
+  const [strategicPage, setStrategicPage] = useState(0);
   const isBrowser = useSyncExternalStore(subscribeNoop, snapshotTrue, snapshotFalse);
-  const hiddenSlideIds = new Set([7, 8, 10, 12, 13, 703, 1301]);
+  const hiddenSlideIds = new Set([8, 703]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -2914,19 +2914,70 @@ export default function Home() {
 
   const strategicFlowOrder = [1099, 1101, 1298, 13, 1299, 12, 1301, 1100] as const;
   const strategicFlowSet = new Set<number>(strategicFlowOrder);
-  const strategicProgressMap = new Map<number, number>(strategicFlowOrder.map((id, idx) => [id, idx + 1]));
   const strategicFlowSlides = strategicFlowOrder
     .map((id) => visibleSlidesRaw.find((slide) => slide.slide_id === id))
     .filter((slide): slide is LayoutSlide => Boolean(slide));
   const nonStrategicSlides = visibleSlidesRaw.filter((slide) => !strategicFlowSet.has(slide.slide_id));
   const closingSlide = nonStrategicSlides.find((slide) => slide.slide_id === 1399);
   const nonStrategicWithoutClosing = nonStrategicSlides.filter((slide) => slide.slide_id !== 1399);
-  const visibleSlides = [...nonStrategicWithoutClosing, ...strategicFlowSlides, ...(closingSlide ? [closingSlide] : [])];
+  const strategicTotalPages = strategicFlowSlides.length;
+
+  const goToStrategicPage = (page: number) => {
+    const target = strategicSliderRef.current;
+    if (!target || strategicTotalPages === 0) return;
+    const nextPage = Math.max(0, Math.min(strategicTotalPages - 1, page));
+    target.scrollTo({ left: nextPage * target.clientWidth, behavior: "smooth" });
+    setStrategicPage(nextPage);
+  };
+
+  const handleStrategicPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const target = strategicSliderRef.current;
+    if (!target) return;
+    target.focus();
+    strategicDragRef.current = {
+      active: true,
+      startX: e.clientX,
+      startScrollLeft: target.scrollLeft,
+    };
+    setIsStrategicDragging(true);
+    target.setPointerCapture(e.pointerId);
+  };
+
+  const handleStrategicPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const target = strategicSliderRef.current;
+    if (!target || !strategicDragRef.current.active) return;
+    const delta = e.clientX - strategicDragRef.current.startX;
+    target.scrollLeft = strategicDragRef.current.startScrollLeft - delta;
+  };
+
+  const endStrategicPointerDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const target = strategicSliderRef.current;
+    if (!target || !strategicDragRef.current.active) return;
+    strategicDragRef.current.active = false;
+    setIsStrategicDragging(false);
+    if (target.hasPointerCapture(e.pointerId)) target.releasePointerCapture(e.pointerId);
+  };
+
+  const handleStrategicSliderScroll = () => {
+    const target = strategicSliderRef.current;
+    if (!target || target.clientWidth === 0) return;
+    const page = Math.round(target.scrollLeft / target.clientWidth);
+    if (page !== strategicPage) setStrategicPage(page);
+  };
+
+  const handleStrategicSliderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goToStrategicPage(strategicPage + 1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goToStrategicPage(strategicPage - 1);
+    }
+  };
 
   const renderSingleSlideSection = (slide: LayoutSlide) => {
     const shellBleed = slideShellBleedIds.has(slide.slide_id);
     const shellWhite = slideShellWhiteIds.has(slide.slide_id);
-    const strategicStep = strategicProgressMap.get(slide.slide_id);
     return (
       <section
         key={slide.slide_id}
@@ -2940,22 +2991,6 @@ export default function Home() {
         <div className="report-corner-logo pointer-events-none absolute right-3 top-3 z-20 h-16 w-16 md:h-20 md:w-20">
           <Image src="/brand/trt-logo.png" alt="" fill unoptimized className="object-contain" aria-hidden />
         </div>
-        {strategicStep ? (
-          <div className="pointer-events-none absolute right-24 top-4 z-20 hidden rounded-xl border border-[#e5e7eb] bg-white/92 px-3 py-2 shadow-sm backdrop-blur md:block">
-            <div className="flex items-center justify-between gap-3 text-[11px]">
-              <span className="font-semibold text-[#374151]">底座→自研→落地</span>
-              <span className="font-semibold text-[#b91c1c]">
-                {strategicStep}/{strategicFlowOrder.length}
-              </span>
-            </div>
-            <div className="mt-1.5 h-1.5 w-40 overflow-hidden rounded-full bg-[#e5e7eb]">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#ef4444] to-[#2563eb]"
-                style={{ width: `${Math.round((strategicStep / strategicFlowOrder.length) * 100)}%` }}
-              />
-            </div>
-          </div>
-        ) : null}
         <div
           className={[
             "flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
@@ -2963,17 +2998,92 @@ export default function Home() {
           ].join(" ")}
         >
           <div className="flex min-h-0 flex-1 flex-col">
-            <SlideById slide={slide} onOpenKnowledgeMatrix={() => setShowKnowledgeMatrixOverlay(true)} />
+            <SlideById
+              slide={slide}
+              showFullVersion={showFullVersion}
+              onOpenKnowledgeMatrix={() => setShowKnowledgeMatrixOverlay(true)}
+            />
           </div>
         </div>
       </section>
     );
   };
 
-  const renderedSections: React.ReactNode[] = [];
-  for (let i = 0; i < visibleSlides.length; i += 1) {
-    const current = visibleSlides[i];
-    renderedSections.push(renderSingleSlideSection(current));
+  const renderStrategicFlowSection = () => {
+    if (strategicFlowSlides.length === 0) return null;
+    return (
+      <section
+        key="strategic-flow-slider"
+        data-report-slide="strategic-flow"
+        className="relative mx-auto mb-5 flex max-w-7xl snap-start flex-col overflow-hidden rounded-[1.6rem] border border-[#e8eaed] bg-[#fcfcfd] shadow-[0_20px_60px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/[0.03] md:mb-6 min-h-[calc(100vh-6.5rem)]"
+      >
+        <div className="report-corner-logo pointer-events-none absolute right-3 top-3 z-20 h-16 w-16 md:h-20 md:w-20">
+          <Image src="/brand/trt-logo.png" alt="" fill unoptimized className="object-contain" aria-hidden />
+        </div>
+
+        <div
+          ref={strategicSliderRef}
+          tabIndex={0}
+          onPointerDown={handleStrategicPointerDown}
+          onPointerMove={handleStrategicPointerMove}
+          onPointerUp={endStrategicPointerDrag}
+          onPointerCancel={endStrategicPointerDrag}
+          onScroll={handleStrategicSliderScroll}
+          onKeyDown={handleStrategicSliderKeyDown}
+          className={`flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            isStrategicDragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
+          style={{ touchAction: "pan-x" }}
+        >
+          {strategicFlowSlides.map((slide) => {
+            const shellBleed = slideShellBleedIds.has(slide.slide_id);
+            const shellWhite = slideShellWhiteIds.has(slide.slide_id);
+            return (
+              <article key={slide.slide_id} className="flex min-h-0 min-w-full snap-start flex-col overflow-y-auto">
+                <div
+                  className={[
+                    "flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
+                    shellWhite ? "bg-white" : "bg-[#fcfcfd]",
+                    shellBleed ? "p-0" : "p-4 md:p-6",
+                  ].join(" ")}
+                >
+                  <div className="flex min-h-0 flex-1 flex-col">
+                    <SlideById
+                      slide={slide}
+                      showFullVersion={showFullVersion}
+                      onOpenKnowledgeMatrix={() => setShowKnowledgeMatrixOverlay(true)}
+                    />
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
+  const renderedSections: React.ReactNode[] = [
+    renderSingleSlideSection({ slide_id: 1400, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1401, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1402, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1403, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1404, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1405, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1406, elements: [] }),
+    renderSingleSlideSection({ slide_id: 1407, elements: [] }),
+  ];
+  if (showFullVersion) {
+    for (let i = 0; i < nonStrategicWithoutClosing.length; i += 1) {
+      const current = nonStrategicWithoutClosing[i];
+      renderedSections.push(renderSingleSlideSection(current));
+    }
+    if (strategicFlowSlides.length > 0) {
+      renderedSections.push(renderStrategicFlowSection());
+    }
+    if (closingSlide) {
+      renderedSections.push(renderSingleSlideSection(closingSlide));
+    }
   }
 
   return (

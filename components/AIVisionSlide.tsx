@@ -11,11 +11,11 @@ const visionData = {
   northStar: {
     tag: "North Star Vision",
     title: "战略定调：精准服务、持续跟进",
-    desc: "天然吸纳同仁堂十五五顶层设计的方法论，跳过传统 IT 漫长的技术试错期。直接站在大模型时代的巨人肩膀上，实现数字化转型的弯道超车。",
+    desc: "提供统一的算力底座，避免重复建设，进行集团级 AI 应用及新技术的跟进。",
   },
   twinEngines: {
     title: "天然优势：双端原生协同",
-    subtitle: "摒弃“先建系统、后加 AI”的外挂模式，伴随集团建设步伐原生植入 AI 大脑",
+    subtitle: "跟随顶层设计，为顶层设计中 AI 的落地提供算力保障",
     items: [
       {
         id: "management" as const,
