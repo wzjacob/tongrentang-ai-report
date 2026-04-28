@@ -8,13 +8,13 @@ const roadmapData = {
     {
       range: "第 1-2 个月",
       title: "基建搭建与首战",
-      desc: "完成本地算力就绪与 Dify 平台统建；“问药”智能体率先上线验证。",
+      desc: "完成本地算力就绪与 AI 编排中台统建；“问药”智能体率先上线验证。",
       tag: "问药上线",
     },
     {
       range: "第 3-4 个月",
       title: "数据融合与深水区",
-      desc: "打通主数据只读视图，完成 Text2SQL 微调，“问数”上线。",
+      desc: "打通主数据只读视图，完成语义转 SQL 微调，“问数”上线。",
       tag: "问数上线",
     },
     {
@@ -90,7 +90,7 @@ export default function ImplementationRoadmapAndRoiSlide() {
         <section className="mt-6 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
           <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
             <CalendarClock className="h-4.5 w-4.5 text-sky-600" />
-            顶部时间轴（Gantt 简化版）
+            顶部时间轴
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             {roadmapData.phases.map((phase, idx) => (

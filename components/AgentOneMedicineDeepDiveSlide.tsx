@@ -1,28 +1,28 @@
 "use client";
 
-import { AlertTriangle, ShieldCheck, Sparkles, Stethoscope, Workflow } from "lucide-react";
+import { AlertTriangle, ArrowRight, Cpu, DatabaseZap, ShieldCheck, Sparkles, Stethoscope, Workflow } from "lucide-react";
 
 const deepDiveData = {
   title: "智能体一：问药",
-  subtitle: "基于“智小谱”知识图谱 (GraphRAG) 升级，打造标准、合规的产品赋能专家",
+  subtitle: "基于“智小谱”知识图谱升级，打造标准、合规的产品赋能专家",
   leftPanel: {
-    title: "数据来源 (多源异构分类)",
+    title: "数据来源",
     items: [
       { name: "图谱基座数据", desc: "股份公司产品主数据、说明书解析、功效/配伍禁忌图谱", color: "blue" as const },
-      { name: "业务经验数据", desc: "历年全系培训课件、门店常见问题库 (FAQ)、标准销售话术 SOP", color: "emerald" as const },
+      { name: "业务经验数据", desc: "历年全系培训课件、门店常见问题库、标准销售话术", color: "emerald" as const },
       { name: "风控合规数据", desc: "国家药典标准、广告法禁用词库、不良反应警示库", color: "rose" as const },
     ],
   },
   rightPanel: {
     tech: {
-      title: "实现路径：GraphRAG (图谱检索增强)",
+      title: "实现路径：图谱检索增强",
       desc: "打破传统 RAG 碎片化检索，大模型基于“药材-病症-禁忌”关系网进行多跳推理，彻底消除中医药知识幻觉。",
       compactDesc: "以“药材-病症-禁忌”关系网实现多跳推理，显著降低知识幻觉与误答风险。",
     },
     features: [
       {
         title: "多跳逻辑精准问答",
-        desc: "解答复杂禁忌咨询（如特定病史能否服用），返回带权威引用的防幻觉答案",
+        desc: "解答复杂禁忌咨询，返回带权威引用的防幻觉答案",
         compactDesc: "复杂禁忌问答，附权威引用。",
       },
       {
@@ -35,6 +35,21 @@ const deepDiveData = {
         desc: "触发敏感词自动预警，基于中医“同病异治”逻辑进行精准产品推荐",
         compactDesc: "敏感词预警 + 同病异治推荐。",
       },
+    ],
+  },
+  delivery: {
+    title: "中台关联逻辑与场景落地",
+    links: [
+      "编排中台 -> 数据填入层：对说明书、禁忌、门店问答进行 Embedding 向量化与图谱索引。",
+      "编排中台 -> 管控层：按岗位权限控制“可答范围”，敏感问法自动拦截并留痕审计。",
+      "编排中台 -> 模型算力层：根据问题复杂度动态路由 72B/32B，提高时效与稳定性。",
+      "编排中台 -> 数据底座层：统一调用 Neo4j 图谱与向量库，输出可追溯引用答案。",
+    ],
+    scenes: [
+      "门店即时问答：导购询问“高血压 + 胃病是否可用某产品”并给出禁忌说明。",
+      "培训考核陪练：新员工模拟接待问药场景，自动评分 SOP 与合规表达。",
+      "售后风险应答：针对不良反应咨询提供标准话术与升级建议。",
+      "中医里的或然证：中成药原来可以这样妙用。",
     ],
   },
 } as const;
@@ -65,6 +80,8 @@ const sourceStyleMap = {
 
 const sourceIcons = [Workflow, Stethoscope, AlertTriangle] as const;
 const featureIcons = [Sparkles, ShieldCheck, AlertTriangle] as const;
+const deliveryLinkIcons = [DatabaseZap, ShieldCheck, Cpu, Workflow] as const;
+const deliverySceneIcons = [Stethoscope, Sparkles, AlertTriangle, Workflow] as const;
 
 export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false }: { showFullVersion?: boolean }) {
   return (
@@ -115,7 +132,7 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
             </article>
 
             <article className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
-              <h3 className="text-lg font-semibold text-[#111827]">核心能力（3项）</h3>
+              <h3 className="text-lg font-semibold text-[#111827]">核心能力</h3>
               <div className="mt-3 space-y-2.5">
                 {deepDiveData.rightPanel.features.map((feature, idx) => {
                   const Icon = featureIcons[idx] ?? Sparkles;
@@ -137,6 +154,55 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
             </article>
           </section>
         </div>
+
+        <section className="mt-5 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+          <h3 className="text-lg font-semibold text-[#111827]">{deepDiveData.delivery.title}</h3>
+          <div className="mt-3 grid gap-4 md:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#b91c1c]">底层逻辑映射</p>
+              <div className="mt-2 space-y-2">
+                {deepDiveData.delivery.links.map((item, idx) => {
+                  const [flow, desc] = item.split("：");
+                  const [from, to] = flow.split("->").map((s) => s.trim());
+                  const Icon = deliveryLinkIcons[idx] ?? Workflow;
+                  return (
+                    <article key={item} className="rounded-xl border border-rose-100 bg-rose-50/40 p-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#b91c1c]">
+                          <Icon className="h-4 w-4" />
+                        </span>
+                        <span className="rounded-md border border-rose-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-rose-700">{from}</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-rose-500" />
+                        <span className="rounded-md border border-rose-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-rose-700">{to}</span>
+                      </div>
+                      <p className="mt-1.5 text-[12px] leading-relaxed text-[#4b5563]">{desc}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#b91c1c]">业务场景补充</p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                {deepDiveData.delivery.scenes.map((item, idx) => {
+                  const [title, desc] = item.split("：");
+                  const Icon = deliverySceneIcons[idx] ?? Sparkles;
+                  return (
+                    <article key={item} className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white text-[#b91c1c]">
+                          <Icon className="h-3.5 w-3.5" />
+                        </span>
+                        <p className="text-xs font-semibold text-[#111827]">{title}</p>
+                      </div>
+                      <p className="mt-1 text-[11px] leading-relaxed text-[#4b5563]">{desc}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

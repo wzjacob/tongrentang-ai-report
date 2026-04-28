@@ -1,14 +1,14 @@
 "use client";
 
-import { AlertTriangle, BarChart3, Database, LineChart, Lock, SearchCode } from "lucide-react";
+import { AlertTriangle, ArrowRight, BarChart3, Cpu, Database, DatabaseZap, LineChart, Lock, SearchCode, ShieldCheck } from "lucide-react";
 
 const dataDeepDive = {
   title: "智能体二：问数",
-  subtitle: "基于业务主数据与大模型 Text2SQL 技术，消除报表时差的对话式分析引擎",
+  subtitle: "基于业务主数据与语义转 SQL 技术，消除报表时差的对话式分析引擎",
   leftPanel: {
-    title: "数据来源 (安全管控与隔离)",
+    title: "数据来源",
     items: [
-      { name: "核心财务汇总库", desc: "领导驾驶舱后端数据（收入、成本、利润等核心指标）", color: "blue" as const },
+      { name: "核心财务汇总库", desc: "领导驾驶舱后端数据，覆盖收入、成本、利润等核心指标", color: "blue" as const },
       { name: "集团主数据系统", desc: "30万+ 条清洗后的组织机构、客商、物料等基础维表", color: "slate" as const },
       {
         name: "接入规范",
@@ -19,7 +19,7 @@ const dataDeepDive = {
   },
   rightPanel: {
     tech: {
-      title: "实现路径：Text2SQL 与领域微调",
+      title: "实现路径：语义转 SQL 与领域微调",
       desc: "自然语言实时转化为 SQL 脚本，在安全沙箱内执行并动态渲染图表，告别固定维度 BI 报表。",
       compactDesc: "自然语言转 SQL，安全沙箱执行并即时图表化呈现。",
     },
@@ -27,6 +27,21 @@ const dataDeepDive = {
       { title: "自然语言即时查询", desc: "无需 IT 排期，语音输入“本月各战区毛利对比”即刻生成图表", compactDesc: "自然语言即问即查，即时出图。" },
       { title: "多维灵活钻取", desc: "支持按时间、组织、物料等维度，以对话追问形式层层下钻分析", compactDesc: "多维追问下钻，分析路径更灵活。" },
       { title: "异常指标智能预警", desc: "主动监测销售额环比下滑等异常波动，并推送归因分析摘要", compactDesc: "异常波动自动预警并给出归因摘要。" },
+    ],
+  },
+  delivery: {
+    title: "中台关联逻辑与场景落地",
+    links: [
+      "编排中台 -> 管控层：通过 RBAC 对指标、组织、敏感字段做分级可见与调用审计。",
+      "编排中台 -> 数据底座层：基于主数据安全视图生成语义层，降低 SQL 幻觉与越权查询。",
+      "编排中台 -> 模型算力层：语义转 SQL 任务调用本地模型，复杂分析自动切换高性能算力。",
+      "编排中台 -> 数据底座层：统一纳管指标口径与维度映射，确保跨系统分析结果一致。",
+    ],
+    scenes: [
+      "经营晨会快问：管理层即时查询“本周各战区毛利排名与环比变化”。",
+      "财务差异归因：对异常成本科目自动下钻到组织/物料/时间维度。",
+      "预算执行跟踪：按月输出预算偏差看板并提示高风险部门。",
+      "供应协同预警：库存周转异常时联动采购与销售侧给出建议动作。",
     ],
   },
 } as const;
@@ -57,6 +72,8 @@ const styleMap = {
 
 const leftIcons = [Database, Lock, AlertTriangle] as const;
 const featureIcons = [BarChart3, SearchCode, LineChart] as const;
+const deliveryLinkIcons = [ShieldCheck, DatabaseZap, Cpu, BarChart3] as const;
+const deliverySceneIcons = [BarChart3, SearchCode, LineChart, AlertTriangle] as const;
 
 export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: { showFullVersion?: boolean }) {
   return (
@@ -116,7 +133,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
             </article>
 
             <article className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
-              <h3 className="text-lg font-semibold text-[#111827]">核心能力（3项）</h3>
+              <h3 className="text-lg font-semibold text-[#111827]">核心能力</h3>
               <div className="mt-3 space-y-2.5">
                 {dataDeepDive.rightPanel.features.map((feature, idx) => {
                   const Icon = featureIcons[idx] ?? BarChart3;
@@ -138,6 +155,55 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
             </article>
           </section>
         </div>
+
+        <section className="mt-5 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+          <h3 className="text-lg font-semibold text-[#111827]">{dataDeepDive.delivery.title}</h3>
+          <div className="mt-3 grid gap-4 md:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">底层逻辑映射</p>
+              <div className="mt-2 space-y-2">
+                {dataDeepDive.delivery.links.map((item, idx) => {
+                  const [flow, desc] = item.split("：");
+                  const [from, to] = flow.split("->").map((s) => s.trim());
+                  const Icon = deliveryLinkIcons[idx] ?? Database;
+                  return (
+                    <article key={item} className="rounded-xl border border-sky-100 bg-sky-50/40 p-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#0284c7]">
+                          <Icon className="h-4 w-4" />
+                        </span>
+                        <span className="rounded-md border border-sky-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-sky-700">{from}</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-sky-500" />
+                        <span className="rounded-md border border-sky-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-sky-700">{to}</span>
+                      </div>
+                      <p className="mt-1.5 text-[12px] leading-relaxed text-[#4b5563]">{desc}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">业务场景补充</p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                {dataDeepDive.delivery.scenes.map((item, idx) => {
+                  const [title, desc] = item.split("：");
+                  const Icon = deliverySceneIcons[idx] ?? BarChart3;
+                  return (
+                    <article key={item} className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white text-[#0284c7]">
+                          <Icon className="h-3.5 w-3.5" />
+                        </span>
+                        <p className="text-xs font-semibold text-[#111827]">{title}</p>
+                      </div>
+                      <p className="mt-1 text-[11px] leading-relaxed text-[#4b5563]">{desc}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

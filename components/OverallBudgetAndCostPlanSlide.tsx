@@ -7,27 +7,30 @@ const budgetData = {
   subtitle: "秉持‘重资产、抱开源、买服务’的极简建设策略，打造高性价比私有大脑",
   costColumns: [
     {
-      title: "硬件资产保底 (大头)",
+      title: "硬件资产保底",
       amount: "约 75 万",
       desc: "转化为集团固定资产",
       items: [
-        "1台 8卡高性价比推理服务器 (满足 72B 量化部署与高并发)",
-        "2-3台 高主频通用服务器 (部署 Dify 应用及数据库)",
+        "1台 8卡高性价比推理服务器，满足高并发推理",
+        "2-3台 高主频通用服务器，部署编排中台与数据库",
       ],
       tone: "red" as const,
     },
     {
-      title: "软件授权费用 (红利)",
+      title: "软件授权费用",
       amount: "0 元",
       desc: "拒绝商业授权绑架",
       items: ["全面采用 Dify + Qwen + Milvus 顶级开源生态", "省下百万级商业软件订阅费"],
       tone: "emerald" as const,
     },
     {
-      title: "专业实施服务 (智力)",
+      title: "AI编排中台及技术共创",
       amount: "约 25 万",
       desc: "购买专业团队技术落地",
-      items: ["基础架构本地化量化部署与网络打通", "三大业务场景大模型微调与 Dify 工作流搭建实施"],
+      items: [
+        "AI 编排中台落地：完成 Dify/ThinkingAI 工作流、权限策略与业务系统嵌入集成",
+        "四层链路打通实施：管控层 × 模型算力层 × 数据填入层 × 数据底座层一体联调",
+      ],
       tone: "blue" as const,
     },
   ],
@@ -75,7 +78,7 @@ export default function OverallBudgetAndCostPlanSlide() {
 
         <div className="mx-auto mt-4 flex w-fit items-center gap-2 rounded-full border border-[#fecaca] bg-white px-4 py-2 shadow-sm">
           <BadgeDollarSign className="h-4.5 w-4.5 text-[#b91c1c]" />
-          <span className="text-sm font-semibold text-[#7f1d1d]">预算总控：100 万以内（75 万硬件 + 25 万服务 + 0 元授权）</span>
+          <span className="text-sm font-semibold text-[#7f1d1d]">预算总控：100 万以内，75 万硬件 + 25 万服务 + 0 元授权</span>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-3">

@@ -1,22 +1,22 @@
 "use client";
 
-import { AudioLines, BarChart3, FileText, GitBranch, Radar, Route, ShoppingBag, Sparkles } from "lucide-react";
+import { ArrowRight, AudioLines, BarChart3, Cpu, DatabaseZap, FileText, GitBranch, Radar, Route, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
 
 const strategyDeepDive = {
   title: "智能体三：问策",
-  subtitle: "基于多智能体协同 (Multi-Agent)，打通前线炮火与总部决策的营销智囊",
+  subtitle: "基于多智能体协同，打通前线炮火与总部决策的营销智囊",
   leftPanel: {
-    title: "数据来源 (内外数据融合)",
+    title: "数据来源",
     items: [
-      { name: "一线业务反馈数据", desc: "门店导购脱敏录音 (STT转文本)、内培系统考核薄弱点", color: "emerald" as const },
+      { name: "一线业务反馈数据", desc: "门店导购脱敏录音转文本、内培系统考核薄弱点", color: "emerald" as const },
       { name: "经营端动销数据", desc: "产品销量、区域分布特征、各渠道销售表现", color: "blue" as const },
       { name: "外部竞品与行业数据", desc: "自动化采集的行业公开研报、竞品动态与电商平台用户评价", color: "slate" as const },
     ],
   },
   rightPanel: {
     tech: {
-      title: "实现路径：多智能体编排 (Multi-Agent)",
-      desc: "编排多个专业 Agent 流水线作业：洞察Agent（提取拒买原因）-> 竞品Agent（对比优劣）-> 策略Agent（生成建议）。",
+      title: "实现路径：多智能体编排",
+      desc: "编排多个专业 Agent 流水线作业：洞察 Agent 提取拒买原因，竞品 Agent 对比优劣，策略 Agent 生成建议。",
       compactDesc: "多 Agent 流水线协同：洞察 -> 竞品 -> 策略，闭环生成营销建议。",
       pipeline: ["洞察 Agent", "竞品 Agent", "策略 Agent"],
     },
@@ -24,6 +24,21 @@ const strategyDeepDive = {
       { title: "顾客抗性深度洞察", desc: "从千万条真实门店录音中，语义聚类出顾客最常见的疑虑与拒绝购买原因", compactDesc: "语义聚类挖掘顾客疑虑与拒买原因。" },
       { title: "竞品动态自动监测", desc: "输入竞品名称，自动爬取公开舆情并生成本品与竞品的优劣势对比报告", compactDesc: "自动监测竞品舆情并生成对比报告。" },
       { title: "区域策略自动化生成", desc: "每月融合上述数据，自动输出高保真《重点产品区域营销策略建议书》", compactDesc: "自动生成区域营销策略建议书。" },
+    ],
+  },
+  delivery: {
+    title: "中台关联逻辑与场景落地",
+    links: [
+      "编排中台 -> 数据填入层：融合门店语音转写、竞品舆情、电商评价与动销数据形成策略语料。",
+      "编排中台 -> 模型算力层：多 Agent 任务并行调度，洞察/竞品/策略链路按需调用算力。",
+      "编排中台 -> 管控层：策略发布前进行敏感词、合规风险与品牌口径校验。",
+      "编排中台 -> 数据底座层：沉淀区域画像、产品标签与策略模板，支持月度复用迭代。",
+    ],
+    scenes: [
+      "新品上市战役：自动生成区域差异化话术与首月动销策略包。",
+      "竞品价格战响应：竞品动作发生后 24 小时内形成反制建议。",
+      "门店督导协同：识别抗性高发区域并推送针对性培训脚本。",
+      "大促复盘优化：活动后自动归因“转化差异点”并输出下一轮优化方案。",
     ],
   },
 } as const;
@@ -54,6 +69,8 @@ const styleMap = {
 
 const leftIcons = [AudioLines, BarChart3, ShoppingBag] as const;
 const featureIcons = [Radar, GitBranch, FileText] as const;
+const deliveryLinkIcons = [DatabaseZap, Cpu, ShieldCheck, FileText] as const;
+const deliverySceneIcons = [Sparkles, GitBranch, AudioLines, Radar] as const;
 
 export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = false }: { showFullVersion?: boolean }) {
   return (
@@ -118,7 +135,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
             </article>
 
             <article className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
-              <h3 className="text-lg font-semibold text-[#111827]">核心能力（3项）</h3>
+              <h3 className="text-lg font-semibold text-[#111827]">核心能力</h3>
               <div className="mt-3 space-y-2.5">
                 {strategyDeepDive.rightPanel.features.map((feature, idx) => {
                   const Icon = featureIcons[idx] ?? Radar;
@@ -140,6 +157,55 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
             </article>
           </section>
         </div>
+
+        <section className="mt-5 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+          <h3 className="text-lg font-semibold text-[#111827]">{strategyDeepDive.delivery.title}</h3>
+          <div className="mt-3 grid gap-4 md:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7c3aed]">底层逻辑映射</p>
+              <div className="mt-2 space-y-2">
+                {strategyDeepDive.delivery.links.map((item, idx) => {
+                  const [flow, desc] = item.split("：");
+                  const [from, to] = flow.split("->").map((s) => s.trim());
+                  const Icon = deliveryLinkIcons[idx] ?? Sparkles;
+                  return (
+                    <article key={item} className="rounded-xl border border-violet-100 bg-violet-50/40 p-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#7c3aed]">
+                          <Icon className="h-4 w-4" />
+                        </span>
+                        <span className="rounded-md border border-violet-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-violet-700">{from}</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-violet-500" />
+                        <span className="rounded-md border border-violet-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-violet-700">{to}</span>
+                      </div>
+                      <p className="mt-1.5 text-[12px] leading-relaxed text-[#4b5563]">{desc}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7c3aed]">业务场景补充</p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                {strategyDeepDive.delivery.scenes.map((item, idx) => {
+                  const [title, desc] = item.split("：");
+                  const Icon = deliverySceneIcons[idx] ?? Sparkles;
+                  return (
+                    <article key={item} className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white text-[#7c3aed]">
+                          <Icon className="h-3.5 w-3.5" />
+                        </span>
+                        <p className="text-xs font-semibold text-[#111827]">{title}</p>
+                      </div>
+                      <p className="mt-1 text-[11px] leading-relaxed text-[#4b5563]">{desc}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

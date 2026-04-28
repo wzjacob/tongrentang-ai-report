@@ -16,7 +16,7 @@ const physicalArchData = {
     {
       id: "cluster",
       title: "算力集群层",
-      desc: "划分“核心信创推理池（高可用）”与“边缘通用算力池（过渡与弹性）”。",
+      desc: "划分核心信创推理池与边缘通用算力池，兼顾高可用与弹性扩展。",
       tone: "blue" as const,
     },
     {
