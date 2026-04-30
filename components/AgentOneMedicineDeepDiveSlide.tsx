@@ -159,23 +159,31 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
           <h3 className="text-lg font-semibold text-[#111827]">{deepDiveData.delivery.title}</h3>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#b91c1c]">底层逻辑映射</p>
-              <div className="mt-2 space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#b91c1c]">关联树视图</p>
+              <div className="relative mt-2 min-h-[260px] rounded-xl border border-rose-100 bg-rose-50/40 p-3">
+                <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+                  <line x1="30" y1="50" x2="48" y2="20" stroke="#fda4af" strokeWidth="1.2" />
+                  <line x1="30" y1="50" x2="48" y2="40" stroke="#fda4af" strokeWidth="1.2" />
+                  <line x1="30" y1="50" x2="48" y2="60" stroke="#fda4af" strokeWidth="1.2" />
+                  <line x1="30" y1="50" x2="48" y2="80" stroke="#fda4af" strokeWidth="1.2" />
+                </svg>
+                <div className="absolute left-[4%] top-[42%] w-[28%] rounded-lg border border-rose-200 bg-white px-2 py-2 text-center">
+                  <p className="text-[11px] font-semibold text-rose-700">编排中台</p>
+                </div>
                 {deepDiveData.delivery.links.map((item, idx) => {
                   const [flow, desc] = item.split("：");
-                  const [from, to] = flow.split("->").map((s) => s.trim());
+                  const [, to] = flow.split("->").map((s) => s.trim());
                   const Icon = deliveryLinkIcons[idx] ?? Workflow;
+                  const posClass = ["top-[6%]", "top-[30%]", "top-[54%]", "top-[78%]"][idx] ?? "top-[6%]";
                   return (
-                    <article key={item} className="rounded-xl border border-rose-100 bg-rose-50/40 p-2.5">
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#b91c1c]">
-                          <Icon className="h-4 w-4" />
+                    <article key={item} className={`absolute right-[3%] ${posClass} w-[48%] -translate-y-1/2 rounded-lg border border-rose-200 bg-white/95 p-2`}>
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-rose-50 text-[#b91c1c]">
+                          <Icon className="h-3.5 w-3.5" />
                         </span>
-                        <span className="rounded-md border border-rose-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-rose-700">{from}</span>
-                        <ArrowRight className="h-3.5 w-3.5 text-rose-500" />
-                        <span className="rounded-md border border-rose-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-rose-700">{to}</span>
+                        <p className="text-[11px] font-semibold text-rose-700">{to}</p>
                       </div>
-                      <p className="mt-1.5 text-[12px] leading-relaxed text-[#4b5563]">{desc}</p>
+                      <p className="mt-1 text-[10px] leading-relaxed text-[#4b5563]">{desc}</p>
                     </article>
                   );
                 })}

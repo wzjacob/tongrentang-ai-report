@@ -10,18 +10,27 @@ const roadmapData = {
       title: "基建搭建与首战",
       desc: "完成本地算力就绪与 AI 编排中台统建；“问药”智能体率先上线验证。",
       tag: "问药上线",
+      start: 1,
+      end: 2,
+      color: "bg-rose-500",
     },
     {
       range: "第 3-4 个月",
       title: "数据融合与深水区",
       desc: "打通主数据只读视图，完成语义转 SQL 微调，“问数”上线。",
       tag: "问数上线",
+      start: 3,
+      end: 4,
+      color: "bg-sky-500",
     },
     {
       range: "第 5-6 个月",
       title: "全栈协同",
       desc: "门店外部数据汇聚，多 Agent 流水线跑通，“问策”全面上线。",
       tag: "问策上线",
+      start: 5,
+      end: 6,
+      color: "bg-violet-500",
     },
   ],
   roi: [
@@ -91,6 +100,25 @@ export default function ImplementationRoadmapAndRoiSlide() {
           <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
             <CalendarClock className="h-4.5 w-4.5 text-sky-600" />
             顶部时间轴
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+            <div className="grid grid-cols-6 gap-1 text-center text-[10px] font-semibold text-slate-500">
+              {[1, 2, 3, 4, 5, 6].map((m) => (
+                <div key={m}>M{m}</div>
+              ))}
+            </div>
+            <div className="relative mt-2 h-28 rounded-xl border border-slate-200 bg-white">
+              {roadmapData.phases.map((phase, idx) => {
+                const left = ((phase.start - 1) / 6) * 100;
+                const width = ((phase.end - phase.start + 1) / 6) * 100;
+                const top = 8 + idx * 32;
+                return (
+                  <div key={`${phase.range}-bar`} className="absolute" style={{ left: `${left}%`, width: `${width}%`, top }}>
+                    <div className={`rounded-md px-2 py-1 text-[10px] font-semibold text-white ${phase.color}`}>{phase.tag}</div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             {roadmapData.phases.map((phase, idx) => (

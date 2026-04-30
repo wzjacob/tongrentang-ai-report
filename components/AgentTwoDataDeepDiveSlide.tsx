@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle, ArrowRight, BarChart3, Cpu, Database, DatabaseZap, LineChart, Lock, SearchCode, ShieldCheck } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const dataDeepDive = {
   title: "智能体二：问数",
@@ -38,7 +39,7 @@ const dataDeepDive = {
       "编排中台 -> 数据底座层：统一纳管指标口径与维度映射，确保跨系统分析结果一致。",
     ],
     scenes: [
-      "经营晨会快问：管理层即时查询“本周各战区毛利排名与环比变化”。",
+      "经营晨会快问：管理层及时查询财务、经营等BI数据。",
       "财务差异归因：对异常成本科目自动下钻到组织/物料/时间维度。",
       "预算执行跟踪：按月输出预算偏差看板并提示高风险部门。",
       "供应协同预警：库存周转异常时联动采购与销售侧给出建议动作。",
@@ -74,6 +75,19 @@ const leftIcons = [Database, Lock, AlertTriangle] as const;
 const featureIcons = [BarChart3, SearchCode, LineChart] as const;
 const deliveryLinkIcons = [ShieldCheck, DatabaseZap, Cpu, BarChart3] as const;
 const deliverySceneIcons = [BarChart3, SearchCode, LineChart, AlertTriangle] as const;
+const queryTrendData = [
+  { week: "W1", value: 120 },
+  { week: "W2", value: 168 },
+  { week: "W3", value: 210 },
+  { week: "W4", value: 286 },
+];
+
+const dimensionData = [
+  { name: "时间", count: 38 },
+  { name: "组织", count: 31 },
+  { name: "物料", count: 24 },
+  { name: "渠道", count: 19 },
+];
 
 export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: { showFullVersion?: boolean }) {
   return (
@@ -161,13 +175,13 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">底层逻辑映射</p>
-              <div className="mt-2 space-y-2">
+              <div className="mt-2 rounded-2xl border border-sky-100 bg-sky-50/40 p-3">
                 {dataDeepDive.delivery.links.map((item, idx) => {
                   const [flow, desc] = item.split("：");
                   const [from, to] = flow.split("->").map((s) => s.trim());
                   const Icon = deliveryLinkIcons[idx] ?? Database;
                   return (
-                    <article key={item} className="rounded-xl border border-sky-100 bg-sky-50/40 p-2.5">
+                    <article key={item} className="relative rounded-xl border border-sky-200 bg-white/90 p-2.5">
                       <div className="flex items-center gap-2">
                         <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#0284c7]">
                           <Icon className="h-4 w-4" />
@@ -177,30 +191,68 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
                         <span className="rounded-md border border-sky-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-sky-700">{to}</span>
                       </div>
                       <p className="mt-1.5 text-[12px] leading-relaxed text-[#4b5563]">{desc}</p>
+                      {idx < dataDeepDive.delivery.links.length - 1 ? (
+                        <div className="pointer-events-none mx-auto mt-2 h-3 w-px bg-gradient-to-b from-sky-400 to-sky-200" />
+                      ) : null}
                     </article>
                   );
                 })}
               </div>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">业务场景补充</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">经营洞察图表</p>
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                {dataDeepDive.delivery.scenes.map((item, idx) => {
-                  const [title, desc] = item.split("：");
-                  const Icon = deliverySceneIcons[idx] ?? BarChart3;
-                  return (
-                    <article key={item} className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white text-[#0284c7]">
-                          <Icon className="h-3.5 w-3.5" />
-                        </span>
-                        <p className="text-xs font-semibold text-[#111827]">{title}</p>
-                      </div>
-                      <p className="mt-1 text-[11px] leading-relaxed text-[#4b5563]">{desc}</p>
-                    </article>
-                  );
-                })}
+                <article className="rounded-xl border border-sky-100 bg-sky-50/40 p-2.5 sm:col-span-2">
+                  <p className="text-[11px] font-semibold text-sky-700">查询活跃度趋势</p>
+                  <div className="mt-1 h-24">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={queryTrendData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#dbeafe" />
+                        <XAxis dataKey="week" tick={{ fontSize: 10 }} stroke="#64748b" />
+                        <YAxis tick={{ fontSize: 10 }} stroke="#64748b" />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="value" stroke="#0284c7" strokeWidth={2} dot={{ r: 2 }} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </article>
+
+                <article className="rounded-xl border border-sky-100 bg-sky-50/40 p-2.5 sm:col-span-2">
+                  <p className="text-[11px] font-semibold text-sky-700">多维分析覆盖度</p>
+                  <div className="mt-1 h-24">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={dimensionData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#dbeafe" />
+                        <XAxis dataKey="name" tick={{ fontSize: 10 }} stroke="#64748b" />
+                        <YAxis tick={{ fontSize: 10 }} stroke="#64748b" />
+                        <Tooltip />
+                        <Bar dataKey="count" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </article>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">业务场景补充</p>
+            <div className="mt-2 grid gap-2 sm:grid-cols-4">
+              {dataDeepDive.delivery.scenes.map((item, idx) => {
+                const [title, desc] = item.split("：");
+                const Icon = deliverySceneIcons[idx] ?? BarChart3;
+                return (
+                  <article key={item} className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white text-[#0284c7]">
+                        <Icon className="h-3.5 w-3.5" />
+                      </span>
+                      <p className="text-xs font-semibold text-[#111827]">{title}</p>
+                    </div>
+                    <p className="mt-1 text-[11px] leading-relaxed text-[#4b5563]">{desc}</p>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

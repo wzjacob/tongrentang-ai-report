@@ -86,6 +86,36 @@ type LayoutElement = {
 
 type LayoutSlide = { slide_id: number; elements: LayoutElement[] };
 type LayoutPayload = { meta: { slide_count: number }; slides: LayoutSlide[] };
+type ScenarioStatus = "ongoing" | "planning" | "proposed" | "upcoming" | "core";
+type ExecutiveScenarioItem = {
+  id: number;
+  title: string;
+  timeline: string;
+  category: string;
+  desc: string;
+  hardware: string;
+  status: ScenarioStatus;
+  owner: string;
+  metric: string;
+};
+type ScenarioDraft = {
+  background: string;
+  strengths: string;
+  weaknesses: string;
+  opportunities: string;
+  risks: string;
+  matrixNotes: string;
+};
+type SwotQuadrant = {
+  key: "S" | "W" | "O" | "T";
+  title: string;
+  tone: string;
+  points: string[];
+};
+type MatrixBlock = {
+  title: string;
+  points: string[];
+};
 const defaultLayoutData: LayoutPayload = {
   meta: { slide_count: 13 },
   slides: Array.from({ length: 13 }, (_, i) => ({ slide_id: i + 1, elements: [] })),
@@ -498,56 +528,219 @@ function SlideCatalog() {
   );
 }
 
-function SlideKnowledgeMatrix() {
+function SlideKnowledgeMatrix({
+  scenario,
+  draft,
+  onDraftChange,
+}: {
+  scenario: ExecutiveScenarioItem;
+  draft: ScenarioDraft;
+  onDraftChange: (field: keyof ScenarioDraft, value: string) => void;
+}) {
+  const toPoints = (value: string, fallback: string) => {
+    const points = value
+      .split(/\n|；|;|。/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return points.length > 0 ? points : [fallback];
+  };
+
+  const swotData: SwotQuadrant[] =
+    scenario.title === "股份公司智小谱"
+      ? [
+          {
+            key: "S",
+            title: "优势",
+            tone: "border-emerald-200 bg-emerald-50",
+            points: ["数据量大、数据全，覆盖股份公司大部分品种（除睡眠品种）", "已经建好 Neo4J 图数据库，底子在", "产品、知识、文化之间的关联关系已沉淀"],
+          },
+          {
+            key: "W",
+            title: "短板",
+            tone: "border-amber-200 bg-amber-50",
+            points: ["目前较依赖外部供应商", "系统自身 AI 能力偏弱", "交互功能不够强，用户体验一般"],
+          },
+          {
+            key: "O",
+            title: "机会",
+            tone: "border-sky-200 bg-sky-50",
+            points: ["基于现有图谱，补齐自有 AI 问答与推荐能力", "和问药、问数、问策打通，形成统一入口", "可扩展到培训、导购、客服等更多场景"],
+          },
+          {
+            key: "T",
+            title: "风险",
+            tone: "border-rose-200 bg-rose-50",
+            points: ["供应商策略变化可能影响迭代节奏和成本", "若 AI 与交互能力长期不提升，使用积极性会下降", "业务变化快，图谱更新跟不上会影响实用价值"],
+          },
+        ]
+      : [
+          {
+            key: "S",
+            title: "优势",
+            tone: "border-emerald-200 bg-emerald-50",
+            points: toPoints(draft.strengths, "待你补充优势"),
+          },
+          {
+            key: "W",
+            title: "短板",
+            tone: "border-amber-200 bg-amber-50",
+            points: toPoints(draft.weaknesses, "待你补充短板"),
+          },
+          {
+            key: "O",
+            title: "机会",
+            tone: "border-sky-200 bg-sky-50",
+            points: toPoints(draft.opportunities, "待你补充机会"),
+          },
+          {
+            key: "T",
+            title: "风险",
+            tone: "border-rose-200 bg-rose-50",
+            points: toPoints(draft.risks, "待你补充风险"),
+          },
+        ];
+
+  const originalMatrix: MatrixBlock[] =
+    scenario.title === "股份公司智小谱"
+      ? [
+          {
+            title: "互动体验功能",
+            points: ["沉浸式科普评测", "3D 全景漫游", "VR 虚拟场馆", "自动评判打分"],
+          },
+          {
+            title: "图谱检索功能",
+            points: ["关键词检索", "扫码智能识别", "产品/文化关联展示", "精准知识触达"],
+          },
+          {
+            title: "运营与转化功能",
+            points: ["党建业务融合", "海量数据库管理", "线上知识索引", "线下购药承接"],
+          },
+        ]
+      : [
+          {
+            title: "现状补充",
+            points: toPoints(draft.background, "待你补充现状"),
+          },
+          {
+            title: "功能矩阵补充",
+            points: toPoints(draft.matrixNotes, "待你补充功能矩阵"),
+          },
+          {
+            title: "基础信息",
+            points: [`计划节点：${scenario.timeline}`, `责任单位：${scenario.owner}`],
+          },
+        ];
+
   return (
     <SlideWrap>
-      <h3 className="text-3xl font-semibold text-[#111827]">股份公司知识图谱（智小谱）功能矩阵</h3>
+      <h3 className="text-3xl font-semibold text-[#111827]">{scenario.title}：SWOT 与功能矩阵</h3>
+      <p className="mt-2 text-sm text-[#4b5563]">场景池详情页已改为按你的输入生成，先问答采集素材，再自动整理成汇报内容。</p>
       <div className="mt-5 grid gap-4 md:grid-cols-[1.1fr_1fr]">
         <div className="h-full rounded-2xl border border-[#e5e7eb] bg-[#f9fafb] p-3">
-          <div className="relative h-full min-h-[520px] w-full overflow-hidden rounded-xl bg-white">
-            <Image src="/ppt-layout/media/image43.jpeg" alt="第四页原文图片" fill unoptimized className="object-contain object-center" />
+          <div className="relative h-full min-h-[420px] w-full overflow-hidden rounded-xl bg-white">
+            {scenario.id === 1 ? (
+              <div className="h-full w-full">
+                <iframe
+                  src="http://114.132.213.75:5080"
+                  title="工业显微镜核心演示"
+                  className="h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="pointer-events-none absolute inset-x-2 bottom-2 rounded-md bg-black/55 px-2 py-1 text-[11px] text-white">
+                  工业显微镜核心演示窗口
+                </div>
+              </div>
+            ) : (
+              <Image src="/ppt-layout/media/image43.jpeg" alt={`${scenario.title}配图`} fill unoptimized className="object-contain object-center" />
+            )}
           </div>
         </div>
-        <div className="grid gap-4">
-          {[
-            [
-              "互动体验功能",
-              ["沉浸式科普评测", "3D 全景漫游", "VR 虚拟场馆", "自动评判打分"],
-              "多角度三维数字化模拟展厅，实现更强交互性的全员培训与科普教育。",
-            ],
-            [
-              "图谱检索功能",
-              ["关键词检索", "扫码智能识别", "产品/文化关联展示", "精准知识触达"],
-              "涵盖1400余种产品、10万+知识节点，赋能大品种推广宣传。",
-            ],
-            [
-              "运营与转化功能",
-              ["党建业务融合", "海量数据库管理", "线上知识索引", "线下购药承接"],
-              "科技创新赋能实体经济，实现由线上宣教到线下购药的商业转化闭环。",
-            ],
-          ].map(([title, items, note]) => (
-            <div key={title as string} className="rounded-2xl border border-[#e5e7eb] bg-[#f9fafb] p-4">
-              <h4 className="text-lg font-semibold text-[#7f1d1d]">{title as string}</h4>
-              <ul className="mt-3 space-y-2 text-sm text-[#374151]">
-                {(items as string[]).map((item) => (
-                  <li key={item}>• {item}</li>
+        <div className="rounded-2xl border border-[#e5e7eb] bg-[#f9fafb] p-4">
+          <h4 className="text-lg font-semibold text-[#111827]">SWOT 综合分析</h4>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {swotData.map((item) => (
+              <div key={item.key} className={`rounded-xl border p-3 ${item.tone}`}>
+                <p className="text-sm font-semibold text-[#111827]">
+                  <span className="mr-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs">{item.key}</span>
+                  {item.title}
+                </p>
+                <ul className="mt-2 space-y-1.5 text-xs leading-5 text-[#374151]">
+                  {item.points.map((point) => (
+                    <li key={point}>• {point}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 rounded-2xl border border-[#e5e7eb] bg-[#f9fafb] p-4">
+        <p className="text-base font-semibold text-[#111827]">原有功能矩阵</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          {originalMatrix.map((block) => (
+            <div key={block.title} className="rounded-xl border border-[#e5e7eb] bg-white p-3">
+              <p className="text-sm font-semibold text-[#7f1d1d]">{block.title}</p>
+              <ul className="mt-2 space-y-1.5 text-xs leading-5 text-[#374151]">
+                {block.points.map((point) => (
+                  <li key={point}>• {point}</li>
                 ))}
               </ul>
-              <div className="mt-3 flex items-start gap-2 rounded-lg border border-[#fecaca] bg-[#fff1f2] p-2">
-                <span className="text-[#b91c1c]">→</span>
-                <p className="text-xs leading-5 text-[#7f1d1d]">{note as string}</p>
-              </div>
             </div>
           ))}
+        </div>
+      </div>
+      <div className="mt-4 rounded-2xl border border-[#e5e7eb] bg-white p-4">
+        <p className="text-base font-semibold text-[#111827]">素材输入区（你来补充）</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <textarea
+            value={draft.background}
+            onChange={(e) => onDraftChange("background", e.target.value)}
+            placeholder="现状背景（例如：当前系统现状、业务痛点、依赖情况）"
+            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
+          />
+          <textarea
+            value={draft.strengths}
+            onChange={(e) => onDraftChange("strengths", e.target.value)}
+            placeholder="优势补充（你认为最有价值的2-3点）"
+            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
+          />
+          <textarea
+            value={draft.weaknesses}
+            onChange={(e) => onDraftChange("weaknesses", e.target.value)}
+            placeholder="短板/问题补充（当前做不到或效果不好的点）"
+            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
+          />
+          <textarea
+            value={draft.opportunities}
+            onChange={(e) => onDraftChange("opportunities", e.target.value)}
+            placeholder="机会补充（下一步可快速放大的方向）"
+            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
+          />
+          <textarea
+            value={draft.risks}
+            onChange={(e) => onDraftChange("risks", e.target.value)}
+            placeholder="风险补充（你最担心的问题）"
+            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
+          />
+          <textarea
+            value={draft.matrixNotes}
+            onChange={(e) => onDraftChange("matrixNotes", e.target.value)}
+            placeholder="功能矩阵补充（需要保留/删除/新增的功能点）"
+            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
+          />
         </div>
       </div>
     </SlideWrap>
   );
 }
 
-function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?: () => void }) {
+function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?: (item: ExecutiveScenarioItem) => void }) {
   const [mode, setMode] = useState<"grid" | "table">("grid");
-  const sectionData = {
+  const sectionData: {
+    secondary_units: { sectionTitle: string; sectionSubtitle: string; items: ExecutiveScenarioItem[] };
+    group_company: { sectionTitle: string; sectionSubtitle: string; items: ExecutiveScenarioItem[] };
+  } = {
     secondary_units: {
       sectionTitle: "场景池（单位申报，集团评审）",
       sectionSubtitle: "每个场景必须绑定责任人、里程碑和验收指标，纳入季度经营复盘",
@@ -562,13 +755,44 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
     },
     group_company: {
       sectionTitle: "集团级重点样板",
-      sectionSubtitle: "集团在统一底座上的计划尝试",
+      sectionSubtitle: "围绕问药、问数、问策三大能力统一建设与分单位复用",
       items: [
-        { id: 5, title: "营销端AI分析", timeline: "2026Q3 上线", category: "营销AI", desc: "内培系统 + 门店音频转写 + 会员触达策略闭环", hardware: "通用 GPU", status: "proposed", owner: "市场营销中心", metric: "活动转化率提升 >= 15%" },
-        { id: 8, title: "产品营销策略规划", timeline: "2026Q4 验收", category: "策略大模型", desc: "结合成药信息和终端数据，输出可执行的竞品对标与营销策略", hardware: "集团统筹算力", status: "core", owner: "战略发展部", metric: "策略生成周期缩短 >= 50%" },
+        {
+          id: 5,
+          title: "问药智能体",
+          timeline: "2026Q3 上线",
+          category: "问药",
+          desc: "以 Neo4J 图谱数据与文本数据为底座，提供可追溯、可审核的产品问答，当前落地难度相对可控。",
+          hardware: "集团统筹算力",
+          status: "core",
+          owner: "集团公司、股份公司",
+          metric: "首问命中率 >= 85%",
+        },
+        {
+          id: 8,
+          title: "问数智能体",
+          timeline: "2026Q4 验收",
+          category: "问数",
+          desc: "数据来源以系统底表、数据库与 BI 数据为主，依赖 Text2SQL 做转译分析；该方向仍是业界卡点，普通 LLM 难以直接处理大规模结构化数据。",
+          hardware: "集团统筹算力",
+          status: "core",
+          owner: "集团公司",
+          metric: "取数时长下降 >= 50%",
+        },
+        {
+          id: 9,
+          title: "问策智能体",
+          timeline: "2026Q4 验收",
+          category: "问策",
+          desc: "本质是结合“人、事、物”与问数结果，形成商业、政治与高层洞察，建设难度和复杂度均高于问药与问数。",
+          hardware: "集团统筹算力",
+          status: "core",
+          owner: "集团公司",
+          metric: "策略生成周期缩短 >= 50%",
+        },
       ],
     },
-  } as const;
+  };
   const allItems = [...sectionData.secondary_units.items, ...sectionData.group_company.items];
   const domestic = allItems.filter((item) => item.hardware.includes("海光") || item.hardware.includes("华为")).length;
   const coreCards = 16;
@@ -587,6 +811,9 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
     企业知识库: "bg-green-100 text-green-700",
     医疗大模型: "bg-red-100 text-red-700",
     策略大模型: "bg-rose-100 text-rose-700",
+    问药: "bg-rose-100 text-rose-700",
+    问数: "bg-sky-100 text-sky-700",
+    问策: "bg-violet-100 text-violet-700",
   };
 
   return (
@@ -640,23 +867,14 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
 
               <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {sectionData.secondary_units.items.map((item) => (
-                  <div key={item.id} className="rounded-2xl border border-[#e5e7eb] bg-white p-4 transition-all hover:scale-[1.01] hover:shadow-lg">
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => onOpenKnowledgeMatrix?.(item)}
+                    className="rounded-2xl border border-[#e5e7eb] bg-white p-4 text-left transition-all hover:scale-[1.01] hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                  >
                     <div className="flex items-center justify-between">
-                      {item.title === "股份公司智小谱" ? (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onOpenKnowledgeMatrix?.();
-                          }}
-                          className="relative z-10 cursor-pointer touch-manipulation text-left text-base font-semibold text-[#111827] underline-offset-4 transition hover:text-[#b91c1c] hover:underline"
-                        >
-                          {item.title}
-                        </button>
-                      ) : (
-                        <h4 className="text-base font-semibold text-[#111827]">{item.title}</h4>
-                      )}
+                      <h4 className="text-base font-semibold text-[#111827]">{item.title}</h4>
                       <span className={`h-2.5 w-2.5 rounded-full ${statusColor[item.status] ?? "bg-gray-400"}`} />
                     </div>
                     <div className="mt-2 flex flex-wrap gap-2">
@@ -674,7 +892,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                     <div className="mt-3 space-y-1 rounded-lg border border-[#e5e7eb] bg-[#f8fafc] px-3 py-2 text-xs text-[#4b5563]">
                       <p>责任单位：{item.owner}</p>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -690,7 +908,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                 </div>
               </div>
 
-              <div className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-2">
+              <div className="mx-auto grid w-full max-w-6xl gap-4 md:grid-cols-3">
                 {sectionData.group_company.items.map((item) => (
                   <div
                     key={item.id}
@@ -741,21 +959,13 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
                 {sectionData.secondary_units.items.map((item) => (
                   <tr key={item.id} className="border-t border-[#f1f5f9]">
                     <td className="px-3 py-2 text-[#111827]">
-                      {item.title === "股份公司智小谱" ? (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onOpenKnowledgeMatrix?.();
-                          }}
-                          className="cursor-pointer touch-manipulation text-left font-medium text-[#b91c1c] underline decoration-[#b91c1c]/40 underline-offset-2 hover:decoration-[#b91c1c]"
-                        >
-                          {item.title}
-                        </button>
-                      ) : (
-                        item.title
-                      )}
+                      <button
+                        type="button"
+                        onClick={() => onOpenKnowledgeMatrix?.(item)}
+                        className="cursor-pointer touch-manipulation text-left font-medium text-[#b91c1c] underline decoration-[#b91c1c]/40 underline-offset-2 hover:decoration-[#b91c1c]"
+                      >
+                        {item.title}
+                      </button>
                     </td>
                     <td className="px-3 py-2 text-[#4b5563]">{item.timeline}</td>
                     <td className="px-3 py-2">
@@ -2798,7 +3008,7 @@ function SlideById({
   showFullVersion,
 }: {
   slide: LayoutSlide;
-  onOpenKnowledgeMatrix?: () => void;
+  onOpenKnowledgeMatrix?: (item: ExecutiveScenarioItem) => void;
   showFullVersion?: boolean;
 }) {
   if (slide.slide_id === 1400) return <AgentOneMedicineDeepDiveSlide showFullVersion={showFullVersion} />;
@@ -2844,7 +3054,7 @@ const slideShellWhiteIds = new Set([13]);
 
 export default function Home() {
   const [data, setData] = useState<LayoutPayload>(defaultLayoutData);
-  const [showKnowledgeMatrixOverlay, setShowKnowledgeMatrixOverlay] = useState(false);
+  const [activeScenario, setActiveScenario] = useState<ExecutiveScenarioItem | null>(null);
   const [showFullVersion, setShowFullVersion] = useState(false);
   const strategicSliderRef = useRef<HTMLDivElement | null>(null);
   const strategicDragRef = useRef<{ active: boolean; startX: number; startScrollLeft: number }>({
@@ -2856,6 +3066,55 @@ export default function Home() {
   const [strategicPage, setStrategicPage] = useState(0);
   const isBrowser = useSyncExternalStore(subscribeNoop, snapshotTrue, snapshotFalse);
   const hiddenSlideIds = new Set([8, 703]);
+  const emptyScenarioDraft: ScenarioDraft = {
+    background: "",
+    strengths: "",
+    weaknesses: "",
+    opportunities: "",
+    risks: "",
+    matrixNotes: "",
+  };
+  const scenarioDraftTemplates: Record<number, ScenarioDraft> = {
+    1: {
+      background: "已搭建初步 Demo（牛黄清心丸、大山楂丸），当前尚未完成业务论证。",
+      strengths: "可一键完成初步检验；可快速形成标准化报告模板。",
+      weaknesses: "图像识别能力依赖高；内存需求较大（约 200G）；识别精度仍需持续提升。",
+      opportunities: "若识别稳定，可沉淀为质检与研发通用能力；可扩展到更多品类与工艺环节。",
+      risks: "在未充分论证前推广可能出现误判风险；高资源消耗会带来部署和运维成本压力。",
+      matrixNotes: "图像识别；一键检验；报告模板；人工复核；历史样本对比；阈值告警。",
+    },
+    2: {
+      background: "目前未开展，处于方案分析阶段。",
+      strengths: "对 LLM 依赖较低（可作为辅助）；以图像识别为主，技术路径清晰。",
+      weaknesses: "当前缺少实战数据验证；尚未形成完整的现场预警流程闭环。",
+      opportunities: "后续可套用市面成熟软硬件；可快速接入集团中台能力，缩短建设周期。",
+      risks: "若现场数据质量不稳定，会影响预警准确率；多系统接入阶段存在联调风险。",
+      matrixNotes: "视频流识别；SOP动作检测；违规行为告警；告警分级；联动中台派单；事件复盘看板。",
+    },
+  };
+  const [scenarioDrafts, setScenarioDrafts] = useState<Record<number, ScenarioDraft>>(scenarioDraftTemplates);
+
+  const handleOpenScenarioDetail = (item: ExecutiveScenarioItem) => {
+    setActiveScenario(item);
+    setScenarioDrafts((prev) =>
+      prev[item.id]
+        ? prev
+        : {
+            ...prev,
+            [item.id]: scenarioDraftTemplates[item.id] ?? emptyScenarioDraft,
+          },
+    );
+  };
+
+  const handleDraftChange = (scenarioId: number, field: keyof ScenarioDraft, value: string) => {
+    setScenarioDrafts((prev) => ({
+      ...prev,
+      [scenarioId]: {
+        ...(prev[scenarioId] ?? emptyScenarioDraft),
+        [field]: value,
+      },
+    }));
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -3001,7 +3260,7 @@ export default function Home() {
             <SlideById
               slide={slide}
               showFullVersion={showFullVersion}
-              onOpenKnowledgeMatrix={() => setShowKnowledgeMatrixOverlay(true)}
+              onOpenKnowledgeMatrix={handleOpenScenarioDetail}
             />
           </div>
         </div>
@@ -3051,7 +3310,7 @@ export default function Home() {
                     <SlideById
                       slide={slide}
                       showFullVersion={showFullVersion}
-                      onOpenKnowledgeMatrix={() => setShowKnowledgeMatrixOverlay(true)}
+                      onOpenKnowledgeMatrix={handleOpenScenarioDetail}
                     />
                   </div>
                 </div>
@@ -3106,9 +3365,6 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-            <span className="rounded-full border border-[#e5e7eb] bg-[#f9fafb] px-3 py-1.5 text-xs text-[#374151] md:px-4 md:py-2 md:text-sm">
-              高管汇报模式
-            </span>
             <button
               type="button"
               onClick={() => setShowFullVersion((prev) => !prev)}
@@ -3128,35 +3384,36 @@ export default function Home() {
         {renderedSections}
       </div>
 
-      {isBrowser && showKnowledgeMatrixOverlay
+      {isBrowser && activeScenario
         ? createPortal(
             <div
               className="fixed inset-0 z-[2147483646] flex items-center justify-center bg-slate-900/40 px-4 py-8 backdrop-blur-[2px]"
               role="dialog"
               aria-modal="true"
-              aria-labelledby="knowledge-matrix-title"
+              aria-label={`${activeScenario.title}详情页`}
               onClick={(e) => {
-                if (e.target === e.currentTarget) setShowKnowledgeMatrixOverlay(false);
+                if (e.target === e.currentTarget) setActiveScenario(null);
               }}
             >
               <div
                 className="pointer-events-auto h-[min(90vh,900px)] w-full max-w-7xl overflow-hidden rounded-[1.6rem] border border-[#e8eaed] bg-white p-4 shadow-[0_30px_80px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/[0.04] md:p-6"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 id="knowledge-matrix-title" className="text-lg font-semibold text-[#111827] md:text-2xl">
-                    股份公司知识图谱（智小谱）功能矩阵
-                  </h3>
+                <div className="mb-3 flex items-center justify-end gap-3">
                   <button
                     type="button"
-                    onClick={() => setShowKnowledgeMatrixOverlay(false)}
+                    onClick={() => setActiveScenario(null)}
                     className="shrink-0 rounded-full border border-[#e5e7eb] bg-[#f9fafb] px-3 py-1 text-xs text-[#374151] transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                   >
                     返回主汇报
                   </button>
                 </div>
                 <div className="h-[calc(100%-3rem)] overflow-auto">
-                  <SlideKnowledgeMatrix />
+                  <SlideKnowledgeMatrix
+                    scenario={activeScenario}
+                    draft={scenarioDrafts[activeScenario.id] ?? emptyScenarioDraft}
+                    onDraftChange={(field, value) => handleDraftChange(activeScenario.id, field, value)}
+                  />
                 </div>
               </div>
             </div>,
