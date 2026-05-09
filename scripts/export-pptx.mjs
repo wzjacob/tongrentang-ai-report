@@ -15,6 +15,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pptxgen from "pptxgenjs";
 import puppeteer from "puppeteer-core";
+import { REPORT_TITLE_FULL } from "../lib/reportMeta.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -153,7 +154,7 @@ async function main() {
   const pptx = new PptxCtor();
   pptx.layout = "LAYOUT_16x9";
   pptx.author = "tongrentang-ai-report";
-  pptx.title = "同仁堂集团算力摸排与AI前瞻规划汇报";
+  pptx.title = REPORT_TITLE_FULL;
   pptx.subject = textMode ? "文本导出" : "像素级截图导出";
 
   fs.mkdirSync(OUT_DIR, { recursive: true });

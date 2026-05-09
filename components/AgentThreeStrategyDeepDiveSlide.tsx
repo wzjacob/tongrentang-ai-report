@@ -1,24 +1,25 @@
 "use client";
 
-import { ArrowRight, AudioLines, BarChart3, Cpu, DatabaseZap, FileText, GitBranch, Radar, Route, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
+import { AudioLines, BarChart3, Cpu, DatabaseZap, FileText, GitBranch, Radar, Route, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
 
 const strategyDeepDive = {
-  title: "智能体三：问策",
-  subtitle: "基于多智能体协同，打通前线炮火与总部决策的营销智囊",
+  title: "专题三：经营问策",
+  subtitle: "围绕“人、事、物”与经营数据，形成可执行的区域策略建议",
   leftPanel: {
     title: "数据来源",
     items: [
       { name: "一线业务反馈数据", desc: "门店导购脱敏录音转文本、内培系统考核薄弱点", color: "emerald" as const },
       { name: "经营端动销数据", desc: "产品销量、区域分布特征、各渠道销售表现", color: "blue" as const },
       { name: "外部竞品与行业数据", desc: "自动化采集的行业公开研报、竞品动态与电商平台用户评价", color: "slate" as const },
+      { name: "问药与问数融合数据", desc: "融合问药药品数据与问数经营数据，作为问策策略洞察与推演的核心输入", color: "violet" as const },
     ],
   },
   rightPanel: {
     tech: {
-      title: "实现路径：多智能体编排",
-      desc: "编排多个专业 Agent 流水线作业：洞察 Agent 提取拒买原因，竞品 Agent 对比优劣，策略 Agent 生成建议。",
-      compactDesc: "多 Agent 流水线协同：洞察 -> 竞品 -> 策略，闭环生成营销建议。",
-      pipeline: ["洞察 Agent", "竞品 Agent", "策略 Agent"],
+      title: "实现路径：多角色协同分析",
+      desc: "核心是融合问药的药品数据与问数的经营数据，形成可执行的策略洞察，并持续跟踪落地效果。",
+      compactDesc: "洞察 -> 对标 -> 策略，闭环生成经营建议。",
+      pipeline: ["洞察环节", "对标环节", "策略环节"],
     },
     features: [
       { title: "顾客抗性深度洞察", desc: "从千万条真实门店录音中，语义聚类出顾客最常见的疑虑与拒绝购买原因", compactDesc: "语义聚类挖掘顾客疑虑与拒买原因。" },
@@ -27,12 +28,12 @@ const strategyDeepDive = {
     ],
   },
   delivery: {
-    title: "中台关联逻辑与场景落地",
+    title: "流程关联与场景落地",
     links: [
-      "编排中台 -> 数据填入层：融合门店语音转写、竞品舆情、电商评价与动销数据形成策略语料。",
-      "编排中台 -> 模型算力层：多 Agent 任务并行调度，洞察/竞品/策略链路按需调用算力。",
-      "编排中台 -> 管控层：策略发布前进行敏感词、合规风险与品牌口径校验。",
-      "编排中台 -> 数据底座层：沉淀区域画像、产品标签与策略模板，支持月度复用迭代。",
+      "业务中枢 -> 数据填入层：融合门店语音转写、竞品舆情、电商评价与动销数据形成策略语料。",
+      "业务中枢 -> 计算资源层：多环节任务并行调度，按需调用资源。",
+      "业务中枢 -> 管控层：策略发布前进行敏感词、合规风险与品牌口径校验。",
+      "业务中枢 -> 数据底座层：沉淀区域画像、产品标签与策略模板，支持月度复用迭代。",
     ],
     scenes: [
       "新品上市战役：自动生成区域差异化话术与首月动销策略包。",
@@ -65,9 +66,16 @@ const styleMap = {
     iconBg: "bg-slate-100",
     iconText: "text-slate-600",
   },
+  violet: {
+    border: "border-violet-200",
+    dot: "bg-violet-500",
+    title: "text-violet-700",
+    iconBg: "bg-violet-50",
+    iconText: "text-violet-600",
+  },
 } as const;
 
-const leftIcons = [AudioLines, BarChart3, ShoppingBag] as const;
+const leftIcons = [AudioLines, BarChart3, ShoppingBag, DatabaseZap] as const;
 const featureIcons = [Radar, GitBranch, FileText] as const;
 const deliveryLinkIcons = [DatabaseZap, Cpu, ShieldCheck, FileText] as const;
 const deliverySceneIcons = [Sparkles, GitBranch, AudioLines, Radar] as const;
@@ -78,7 +86,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <p className="inline-flex items-center rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#7c3aed]">
-            智能体 03 · 问策深度剖析
+            专题 03 · 经营问策
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{strategyDeepDive.title}</h2>
           <p className="mx-auto mt-3 max-w-4xl text-sm leading-relaxed text-[#64748b] md:text-base">{strategyDeepDive.subtitle}</p>
@@ -162,7 +170,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
           <h3 className="text-lg font-semibold text-[#111827]">{strategyDeepDive.delivery.title}</h3>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7c3aed]">策略脑图</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7c3aed]">流程关联图</p>
               <div className="relative mt-2 min-h-[260px] rounded-xl border border-violet-100 bg-violet-50/40 p-3">
                 <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
                   <line x1="50" y1="50" x2="16" y2="20" stroke="#c4b5fd" strokeWidth="1.2" />
@@ -171,7 +179,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
                   <line x1="50" y1="50" x2="84" y2="80" stroke="#c4b5fd" strokeWidth="1.2" />
                 </svg>
                 <div className="absolute left-1/2 top-1/2 w-[28%] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-violet-300 bg-white px-2 py-2 text-center shadow-sm">
-                  <p className="text-[11px] font-semibold text-violet-700">编排中台</p>
+                  <p className="text-[11px] font-semibold text-violet-700">业务中枢</p>
                 </div>
                 {strategyDeepDive.delivery.links.map((item, idx) => {
                   const [flow, desc] = item.split("：");
@@ -198,7 +206,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
               </div>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7c3aed]">业务场景应用</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7c3aed]">业务场景</p>
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 {strategyDeepDive.delivery.scenes.map((item, idx) => {
                   const [title, desc] = item.split("：");

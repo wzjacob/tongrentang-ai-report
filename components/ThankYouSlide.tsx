@@ -1,3 +1,5 @@
+import { REPORT_TITLE_FULL } from "@/lib/reportMeta";
+
 export default function ThankYouSlide() {
   return (
     <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-[#fcfcfd] px-6 py-12 md:py-20">
@@ -15,7 +17,7 @@ export default function ThankYouSlide() {
         <p className="mt-8 text-base font-medium leading-relaxed text-[#475569] md:text-lg">
           请领导批评指正，提出宝贵意见。
         </p>
-        <p className="mt-3 text-sm text-[#94a3b8]">同仁堂集团算力摸排与AI前瞻规划汇报 · 汇报完毕</p>
+        <p className="mt-3 text-sm text-[#94a3b8]">{REPORT_TITLE_FULL} · 汇报完毕</p>
       </div>
     </div>
   );

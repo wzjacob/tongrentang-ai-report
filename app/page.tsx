@@ -13,6 +13,7 @@ import LowCodeAgileAndCollabSlide from "@/components/LowCodeAgileAndCollabSlide"
 import LocalComputeCenterPhysicalArchSlide from "@/components/LocalComputeCenterPhysicalArchSlide";
 import OverallBudgetAndCostPlanSlide from "@/components/OverallBudgetAndCostPlanSlide";
 import ImplementationRoadmapAndRoiSlide from "@/components/ImplementationRoadmapAndRoiSlide";
+import { REPORT_TITLE_FULL, REPORT_TITLE_MAIN } from "@/lib/reportMeta";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import {
@@ -24,8 +25,6 @@ import {
   Brain,
   BookOpen,
   CalendarClock,
-  ChevronLeft,
-  ChevronRight,
   CheckCircle,
   Cpu,
   Database,
@@ -152,7 +151,7 @@ const aiBlueprint = {
         },
         {
           name: "模型层",
-          items: ["同仁堂大模型", "deepseek、qwen系列模型", "Qcoder、GLM、Llama", "seedance、nanobanana"],
+          items: ["同仁堂大模型", "DeepSeek、Qwen 系列模型", "QCoder、GLM、Llama", "Seedance、NanoBanana"],
         },
         {
           name: "原子能力层",
@@ -199,10 +198,10 @@ const painBridgeData = {
   symptoms: [
     { id: "s1", icon: "ServerOff", title: "基础弱 · 资源孤岛", desc: "算力、模型各自采购或使用免费版，缺乏统一管理与规划。" },
     { id: "s2", icon: "Unplug", title: "规划弱 · 应用孤岛", desc: "智能体无统一技术标准、数据接口，导致系统间无法互联互通。" },
-    { id: "s3", icon: "Network", title: "协同弱 · 效应缺失", desc: "智小谱与辅助诊疗系统知识库未打通，无法发挥“产品+服务”合力。" },
+    { id: "s3", icon: "Network", title: "协同弱 · 效应缺失", desc: "智小谱与辅助诊疗系统知识库未打通，无法发挥“产品+服务”合力；过于依赖厂商封装好的能力框架，难以与时俱进、敏捷更新。" },
   ],
   rootCauses: [
-    { id: "r1", icon: "LayoutDashboard", title: "缺统筹", desc: "无集团级AI算力平台、模型基座与统一数据治理体系，各自为战。" },
+    { id: "r1", icon: "LayoutDashboard", title: "缺统筹", desc: "无集团级模型基座与统一数据治理体系，各自为战。" },
     { id: "r2", icon: "BookX", title: "缺标准", desc: "各业务线智能体开发技术栈不统一，缺乏通用接口标准，重复造轮子。" },
     { id: "r3", icon: "Target", title: "缺抓手", desc: "缺少能快速验证价值、同时又能牵引长期架构规划的标杆示范项目。" },
   ],
@@ -459,7 +458,7 @@ function SlideCover() {
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-[radial-gradient(circle_at_20%_20%,rgba(239,68,68,0.14),transparent_40%)] px-4 py-10 text-center">
         <p className="text-5xl font-semibold leading-tight text-[#b91c1c] md:text-7xl">同仁堂集团</p>
         <h2 className="mx-auto mt-6 max-w-4xl px-2 text-sm font-medium leading-relaxed tracking-[0.12em] text-[#111827] md:text-base md:tracking-[0.18em]">
-          算力摸排与AI前瞻规划汇报
+          {REPORT_TITLE_MAIN}
         </h2>
         <p className="mt-8 rounded-full border border-[#fecaca] bg-[#fff1f2] px-8 py-2 text-xl text-[#7f1d1d]">2026.4</p>
       </div>
@@ -471,18 +470,18 @@ function SlideCatalog() {
   const agendas = [
     {
       index: "01",
-      title: "各二级单位摸排情况",
-      desc: "统一算力、统一数据、统一接口，先把重复建设和信息孤岛问题解决掉。",
+      title: "现状盘点与共性问题",
+      desc: "从组织、系统、数据三方面梳理当前基础，明确重复建设与信息孤岛。",
     },
     {
       index: "02",
-      title: "算力底座建设评估及集团管控边界",
-      desc: "底座建设的投资回报，模型部署方式，组织配套。",
+      title: "重点方案与管控边界",
+      desc: "围绕底座建设投入产出、分工边界和阶段目标形成统一方案。",
     },
     {
       index: "03",
-      title: "底座实施及应用构建路线图",
-      desc: "构建统一底座后集团公司AI推进路线",
+      title: "专题深化与交付落地",
+      desc: "围绕问药、问数、问策展开专题深化，并收口预算、ROI与实施节奏。",
     },
   ] as const;
 
@@ -528,14 +527,34 @@ function SlideCatalog() {
   );
 }
 
+function SlideChapter({
+  index,
+  title,
+  desc,
+}: {
+  index: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <SlideWrap>
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-[radial-gradient(circle_at_20%_20%,rgba(239,68,68,0.10),transparent_42%)] px-4 py-10 text-center">
+        <p className="inline-flex items-center rounded-full border border-[#fecaca] bg-[#fff1f2] px-4 py-1.5 text-xs font-semibold tracking-[0.16em] text-[#b91c1c] md:text-sm">
+          Chapter {index}
+        </p>
+        <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#111827] md:text-5xl">{title}</h2>
+        <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-[#64748b] md:text-base">{desc}</p>
+      </div>
+    </SlideWrap>
+  );
+}
+
 function SlideKnowledgeMatrix({
   scenario,
   draft,
-  onDraftChange,
 }: {
   scenario: ExecutiveScenarioItem;
   draft: ScenarioDraft;
-  onDraftChange: (field: keyof ScenarioDraft, value: string) => void;
 }) {
   const toPoints = (value: string, fallback: string) => {
     const points = value
@@ -573,6 +592,49 @@ function SlideKnowledgeMatrix({
             points: ["供应商策略变化可能影响迭代节奏和成本", "若 AI 与交互能力长期不提升，使用积极性会下降", "业务变化快，图谱更新跟不上会影响实用价值"],
           },
         ]
+      : scenario.id === 4
+        ? [
+            {
+              key: "S",
+              title: "优势",
+              tone: "border-emerald-200 bg-emerald-50",
+              points: [
+                "研究院已完成实机部署，形成可演示、可复盘的真实运行界面",
+                "已具备文档问答、知识解析、结构化表格输出等核心能力",
+                "对中药品种知识与功效说明的检索响应较快，可直接用于研发辅助",
+              ],
+            },
+            {
+              key: "W",
+              title: "短板",
+              tone: "border-amber-200 bg-amber-50",
+              points: [
+                "当前覆盖范围以已接入知识为主，跨系统数据联动仍有限",
+                "表格结果与结论仍需人工复核，尚未形成全自动闭环",
+                "实机能力已具备，但规模化接入与标准口径治理仍待完善",
+              ],
+            },
+            {
+              key: "O",
+              title: "机会",
+              tone: "border-sky-200 bg-sky-50",
+              points: [
+                "可与问药图谱能力和问数经营能力联动，形成研产销一体化分析",
+                "可扩展到药材研究、说明书生成、临床资料归纳等更多研发场景",
+                "可沉淀研究院标准知识资产，支撑内部培训与专家经验传承",
+              ],
+            },
+            {
+              key: "T",
+              title: "风险",
+              tone: "border-rose-200 bg-rose-50",
+              points: [
+                "若数据来源与更新机制不稳定，回答可信度会波动",
+                "若缺少统一质控流程，可能出现不同人员使用结果不一致",
+                "若仅停留在演示层面，难以转化为可量化的研发提效成果",
+              ],
+            },
+          ]
       : [
           {
             key: "S",
@@ -616,6 +678,21 @@ function SlideKnowledgeMatrix({
             points: ["党建业务融合", "海量数据库管理", "线上知识索引", "线下购药承接"],
           },
         ]
+      : scenario.id === 4
+        ? [
+            {
+              title: "实机能力验证",
+              points: ["同仁堂品种融合信息库助手运行稳定", "支持自然语言问答与长文本解析", "支持结构化表格输出（药品名称/功效主治/适用症状）"],
+            },
+            {
+              title: "当前业务价值",
+              points: ["研发资料检索与梳理效率提升", "复杂资料由“手工翻阅”转为“智能归纳”", "专家经验可沉淀为可复用知识资产"],
+            },
+            {
+              title: "下一步建设重点",
+              points: ["接入更多研究文献与药材实验数据", "建立标准化质控与口径校验流程", "打通问药与问数数据，形成策略级洞察支撑"],
+            },
+          ]
       : [
           {
             title: "现状补充",
@@ -649,6 +726,23 @@ function SlideKnowledgeMatrix({
                 />
                 <div className="pointer-events-none absolute inset-x-2 bottom-2 rounded-md bg-black/55 px-2 py-1 text-[11px] text-white">
                   工业显微镜核心演示窗口
+                </div>
+              </div>
+            ) : scenario.id === 4 ? (
+              <div className="h-full w-full overflow-y-auto p-3">
+                <div className="grid gap-3 md:grid-cols-2">
+                  {[
+                    { src: "/research-lab-1.png", caption: "实机首页：中药信息助手入口与会话区域" },
+                    { src: "/research-lab-2.png", caption: "能力验证：针对药品提出问题并返回详细解析" },
+                    { src: "/research-lab-3.png", caption: "结构化输出：自动生成药品功效与适应症对照表" },
+                  ].map((item) => (
+                    <article key={item.src} className="overflow-hidden rounded-lg border border-[#e5e7eb] bg-white">
+                      <div className="relative h-44 w-full bg-slate-50">
+                        <Image src={item.src} alt={item.caption} fill unoptimized className="object-cover object-top" />
+                      </div>
+                      <p className="px-2 py-1.5 text-[11px] leading-relaxed text-[#4b5563]">{item.caption}</p>
+                    </article>
+                  ))}
                 </div>
               </div>
             ) : (
@@ -690,47 +784,6 @@ function SlideKnowledgeMatrix({
           ))}
         </div>
       </div>
-      <div className="mt-4 rounded-2xl border border-[#e5e7eb] bg-white p-4">
-        <p className="text-base font-semibold text-[#111827]">素材输入区（你来补充）</p>
-        <div className="mt-3 grid gap-3 md:grid-cols-2">
-          <textarea
-            value={draft.background}
-            onChange={(e) => onDraftChange("background", e.target.value)}
-            placeholder="现状背景（例如：当前系统现状、业务痛点、依赖情况）"
-            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
-          />
-          <textarea
-            value={draft.strengths}
-            onChange={(e) => onDraftChange("strengths", e.target.value)}
-            placeholder="优势补充（你认为最有价值的2-3点）"
-            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
-          />
-          <textarea
-            value={draft.weaknesses}
-            onChange={(e) => onDraftChange("weaknesses", e.target.value)}
-            placeholder="短板/问题补充（当前做不到或效果不好的点）"
-            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
-          />
-          <textarea
-            value={draft.opportunities}
-            onChange={(e) => onDraftChange("opportunities", e.target.value)}
-            placeholder="机会补充（下一步可快速放大的方向）"
-            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
-          />
-          <textarea
-            value={draft.risks}
-            onChange={(e) => onDraftChange("risks", e.target.value)}
-            placeholder="风险补充（你最担心的问题）"
-            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
-          />
-          <textarea
-            value={draft.matrixNotes}
-            onChange={(e) => onDraftChange("matrixNotes", e.target.value)}
-            placeholder="功能矩阵补充（需要保留/删除/新增的功能点）"
-            className="min-h-[88px] rounded-xl border border-[#e5e7eb] bg-[#f9fafb] p-3 text-sm text-[#111827] outline-none transition focus:border-blue-300 focus:bg-white"
-          />
-        </div>
-      </div>
     </SlideWrap>
   );
 }
@@ -742,15 +795,15 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
     group_company: { sectionTitle: string; sectionSubtitle: string; items: ExecutiveScenarioItem[] };
   } = {
     secondary_units: {
-      sectionTitle: "场景池（单位申报，集团评审）",
-      sectionSubtitle: "每个场景必须绑定责任人、里程碑和验收指标，纳入季度经营复盘",
+      sectionTitle: "场景池（各二级单位）",
+      sectionSubtitle: "已开展场景详情，未开展场景需求摸排",
       items: [
-        { id: 1, title: "AI工业显微镜识别", timeline: "2026Q3 上线", category: "视觉AI", desc: "实验过程自动寻找有效成分，拍照 AI 形成范式报告", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "股份公司工装部", metric: "识别准确率 >= 95%" },
-        { id: 2, title: "AI现场生产安全预警", timeline: "2026Q4 试运行", category: "视觉AI", desc: "图像识别 + SOP 动作检测，形成实时预警闭环", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "股份公司安全保障部", metric: "高风险动作漏检率 <= 5%" },
+        { id: 1, title: "工业显微镜识别", timeline: "2026Q3 上线", category: "视觉识别", desc: "实验过程自动识别有效成分，拍照后快速形成标准报告模板", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "股份公司工装部", metric: "识别准确率 >= 95%" },
+        { id: 2, title: "现场生产安全预警", timeline: "2026Q4 试运行", category: "视觉识别", desc: "图像识别 + SOP 动作检测，形成实时预警闭环", hardware: "NVIDIA GeForce RTX4080 32G * 8", status: "planning", owner: "股份公司安全保障部", metric: "高风险动作漏检率 <= 5%" },
         { id: 3, title: "财务智能大数据分析", timeline: "2026Q3 交付", category: "大数据分析", desc: "海量财务数据整理、分析与预测，支撑预算与审计协同", hardware: "海光 DCU K100 AI 64G PCIe", status: "upcoming", owner: "股份公司财务部", metric: "月结周期缩短 >= 30%" },
-        { id: 4, title: "药物研发发现", timeline: "2026Q4 扩容", category: "研发大模型", desc: "支撑文献分类、说明书信息抽取与政策问答等研发任务", hardware: "NVIDIA L20 48G * 8 (有拓展需求)", status: "ongoing", owner: "研究院", metric: "研发检索耗时下降 >= 40%" },
+        { id: 4, title: "药物研发发现", timeline: "2026Q4 扩容", category: "研发分析", desc: "支撑文献分类、说明书信息抽取与政策问答等研发任务", hardware: "NVIDIA L20 48G * 8 (有拓展需求)", status: "ongoing", owner: "研究院", metric: "研发检索耗时下降 >= 40%" },
         { id: 6, title: "股份公司智小谱", timeline: "2026Q2 优化", category: "企业知识库", desc: "产品数据知识问答、党建宣传展示与门店知识触达", hardware: "华为昇腾910B 32GB * 8", status: "ongoing", owner: "股份公司", metric: "首问命中率 >= 85%" },
-        { id: 7, title: "商业公司辅助诊疗系统", timeline: "2026Q4 评估", category: "医疗大模型", desc: "沉淀名老中医经验，实现同病不同证/同证不同方辅助建议", hardware: "NVIDIA A100 80G * 8", status: "core", owner: "商业公司", metric: "知识复用率 >= 70%" },
+        { id: 7, title: "商业公司辅助诊疗系统", timeline: "2026Q4 评估", category: "医疗决策支持", desc: "沉淀名老中医经验，实现同病不同证/同证不同方辅助建议", hardware: "NVIDIA A100 80G * 8", status: "core", owner: "商业公司", metric: "知识复用率 >= 70%" },
       ],
     },
     group_company: {
@@ -759,7 +812,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
       items: [
         {
           id: 5,
-          title: "问药智能体",
+          title: "问药专题",
           timeline: "2026Q3 上线",
           category: "问药",
           desc: "以 Neo4J 图谱数据与文本数据为底座，提供可追溯、可审核的产品问答，当前落地难度相对可控。",
@@ -770,10 +823,10 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
         },
         {
           id: 8,
-          title: "问数智能体",
+          title: "问数专题",
           timeline: "2026Q4 验收",
           category: "问数",
-          desc: "数据来源以系统底表、数据库与 BI 数据为主，依赖 Text2SQL 做转译分析；该方向仍是业界卡点，普通 LLM 难以直接处理大规模结构化数据。",
+          desc: "数据来源以系统底表、数据库与 BI 数据为主，依赖语义转 SQL 做转译分析；该方向仍是业界卡点，通用语言模型难以直接处理大规模结构化数据。",
           hardware: "集团统筹算力",
           status: "core",
           owner: "集团公司",
@@ -781,7 +834,7 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
         },
         {
           id: 9,
-          title: "问策智能体",
+          title: "问策专题",
           timeline: "2026Q4 验收",
           category: "问策",
           desc: "本质是结合“人、事、物”与问数结果，形成商业、政治与高层洞察，建设难度和复杂度均高于问药与问数。",
@@ -804,13 +857,13 @@ function SlideFiveExecutive({ onOpenKnowledgeMatrix }: { onOpenKnowledgeMatrix?:
     core: "bg-rose-500",
   };
   const categoryStyle: Record<string, string> = {
-    视觉AI: "bg-blue-100 text-blue-700",
+    视觉识别: "bg-blue-100 text-blue-700",
     大数据分析: "bg-purple-100 text-purple-700",
-    研发大模型: "bg-pink-100 text-pink-700",
-    营销AI: "bg-orange-100 text-orange-700",
+    研发分析: "bg-pink-100 text-pink-700",
+    营销策略: "bg-orange-100 text-orange-700",
     企业知识库: "bg-green-100 text-green-700",
-    医疗大模型: "bg-red-100 text-red-700",
-    策略大模型: "bg-rose-100 text-rose-700",
+    医疗决策支持: "bg-red-100 text-red-700",
+    策略分析: "bg-rose-100 text-rose-700",
     问药: "bg-rose-100 text-rose-700",
     问数: "bg-sky-100 text-sky-700",
     问策: "bg-violet-100 text-violet-700",
@@ -2258,7 +2311,7 @@ function SlideGovernanceBoundary() {
   const [activeLayerId, setActiveLayerId] = useState<string | null>(null);
   const boundaryData = {
     header: {
-      title: "集团做底座，业务做场景，分工要一次说清",
+      title: "集团搭平台，业务做场景，分工要一次说清",
       subtitle: "统一平台和标准接口，业务专注场景价值，避免重复造轮子",
     },
     architecture: [
@@ -2353,7 +2406,6 @@ function SlideGovernanceBoundary() {
       <div className="min-h-full overflow-y-auto">
         <div className="border-b border-[#e5e7eb] pb-4">
           <h3 className="text-center text-2xl font-bold text-[#111827] md:text-3xl">{boundaryData.header.title}</h3>
-          <p className="mt-2 text-sm text-[#6b7280]">{boundaryData.header.subtitle}</p>
         </div>
 
         <section className="mt-4 grid gap-3 rounded-2xl border border-[#e5e7eb] bg-white p-4 md:grid-cols-[1fr_auto_1fr] md:items-stretch">
@@ -2699,7 +2751,7 @@ function SlidePainBridgeBoard() {
         <section className="mt-6 rounded-3xl border border-[#e5e7eb] bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-5">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
-              <h4 className="text-xl font-semibold text-[#111827]">认知分界线 · 数字化转型深水区</h4>
+              <h4 className="text-xl font-semibold text-[#111827]">AI建设情况显性及隐形问题</h4>
               <p className="mt-1 text-sm text-[#6b7280]">表层症状若不追溯到底层根因，投入将持续分散、难以复用</p>
             </div>
             <span className="rounded-full border border-[#fecaca] bg-[#fff1f2] px-3 py-1 text-xs font-semibold text-[#b91c1c]">
@@ -3021,6 +3073,9 @@ function SlideById({
   if (slide.slide_id === 1407) return <ImplementationRoadmapAndRoiSlide />;
   if (slide.slide_id === 1) return <SlideCover />;
   if (slide.slide_id === 2) return <SlideCatalog />;
+  if (slide.slide_id === 2001) return <SlideChapter index="01" title="现状盘点与共性问题" desc="先统一认知：从场景池到痛点与愿景，再明确集团管控边界。" />;
+  if (slide.slide_id === 2002) return <SlideChapter index="02" title="重点方案与管控边界" desc="讲清怎么做：从算力投入与底座建设，到应用蓝图与组织方法，形成可执行路线。" />;
+  if (slide.slide_id === 2003) return <SlideChapter index="03" title="专题深化与交付落地" desc="先总后分：总图领衔，再下钻问药、问数、问策，最后收口预算与ROI。" />;
   if (slide.slide_id === 401) return <SlideDivisionAndInterfaceSplit />;
   if (slide.slide_id === 5) return <SlideFiveExecutive onOpenKnowledgeMatrix={onOpenKnowledgeMatrix} />;
   if (slide.slide_id === 701) return <SlidePainBridgeBoard />;
@@ -3065,7 +3120,7 @@ export default function Home() {
   const [isStrategicDragging, setIsStrategicDragging] = useState(false);
   const [strategicPage, setStrategicPage] = useState(0);
   const isBrowser = useSyncExternalStore(subscribeNoop, snapshotTrue, snapshotFalse);
-  const hiddenSlideIds = new Set([8, 703]);
+  const hiddenSlideIds = new Set([8]);
   const emptyScenarioDraft: ScenarioDraft = {
     background: "",
     strengths: "",
@@ -3091,6 +3146,14 @@ export default function Home() {
       risks: "若现场数据质量不稳定，会影响预警准确率；多系统接入阶段存在联调风险。",
       matrixNotes: "视频流识别；SOP动作检测；违规行为告警；告警分级；联动中台派单；事件复盘看板。",
     },
+    4: {
+      background: "研究院已完成实机部署，同仁堂品种融合信息库 AI 智能助手可稳定运行，已支持问答、文档解析与结构化结果输出。",
+      strengths: "实机效果可展示；知识问答与表格输出能力已跑通；能直接服务研发资料检索与归纳。",
+      weaknesses: "跨系统数据联动不足；自动结论仍需人工复核；规模化口径治理机制待完善。",
+      opportunities: "可打通问药药品数据与问数经营数据；可扩展到药材研究与说明书生成；可沉淀研究院标准知识资产。",
+      risks: "数据更新不及时会影响回答质量；缺少统一质控会造成口径不一致；若不进入业务流程则难形成可量化收益。",
+      matrixNotes: "实机问答；文档上传解析；结构化表格输出；知识资产沉淀；人工复核质控；与问药问数联动。",
+    },
   };
   const [scenarioDrafts, setScenarioDrafts] = useState<Record<number, ScenarioDraft>>(scenarioDraftTemplates);
 
@@ -3106,29 +3169,19 @@ export default function Home() {
     );
   };
 
-  const handleDraftChange = (scenarioId: number, field: keyof ScenarioDraft, value: string) => {
-    setScenarioDrafts((prev) => ({
-      ...prev,
-      [scenarioId]: {
-        ...(prev[scenarioId] ?? emptyScenarioDraft),
-        [field]: value,
-      },
-    }));
-  };
-
   useEffect(() => {
     const controller = new AbortController();
     const fallback: LayoutPayload = defaultLayoutData;
 
     const timer = window.setTimeout(() => {
       controller.abort();
-      setData((prev) => prev ?? fallback);
+      setData(fallback);
     }, 6000);
 
     fetch("/ppt-layout/layout.json", { signal: controller.signal })
       .then((res) => (res.ok ? (res.json() as Promise<LayoutPayload>) : fallback))
       .then((json) => setData(json))
-      .catch(() => setData((prev) => prev ?? fallback))
+      .catch(() => setData(fallback))
       .finally(() => window.clearTimeout(timer));
 
     return () => {
@@ -3157,23 +3210,29 @@ export default function Home() {
     }
   }, [showFullVersion, isBrowser]);
 
-  const visibleSlidesRaw = data.slides
-    .filter((slide) => slide.slide_id !== 4 && slide.slide_id !== 6 && slide.slide_id !== 9)
-    .flatMap((slide) => {
-      if (slide.slide_id === 5) return [slide, { slide_id: 1101, elements: [] }];
-      if (slide.slide_id === 11) return [{ slide_id: 1099, elements: [] }, { slide_id: 1100, elements: [] }];
-      if (slide.slide_id === 7)
-        return [{ slide_id: 701, elements: [] }, { slide_id: 703, elements: [] }, { slide_id: 704, elements: [] }];
-      if (slide.slide_id === 13)
-        return [{ slide_id: 1298, elements: [] }, slide, { slide_id: 1299, elements: [] }, { slide_id: 1301, elements: [] }, { slide_id: 1399, elements: [] }];
-      return [slide];
-    })
-    .filter((slide) => showFullVersion || !hiddenSlideIds.has(slide.slide_id))
-    .filter((slide) => slide.slide_id !== 3 && slide.slide_id !== 7 && slide.slide_id !== 10 && slide.slide_id !== 11);
-
+  const baseExcludedSlideIds = new Set([4, 6, 9]);
+  const removedFromMainlineSlideIds = new Set([3, 7, 10, 11]);
   const strategicFlowOrder = [1099, 1101, 1298, 13, 1299, 12, 1301, 1100] as const;
+  const painVisionOrder = [701, 703] as const;
+  const tailSlideIds = [1403, 1400, 1401, 1402, 1404, 1405, 1406, 1407] as const;
+  const slideExpansionRules: Record<number, (slide: LayoutSlide) => LayoutSlide[]> = {
+    5: (slide) => [slide, { slide_id: 1101, elements: [] }],
+    7: () => [{ slide_id: 701, elements: [] }, { slide_id: 703, elements: [] }, { slide_id: 704, elements: [] }],
+    11: () => [{ slide_id: 1099, elements: [] }, { slide_id: 1100, elements: [] }],
+    13: (slide) => [{ slide_id: 1298, elements: [] }, slide, { slide_id: 1299, elements: [] }, { slide_id: 1301, elements: [] }, { slide_id: 1399, elements: [] }],
+  };
+
+  const visibleSlidesRaw = data.slides
+    .filter((slide) => !baseExcludedSlideIds.has(slide.slide_id))
+    .flatMap((slide) => (slideExpansionRules[slide.slide_id] ? slideExpansionRules[slide.slide_id](slide) : [slide]))
+    .filter((slide) => showFullVersion || !hiddenSlideIds.has(slide.slide_id))
+    .filter((slide) => !removedFromMainlineSlideIds.has(slide.slide_id));
+
   const strategicFlowSet = new Set<number>(strategicFlowOrder);
   const strategicFlowSlides = strategicFlowOrder
+    .map((id) => visibleSlidesRaw.find((slide) => slide.slide_id === id))
+    .filter((slide): slide is LayoutSlide => Boolean(slide));
+  const painVisionSlides = painVisionOrder
     .map((id) => visibleSlidesRaw.find((slide) => slide.slide_id === id))
     .filter((slide): slide is LayoutSlide => Boolean(slide));
   const nonStrategicSlides = visibleSlidesRaw.filter((slide) => !strategicFlowSet.has(slide.slide_id));
@@ -3234,8 +3293,29 @@ export default function Home() {
     }
   };
 
-  const renderSingleSlideSection = (slide: LayoutSlide) => {
+  const renderSlideContent = (slide: LayoutSlide) => {
     const shellBleed = slideShellBleedIds.has(slide.slide_id);
+    const shellWhite = slideShellWhiteIds.has(slide.slide_id);
+    return (
+      <div
+        className={[
+          "flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
+          shellBleed ? "p-0" : "p-4 md:p-6",
+          shellWhite ? "bg-white" : "bg-[#fcfcfd]",
+        ].join(" ")}
+      >
+        <div className="flex min-h-0 flex-1 flex-col">
+          <SlideById
+            slide={slide}
+            showFullVersion={showFullVersion}
+            onOpenKnowledgeMatrix={handleOpenScenarioDetail}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const renderSingleSlideSection = (slide: LayoutSlide) => {
     const shellWhite = slideShellWhiteIds.has(slide.slide_id);
     return (
       <section
@@ -3250,20 +3330,7 @@ export default function Home() {
         <div className="report-corner-logo pointer-events-none absolute right-3 top-3 z-20 h-16 w-16 md:h-20 md:w-20">
           <Image src="/brand/trt-logo.png" alt="" fill unoptimized className="object-contain" aria-hidden />
         </div>
-        <div
-          className={[
-            "flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
-            shellBleed ? "p-0" : "p-4 md:p-6",
-          ].join(" ")}
-        >
-          <div className="flex min-h-0 flex-1 flex-col">
-            <SlideById
-              slide={slide}
-              showFullVersion={showFullVersion}
-              onOpenKnowledgeMatrix={handleOpenScenarioDetail}
-            />
-          </div>
-        </div>
+        {renderSlideContent(slide)}
       </section>
     );
   };
@@ -3273,7 +3340,6 @@ export default function Home() {
     return (
       <section
         key="strategic-flow-slider"
-        data-report-slide="strategic-flow"
         className="relative mx-auto mb-5 flex max-w-7xl snap-start flex-col overflow-hidden rounded-[1.6rem] border border-[#e8eaed] bg-[#fcfcfd] shadow-[0_20px_60px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/[0.03] md:mb-6 min-h-[calc(100vh-6.5rem)]"
       >
         <div className="report-corner-logo pointer-events-none absolute right-3 top-3 z-20 h-16 w-16 md:h-20 md:w-20">
@@ -3295,25 +3361,9 @@ export default function Home() {
           style={{ touchAction: "pan-x" }}
         >
           {strategicFlowSlides.map((slide) => {
-            const shellBleed = slideShellBleedIds.has(slide.slide_id);
-            const shellWhite = slideShellWhiteIds.has(slide.slide_id);
             return (
-              <article key={slide.slide_id} className="flex min-h-0 min-w-full snap-start flex-col overflow-y-auto">
-                <div
-                  className={[
-                    "flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
-                    shellWhite ? "bg-white" : "bg-[#fcfcfd]",
-                    shellBleed ? "p-0" : "p-4 md:p-6",
-                  ].join(" ")}
-                >
-                  <div className="flex min-h-0 flex-1 flex-col">
-                    <SlideById
-                      slide={slide}
-                      showFullVersion={showFullVersion}
-                      onOpenKnowledgeMatrix={handleOpenScenarioDetail}
-                    />
-                  </div>
-                </div>
+              <article key={slide.slide_id} data-report-slide={slide.slide_id} className="flex min-h-0 min-w-full snap-start flex-col overflow-y-auto">
+                {renderSlideContent(slide)}
               </article>
             );
           })}
@@ -3322,28 +3372,54 @@ export default function Home() {
     );
   };
 
-  const renderedSections: React.ReactNode[] = [
-    renderSingleSlideSection({ slide_id: 1400, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1401, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1402, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1403, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1404, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1405, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1406, elements: [] }),
-    renderSingleSlideSection({ slide_id: 1407, elements: [] }),
-  ];
-  if (showFullVersion) {
-    for (let i = 0; i < nonStrategicWithoutClosing.length; i += 1) {
-      const current = nonStrategicWithoutClosing[i];
-      renderedSections.push(renderSingleSlideSection(current));
-    }
-    if (strategicFlowSlides.length > 0) {
-      renderedSections.push(renderStrategicFlowSection());
-    }
-    if (closingSlide) {
-      renderedSections.push(renderSingleSlideSection(closingSlide));
-    }
+  const renderPainVisionSection = () => {
+    if (painVisionSlides.length === 0) return null;
+    return (
+      <section
+        key="pain-vision-slider"
+        className="relative mx-auto mb-5 flex max-w-7xl snap-start flex-col overflow-hidden rounded-[1.6rem] border border-[#e8eaed] bg-[#fcfcfd] shadow-[0_20px_60px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/[0.03] md:mb-6 min-h-[calc(100vh-6.5rem)]"
+      >
+        <div className="report-corner-logo pointer-events-none absolute right-3 top-3 z-20 h-16 w-16 md:h-20 md:w-20">
+          <Image src="/brand/trt-logo.png" alt="" fill unoptimized className="object-contain" aria-hidden />
+        </div>
+        <div
+          className="flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{ touchAction: "pan-x" }}
+        >
+          {painVisionSlides.map((slide) => (
+            <article key={slide.slide_id} data-report-slide={slide.slide_id} className="flex min-h-0 min-w-full snap-start flex-col overflow-y-auto">
+              {renderSlideContent(slide)}
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  };
+
+  const tailSlides: LayoutSlide[] = tailSlideIds.map((id) => ({ slide_id: id, elements: [] }));
+  const nonStrategicSlideMap = new Map<number, LayoutSlide>(nonStrategicWithoutClosing.map((slide) => [slide.slide_id, slide]));
+  const renderedSections: React.ReactNode[] = [];
+  const pushNonStrategicSlide = (id: number) => {
+    const slide = nonStrategicSlideMap.get(id);
+    if (slide) renderedSections.push(renderSingleSlideSection(slide));
+  };
+
+  pushNonStrategicSlide(1);
+  pushNonStrategicSlide(2);
+  renderedSections.push(renderSingleSlideSection({ slide_id: 2001, elements: [] }));
+  pushNonStrategicSlide(5);
+  if (painVisionSlides.length > 0) renderedSections.push(renderPainVisionSection());
+
+  renderedSections.push(renderSingleSlideSection({ slide_id: 2002, elements: [] }));
+  pushNonStrategicSlide(704);
+  if (strategicFlowSlides.length > 0) renderedSections.push(renderStrategicFlowSection());
+  pushNonStrategicSlide(8);
+
+  renderedSections.push(renderSingleSlideSection({ slide_id: 2003, elements: [] }));
+  for (let i = 0; i < tailSlides.length; i += 1) {
+    renderedSections.push(renderSingleSlideSection(tailSlides[i]));
   }
+  if (closingSlide) renderedSections.push(renderSingleSlideSection(closingSlide));
 
   return (
     <main className="report-root min-h-screen bg-[#f5f6f8] text-[#111827]">
@@ -3360,7 +3436,7 @@ export default function Home() {
             </div>
             <div className="min-w-0">
               <h1 className="text-base font-semibold leading-snug tracking-tight text-[#111827] md:text-lg lg:text-xl">
-                同仁堂集团算力摸排与AI前瞻规划汇报
+                {REPORT_TITLE_FULL}
               </h1>
             </div>
           </div>
@@ -3412,7 +3488,6 @@ export default function Home() {
                   <SlideKnowledgeMatrix
                     scenario={activeScenario}
                     draft={scenarioDrafts[activeScenario.id] ?? emptyScenarioDraft}
-                    onDraftChange={(field, value) => handleDraftChange(activeScenario.id, field, value)}
                   />
                 </div>
               </div>

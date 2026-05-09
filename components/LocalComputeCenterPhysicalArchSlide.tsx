@@ -5,7 +5,7 @@ import { BadgeAlert, Building2, Cpu, Database, Network, Server, ShieldCheck } fr
 const physicalArchData = {
   title: "云网一体：本地化算力中心物理架构",
   subtitle: "弱化参数堆叠，强化安全、集约与可持续运营能力",
-  corePositioning: "筑牢集团自主可控的数智化基座，打造 AI 时代的“水电煤”。",
+  corePositioning: "筑牢集团自主可控的数智化基座，打造经营数字化的“水电煤”。",
   layers: [
     {
       id: "room",
@@ -22,7 +22,7 @@ const physicalArchData = {
     {
       id: "dispatch",
       title: "调度平台层",
-      desc: "AI PaaS 平台实现多型号显卡异构纳管与算力切片分配。",
+      desc: "统一调度平台实现多型号显卡异构纳管与算力切片分配。",
       tone: "violet" as const,
     },
   ],

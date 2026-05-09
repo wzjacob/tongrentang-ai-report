@@ -4,7 +4,7 @@ import { BadgeDollarSign, Coins, Database, HardDrive, Server, ShieldCheck, Wrenc
 
 const budgetData = {
   title: "整体投资预算：控制在 100 万元以内",
-  subtitle: "秉持‘重资产、抱开源、买服务’的极简建设策略，打造高性价比私有大脑",
+  subtitle: "秉持‘重资产、抱开源、买服务’的极简建设策略，打造高性价比数字化底座",
   costColumns: [
     {
       title: "硬件资产保底",
@@ -24,11 +24,11 @@ const budgetData = {
       tone: "emerald" as const,
     },
     {
-      title: "AI编排中台及技术共创",
+      title: "业务中枢实施与技术共创",
       amount: "约 25 万",
       desc: "购买专业团队技术落地",
       items: [
-        "AI 编排中台落地：完成 Dify/ThinkingAI 工作流、权限策略与业务系统嵌入集成",
+        "业务中枢落地：完成 Dify/ThinkingAI 工作流、权限策略与业务系统嵌入集成",
         "四层链路打通实施：管控层 × 模型算力层 × 数据填入层 × 数据底座层一体联调",
       ],
       tone: "blue" as const,

@@ -3,12 +3,12 @@
 import { BarChart3, CalendarClock, LineChart, Rocket, ShieldCheck, TrendingUp } from "lucide-react";
 
 const roadmapData = {
-  title: "十五五初期：三个月破局，六个月成军的实施路线图",
+  title: "十五五初期：三个月破局、六个月成型的实施路线图",
   phases: [
     {
       range: "第 1-2 个月",
       title: "基建搭建与首战",
-      desc: "完成本地算力就绪与 AI 编排中台统建；“问药”智能体率先上线验证。",
+      desc: "完成本地算力就绪与业务中枢统建；“问药”专题率先上线验证。",
       tag: "问药上线",
       start: 1,
       end: 2,
@@ -17,7 +17,7 @@ const roadmapData = {
     {
       range: "第 3-4 个月",
       title: "数据融合与深水区",
-      desc: "打通主数据只读视图，完成语义转 SQL 微调，“问数”上线。",
+      desc: "打通主数据只读视图，完成语义转 SQL 优化，“问数”专题上线。",
       tag: "问数上线",
       start: 3,
       end: 4,
@@ -26,7 +26,7 @@ const roadmapData = {
     {
       range: "第 5-6 个月",
       title: "全栈协同",
-      desc: "门店外部数据汇聚，多 Agent 流水线跑通，“问策”全面上线。",
+      desc: "门店外部数据汇聚，多角色协同流程跑通，“问策”专题全面上线。",
       tag: "问策上线",
       start: 5,
       end: 6,

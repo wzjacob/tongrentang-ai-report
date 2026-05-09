@@ -6,9 +6,9 @@ type VisibleM = { id: string; title: string; desc: string; x: number; y: number 
 type HiddenM = VisibleM & { solution: string };
 
 const VISIBLE: VisibleM[] = [
-  { id: "v1", title: "人效遭遇瓶颈", desc: "一线门店药师服务标准不一，人工培训周期长、成本高昂", x: 14, y: 18 },
-  { id: "v2", title: "合规与质检盲区", desc: "传统抽检覆盖率低，飞检合规风险难以做到100%实时把控", x: 50, y: 12 },
-  { id: "v3", title: "营销同质化严重", desc: "缺乏精准的用户触达手段，营销转化率遭遇天花板", x: 86, y: 22 },
+  { id: "v1", title: "人效遭遇瓶颈", desc: "一线门店药师服务标准不一，人工培训周期长、成本高昂", x: 18, y: 14 },
+  { id: "v2", title: "合规与质检盲区", desc: "传统抽检覆盖率低，飞检合规风险难以做到100%实时把控", x: 50, y: 10 },
+  { id: "v3", title: "营销同质化严重", desc: "缺乏精准的用户触达手段，营销转化率遭遇天花板", x: 82, y: 18 },
 ];
 
 const HIDDEN: HiddenM[] = [
@@ -17,8 +17,8 @@ const HIDDEN: HiddenM[] = [
     title: "核心经验断层 (知识流失)",
     desc: "名老中医的宝贵诊疗经验难以被结构化、数字化传承与复用",
     solution: "需引入 RAG 与大模型进行知识蒸馏",
-    x: 18,
-    y: 58,
+    x: 20,
+    y: 74,
   },
   {
     id: "h2",
@@ -26,15 +26,15 @@ const HIDDEN: HiddenM[] = [
     desc: "各业务线系统独立运作，缺乏统揽全局的大数据分析大脑",
     solution: "需构建统一数据中台与智能分析引擎",
     x: 52,
-    y: 72,
+    y: 80,
   },
   {
     id: "h3",
     title: "底层算力分散 (IT负债)",
     desc: "烟囱式 IT 建设导致异构硬件繁杂，算力资源闲置与复用率极低",
     solution: "需集团统建同构算力底座",
-    x: 82,
-    y: 62,
+    x: 80,
+    y: 74,
   },
 ];
 
@@ -78,15 +78,15 @@ function MarkerPanel({
   const isHidden = tier === "hidden";
   const pos =
     placement === "below"
-      ? "left-1/2 top-[calc(50%+18px)] -translate-x-1/2"
-      : "left-1/2 bottom-[calc(50%+18px)] -translate-x-1/2";
+      ? "left-1/2 top-[calc(50%+14px)] -translate-x-1/2"
+      : "left-1/2 bottom-[calc(50%+14px)] -translate-x-1/2";
 
   return (
     <div
-      className={`pointer-events-none absolute z-20 w-[min(220px,46vw)] md:w-[238px] ${pos}`}
+      className={`pointer-events-none absolute z-20 w-[min(196px,40vw)] md:w-[208px] ${pos}`}
     >
       <div
-        className={`pointer-events-auto rounded-2xl border px-3 py-2.5 shadow-lg transition-all duration-300 md:px-4 md:py-3 ${
+        className={`pointer-events-auto rounded-2xl border px-3 py-2 shadow-lg transition-all duration-300 md:px-3.5 md:py-2.5 ${
           active ? "scale-[1.02] shadow-xl" : "shadow-md"
         } ${
           isHidden
@@ -122,7 +122,7 @@ export default function IcebergFlatIllustration() {
 
   return (
     <div className="relative mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-[#e5e7eb] bg-[#fcfcfd] shadow-[0_10px_40px_-18px_rgba(15,23,42,0.12)]">
-      <div className="relative aspect-[1200/680] w-full min-h-[300px] md:min-h-[380px]">
+      <div className="relative aspect-[1200/760] w-full min-h-[340px] md:min-h-[420px]">
         <svg
           className="iceberg-2d-float absolute inset-0 h-full w-full select-none"
           viewBox="0 0 1200 680"

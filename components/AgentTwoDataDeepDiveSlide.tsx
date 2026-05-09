@@ -4,8 +4,8 @@ import { AlertTriangle, ArrowRight, BarChart3, Cpu, Database, DatabaseZap, LineC
 import { Bar, BarChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const dataDeepDive = {
-  title: "智能体二：问数",
-  subtitle: "基于业务主数据与语义转 SQL 技术，消除报表时差的对话式分析引擎",
+  title: "专题二：经营问数",
+  subtitle: "基于业务主数据与语义转 SQL 技术，形成可追问、可下钻的经营分析能力",
   leftPanel: {
     title: "数据来源",
     items: [
@@ -16,13 +16,18 @@ const dataDeepDive = {
         desc: "不直连生产库，构建【只读安全视图】，确保底层生产系统绝对安全",
         color: "rose" as const,
       },
+      {
+        name: "预留其他系统数据库接口",
+        desc: "预留跨系统数据库接入口，支持后续持续发掘更多经营数据价值。",
+        color: "slate" as const,
+      },
     ],
   },
   rightPanel: {
     tech: {
-      title: "实现路径：语义转 SQL 与领域微调",
-      desc: "自然语言实时转化为 SQL 脚本，在安全沙箱内执行并动态渲染图表，告别固定维度 BI 报表。",
-      compactDesc: "自然语言转 SQL，安全沙箱执行并即时图表化呈现。",
+      title: "实现路径：语义转 SQL 与口径治理",
+      desc: "将业务问题实时转化为可执行 SQL，在安全沙箱内运行并输出图表，减少固定报表的时滞。",
+      compactDesc: "语义转 SQL + 口径治理，实现经营数据即问即得。",
     },
     features: [
       { title: "自然语言即时查询", desc: "无需 IT 排期，语音输入“本月各战区毛利对比”即刻生成图表", compactDesc: "自然语言即问即查，即时出图。" },
@@ -31,12 +36,12 @@ const dataDeepDive = {
     ],
   },
   delivery: {
-    title: "中台关联逻辑与场景落地",
+    title: "流程关联与场景落地",
     links: [
-      "编排中台 -> 管控层：通过 RBAC 对指标、组织、敏感字段做分级可见与调用审计。",
-      "编排中台 -> 数据底座层：基于主数据安全视图生成语义层，降低 SQL 幻觉与越权查询。",
-      "编排中台 -> 模型算力层：语义转 SQL 任务调用本地模型，复杂分析自动切换高性能算力。",
-      "编排中台 -> 数据底座层：统一纳管指标口径与维度映射，确保跨系统分析结果一致。",
+      "业务中枢 -> 管控层：通过 RBAC 对指标、组织、敏感字段做分级可见与调用审计。",
+      "业务中枢 -> 数据底座层：基于主数据安全视图生成语义层，降低误查与越权查询。",
+      "业务中枢 -> 计算资源层：语义转 SQL 任务按复杂度分配资源，保障稳定响应。",
+      "业务中枢 -> 数据底座层：统一纳管指标口径与维度映射，确保跨系统分析结果一致。",
     ],
     scenes: [
       "经营晨会快问：管理层及时查询财务、经营等BI数据。",
@@ -95,7 +100,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <p className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#0284c7]">
-            智能体 02 · 问数深度剖析
+            专题 02 · 经营问数
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{dataDeepDive.title}</h2>
           <p className="mx-auto mt-3 max-w-4xl text-sm leading-relaxed text-[#64748b] md:text-base">{dataDeepDive.subtitle}</p>
@@ -174,7 +179,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
           <h3 className="text-lg font-semibold text-[#111827]">{dataDeepDive.delivery.title}</h3>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">底层逻辑映射</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">流程关联图</p>
               <div className="mt-2 rounded-2xl border border-sky-100 bg-sky-50/40 p-3">
                 {dataDeepDive.delivery.links.map((item, idx) => {
                   const [flow, desc] = item.split("：");
@@ -200,7 +205,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
               </div>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">经营洞察图表</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">经营看板</p>
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 <article className="rounded-xl border border-sky-100 bg-sky-50/40 p-2.5 sm:col-span-2">
                   <p className="text-[11px] font-semibold text-sky-700">查询活跃度趋势</p>
@@ -236,7 +241,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
           </div>
 
           <div className="mt-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">业务场景补充</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#0284c7]">业务场景</p>
             <div className="mt-2 grid gap-2 sm:grid-cols-4">
               {dataDeepDive.delivery.scenes.map((item, idx) => {
                 const [title, desc] = item.split("：");

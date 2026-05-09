@@ -4,13 +4,13 @@ import { Cable, CheckCircle2, Database, Network, ShieldCheck, Users, Wrench } fr
 
 const slideData = {
   title: "低代码敏捷实施与组织协同保障",
-  subtitle: "以低代码加速试错，以组织协同保障落地，以数据治理守住底线",
+  subtitle: "以低代码缩短试点周期，以组织协同保障落地，以数据治理守住底线",
   left: {
     title: "敏捷开发方法",
     items: [
       {
-        title: "低代码编排先行",
-        desc: "用 AI 编排中台快速搭建流程原型并验证业务逻辑，先跑通、后优化。",
+        title: "低代码先行验证",
+        desc: "用业务中枢快速搭建流程原型并验证业务逻辑，先跑通、后优化。",
       },
       {
         title: "复杂接口专业攻坚",
@@ -24,7 +24,7 @@ const slideData = {
   },
   middle: {
     title: "协同铁三角",
-    center: "AI核心平台",
+    center: "业务核心平台",
     nodes: [
       { id: "it", name: "集团信息化部", role: "统筹架构" },
       { id: "biz", name: "业务关键用户", role: "定义场景 / 验收效果" },

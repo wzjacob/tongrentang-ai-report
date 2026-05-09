@@ -3,16 +3,16 @@
 import { Bot, Database, DatabaseZap, ShieldCheck, Sparkles, SquareStack, Workflow } from "lucide-react";
 
 const archData = {
-  title: "AI 应用编排与模型底座全景架构",
-  subtitle: "以 Dify / ThinkingAI / 半产品化 AI 编排中台为核心，贯通交互入口、业务系统、模型与数据资产",
+  title: "业务中枢与数据底座全景架构",
+  subtitle: "以 Dify / ThinkingAI / 半产品化业务中枢为核心，贯通交互入口、业务系统、计算资源与数据资产",
   portalLayer: ["集团 OA 门户", "飞书工作台", "门店智能终端", "BI 驾驶舱嵌入", "ERP/CRM 场景嵌入"],
   coreHub: {
-    title: "Dify / ThinkingAI / 半产品化 AI 编排中台",
-    badge: "核心主干 · 用开源与半产品化中台替代高昂商业 AI 套件",
+    title: "Dify / ThinkingAI / 半产品化业务中枢",
+    badge: "核心主干 · 用开源与半产品化方案替代高昂商业套件",
     streams: [
       { name: "知识检索增强流", target: "赋能问药" },
       { name: "语义转 SQL 流", target: "赋能问数" },
-      { name: "多智能体工作流", target: "赋能问策" },
+      { name: "多角色协同流", target: "赋能问策" },
     ],
   },
   controlLayer: ["统一 API 网关", "RBAC 角色权限控制", "敏感数据护栏拦截"],
@@ -74,7 +74,7 @@ export default function AIArchitecturePanoramaSlide() {
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <p className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#b91c1c]">
-            模块二 · AI 实现路径与基础架构
+            模块二 · 实施路径与基础架构
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{archData.title}</h2>
           <p className="mx-auto mt-3 max-w-4xl text-sm leading-relaxed text-[#64748b] md:text-base">{archData.subtitle}</p>

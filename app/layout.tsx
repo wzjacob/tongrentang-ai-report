@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { REPORT_TITLE_FULL } from "@/lib/reportMeta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "同仁堂集团算力摸排与AI前瞻规划汇报",
-  description: "同仁堂集团算力摸排与AI前瞻规划汇报",
+  title: REPORT_TITLE_FULL,
+  description: REPORT_TITLE_FULL,
 };
 
 export default function RootLayout({
