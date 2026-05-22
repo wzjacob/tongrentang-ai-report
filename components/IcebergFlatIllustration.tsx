@@ -6,33 +6,33 @@ type VisibleM = { id: string; title: string; desc: string; x: number; y: number 
 type HiddenM = VisibleM & { solution: string };
 
 const VISIBLE: VisibleM[] = [
-  { id: "v1", title: "人效遭遇瓶颈", desc: "一线门店药师服务标准不一，人工培训周期长、成本高昂", x: 18, y: 14 },
-  { id: "v2", title: "合规与质检盲区", desc: "传统抽检覆盖率低，飞检合规风险难以做到100%实时把控", x: 50, y: 10 },
-  { id: "v3", title: "营销同质化严重", desc: "缺乏精准的用户触达手段，营销转化率遭遇天花板", x: 82, y: 18 },
+  { id: "v1", title: "中医药知识触达难", desc: "知识分散在系统与文档中，一线问答与培训触达效率低", x: 18, y: 14 },
+  { id: "v2", title: "二级板块数据难联动", desc: "各单位数据结构与口径不一致，跨系统协同分析困难", x: 50, y: 10 },
+  { id: "v3", title: "数据库无智能分析能力", desc: "系统底表虽多，但缺少可直接服务业务决策的智能分析能力", x: 82, y: 18 },
 ];
 
 const HIDDEN: HiddenM[] = [
   {
     id: "h1",
-    title: "核心经验断层 (知识流失)",
-    desc: "名老中医的宝贵诊疗经验难以被结构化、数字化传承与复用",
-    solution: "需引入 RAG 与大模型进行知识蒸馏",
+    title: "知识资产分散（触达慢）",
+    desc: "中医药知识未形成统一沉淀与编排，触达路径长、复用效率低",
+    solution: "需统一知识治理与问答触达入口",
     x: 20,
     y: 74,
   },
   {
     id: "h2",
-    title: "业财数据孤岛 (数据割裂)",
-    desc: "各业务线系统独立运作，缺乏统揽全局的大数据分析大脑",
-    solution: "需构建统一数据中台与智能分析引擎",
+    title: "数据口径割裂（联动弱）",
+    desc: "二级板块数据标准不统一，跨单位联动与对比分析成本高",
+    solution: "需统一主数据标准与跨系统接口",
     x: 52,
     y: 80,
   },
   {
     id: "h3",
-    title: "底层算力分散 (IT负债)",
-    desc: "烟囱式 IT 建设导致异构硬件繁杂，算力资源闲置与复用率极低",
-    solution: "需集团统建同构算力底座",
+    title: "智能分析缺位（洞察慢）",
+    desc: "系统数据库缺语义分析与智能问数能力，决策洞察主要依赖人工整理",
+    solution: "需建设数据库智能分析与问数能力",
     x: 80,
     y: 74,
   },
@@ -106,7 +106,7 @@ function MarkerPanel({
             ) : null}
           </>
         ) : (
-          <p className="mt-1 text-[10px] text-[#94a3b8]">点击圆点查看</p>
+          <p className="mt-1 text-[10px] text-[#94a3b8]">查看要点</p>
         )}
       </div>
     </div>

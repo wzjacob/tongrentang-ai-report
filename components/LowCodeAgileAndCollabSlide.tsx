@@ -27,8 +27,8 @@ const slideData = {
     center: "业务核心平台",
     nodes: [
       { id: "it", name: "集团信息化部", role: "统筹架构" },
-      { id: "biz", name: "业务关键用户", role: "定义场景 / 验收效果" },
-      { id: "vendor", name: "实施服务商", role: "私有化部署与调优" },
+      { id: "biz", name: "业务业务部室（牵头）", role: "定义场景 / 验收效果" },
+      { id: "vendor", name: "技术支持（配合）", role: "私有化部署与调优" },
     ],
   },
   right: {

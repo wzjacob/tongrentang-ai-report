@@ -1,0 +1,3365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>问药手机端演示（北京市东城区）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #9F2324;
+    --primary-light: #FCEBEC;
+    --primary-dark: #7D1B1B;
+    --secondary: #B07A2A;
+    --success: #4C7A5A;
+    --warning: #B7791F;
+    --danger: #B42318;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: #F6F2EC;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .phone {
+    width: 390px;
+    min-height: 844px;
+    background: var(--gray-50);
+    border-radius: 44px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .status-bar {
+    background: white;
+    padding: 14px 24px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-800);
+    flex-shrink: 0;
+  }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+
+  .screen { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+  .screen.active { display: flex; }
+
+  .nav-bar {
+    background: white;
+    padding: 12px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--gray-100);
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+  }
+  .nav-back {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: var(--gray-100);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--gray-700);
+  }
+  .nav-title { font-size: 16px; font-weight: 700; color: var(--gray-900); flex: 1; }
+  .nav-action {
+    font-size: 13px; color: var(--primary); font-weight: 600;
+    border: none; background: none; cursor: pointer; padding: 4px 8px;
+  }
+
+  .content { flex: 1; overflow-y: auto; padding: 16px; }
+  .content::-webkit-scrollbar { display: none; }
+
+  .tab-bar {
+    background: white;
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    padding: 8px 0 20px;
+    flex-shrink: 0;
+  }
+  .tab-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 3px; cursor: pointer; padding: 4px 0;
+    border: none; background: none;
+  }
+  .tab-icon { font-size: 22px; line-height: 1; }
+  .tab-label { font-size: 10px; color: var(--gray-400); font-weight: 500; }
+  .tab-item.active .tab-label { color: var(--primary); }
+
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+  }
+  .card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+  }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+  .card-subtitle { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 20px; display: inline-block;
+  }
+  .badge-blue { background: var(--primary-light); color: var(--primary); }
+  .badge-purple { background: #F5F3FF; color: var(--secondary); }
+  .badge-green { background: #ECFDF5; color: var(--success); }
+  .badge-orange { background: #FFFBEB; color: var(--warning); }
+  .badge-red { background: #FEF2F2; color: var(--danger); }
+
+  .btn {
+    border: none; border-radius: 10px; cursor: pointer;
+    font-size: 14px; font-weight: 600; padding: 12px 20px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: opacity 0.15s;
+  }
+  .btn:active { opacity: 0.8; }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-secondary { background: var(--primary-light); color: var(--primary); }
+  .btn-purple { background: #F5F3FF; color: var(--secondary); }
+  .btn-outline { background: white; color: var(--gray-700); border: 1px solid var(--gray-200); }
+  .btn-full { width: 100%; }
+  .btn-sm { font-size: 12px; padding: 8px 14px; border-radius: 8px; }
+  .btn-lg { font-size: 16px; padding: 16px 24px; border-radius: 12px; }
+
+  /* ======================== HOME ======================== */
+  .home-header {
+    background: linear-gradient(135deg, #8F1E20 0%, #A32628 52%, #B07A2A 100%);
+    padding: 20px 20px 28px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .home-header::before {
+    content: '';
+    position: absolute; top: -30px; right: -30px;
+    width: 150px; height: 150px;
+    background: rgba(255,255,255,0.06); border-radius: 50%;
+  }
+  .home-header::after {
+    content: '';
+    position: absolute; bottom: -20px; right: 30px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,0.04); border-radius: 50%;
+  }
+  .user-greeting { font-size: 13px; opacity: 0.8; margin-bottom: 4px; }
+  .user-name { font-size: 22px; font-weight: 800; margin-bottom: 16px; }
+  .stats-row { display: flex; gap: 12px; }
+  .stat-card {
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 10px; padding: 10px 14px; flex: 1;
+    backdrop-filter: blur(4px);
+  }
+  .stat-value { font-size: 22px; font-weight: 800; }
+  .stat-label { font-size: 11px; opacity: 0.75; margin-top: 1px; }
+
+  .module-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .module-card {
+    background: white; border-radius: var(--radius);
+    padding: 18px 14px; box-shadow: var(--shadow);
+    cursor: pointer; display: flex; flex-direction: column; gap: 8px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .module-card:active { transform: scale(0.97); }
+  .module-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+  }
+  .module-icon-blue { background: var(--primary-light); }
+  .module-icon-purple { background: #F5F3FF; }
+  .module-icon-green { background: #ECFDF5; }
+  .module-icon-orange { background: #FFFBEB; }
+  .module-name { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+  .module-desc { font-size: 11px; color: var(--gray-400); line-height: 1.4; }
+
+  .section-title {
+    font-size: 14px; font-weight: 700; color: var(--gray-700);
+    margin-bottom: 10px; margin-top: 4px;
+  }
+  .recent-item {
+    background: white; border-radius: 10px; padding: 12px 14px;
+    box-shadow: var(--shadow); margin-bottom: 8px;
+    display: flex; gap: 12px; align-items: center; cursor: pointer;
+  }
+  .recent-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .recent-text { flex: 1; }
+  .recent-title { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+  .recent-meta { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .recent-arrow { color: var(--gray-300); font-size: 14px; }
+
+  /* ======================== KNOWLEDGE CHAT ======================== */
+  .chat-area {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .chat-area::-webkit-scrollbar { display: none; }
+  .msg-row { display: flex; gap: 10px; }
+  .msg-row.user { flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; background: var(--primary-light);
+  }
+  .msg-avatar.ai { background: linear-gradient(135deg, #9F2324, #B07A2A); color: white; font-size: 12px; font-weight: 700; overflow: hidden; }
+  .msg-avatar.user { background: var(--gray-200); overflow: hidden; }
+  .msg-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .msg-bubble {
+    max-width: 75%; background: white; border-radius: 16px;
+    border-top-left-radius: 4px; padding: 12px 14px;
+    box-shadow: var(--shadow); font-size: 13px; line-height: 1.6; color: var(--gray-800);
+  }
+  .msg-row.user .msg-bubble {
+    background: #9F2324; color: white;
+    border-radius: 16px; border-top-right-radius: 4px;
+  }
+  .msg-time { font-size: 10px; color: var(--gray-400); margin-top: 4px; text-align: center; }
+
+  .cite-tag {
+    display: inline-block; background: var(--primary); color: white;
+    font-size: 9px; font-weight: 700; width: 14px; height: 14px;
+    border-radius: 3px; text-align: center; line-height: 14px;
+    cursor: pointer; vertical-align: super; margin: 0 1px;
+  }
+  .cite-list {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--gray-100);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .cite-item {
+    display: flex; gap: 8px; align-items: flex-start;
+    background: var(--gray-50); border-radius: 8px; padding: 8px 10px; cursor: pointer;
+  }
+  .cite-num {
+    background: var(--primary); color: white; font-size: 10px; font-weight: 700;
+    width: 16px; height: 16px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cite-text { font-size: 11px; color: var(--primary); line-height: 1.4; text-decoration: underline; }
+  .cite-source { font-size: 10px; color: var(--gray-400); }
+
+  .chat-input-area {
+    background: white; padding: 10px 14px 24px;
+    border-top: 1px solid var(--gray-100); flex-shrink: 0;
+  }
+  .chat-input-row { display: flex; gap: 8px; align-items: flex-end; }
+  .chat-input {
+    flex: 1; background: var(--gray-100); border: none; border-radius: 20px;
+    padding: 10px 14px; font-size: 13px; color: var(--gray-700);
+    resize: none; outline: none; font-family: inherit; max-height: 100px;
+  }
+  .chat-send {
+    width: 38px; height: 38px; background: var(--primary);
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 16px; flex-shrink: 0;
+  }
+  .chat-voice {
+    width: 38px; height: 38px; background: var(--gray-100);
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--gray-500); flex-shrink: 0;
+  }
+  .quick-queries {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px;
+  }
+  .quick-queries::-webkit-scrollbar { display: none; }
+  .quick-tag {
+    background: var(--primary-light); color: var(--primary);
+    border: none; border-radius: 20px; padding: 6px 12px;
+    font-size: 12px; font-weight: 500; white-space: nowrap; cursor: pointer;
+  }
+
+  /* ======================== ROLEPLAY MODULE ======================== */
+  .scenario-tabs-bar {
+    background: white; border-bottom: 1px solid var(--gray-100);
+    flex-shrink: 0;
+  }
+  .scenario-tabs {
+    display: flex; gap: 6px; overflow-x: auto; padding: 10px 16px 10px;
+  }
+  .scenario-tabs::-webkit-scrollbar { display: none; }
+  .scenario-tab {
+    padding: 7px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; border: none; cursor: pointer;
+    white-space: nowrap; background: var(--gray-100); color: var(--gray-500);
+    transition: all 0.15s;
+  }
+  .scenario-tab.active { background: var(--primary); color: white; }
+
+  /* Scenario panels */
+  .scenario-panel { display: none; flex: 1; overflow-y: auto; padding: 16px 16px 20px; }
+  .scenario-panel::-webkit-scrollbar { display: none; }
+  .scenario-panel.active { display: block; }
+
+  /* Setup step sections */
+  .setup-section { margin-bottom: 14px; }
+  .setup-label {
+    font-size: 11px; font-weight: 700; color: var(--gray-500);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .step-num {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--primary); color: white; font-size: 9px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+  /* Product line dropdown */
+  .product-select-wrap {
+    position: relative; margin-bottom: 8px;
+  }
+  .product-select {
+    width: 100%; appearance: none; -webkit-appearance: none;
+    background: white; border: 2px solid var(--gray-200);
+    border-radius: 10px; padding: 12px 40px 12px 14px;
+    font-size: 14px; font-weight: 600; color: var(--gray-800);
+    font-family: inherit; cursor: pointer; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .product-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .product-select-arrow {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 14px; color: var(--gray-400); pointer-events: none;
+  }
+  .product-select-preview {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--primary-light); border: 2px solid var(--primary);
+    border-radius: 10px; padding: 10px 14px;
+  }
+  .product-preview-emoji { font-size: 24px; flex-shrink: 0; }
+  .product-preview-info { flex: 1; }
+  .product-preview-name { font-size: 13px; font-weight: 700; color: var(--primary); }
+  .product-preview-cat { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+  .product-preview-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--primary); color: white;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+  /* Objection list */
+  .objection-list { display: flex; flex-direction: column; gap: 6px; }
+  .objection-option {
+    border: 2px solid var(--gray-200); border-radius: 10px;
+    padding: 10px 12px; cursor: pointer;
+    display: flex; align-items: center; gap: 10px; transition: all 0.15s;
+  }
+  .objection-option.selected { border-color: var(--primary); background: var(--primary-light); }
+  .obj-icon { font-size: 20px; flex-shrink: 0; width: 26px; text-align: center; }
+  .obj-text { flex: 1; }
+  .obj-name { font-size: 12px; font-weight: 700; color: var(--gray-800); }
+  .objection-option.selected .obj-name { color: var(--primary); }
+  .obj-desc { font-size: 10px; color: var(--gray-400); margin-top: 1px; }
+  .obj-radio {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--gray-300); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .objection-option.selected .obj-radio {
+    background: var(--primary); border-color: var(--primary);
+  }
+  .objection-option.selected .obj-radio::after {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; background: white;
+  }
+
+  /* Persona cards (reused, without 住院医师) */
+  .persona-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+  .persona-scroll::-webkit-scrollbar { display: none; }
+  .persona-card {
+    flex-shrink: 0; width: 110px;
+    background: var(--gray-50); border: 2px solid var(--gray-200);
+    border-radius: 12px; padding: 12px; cursor: pointer;
+    text-align: center; transition: all 0.15s;
+  }
+  .persona-card.selected { border-color: var(--primary); background: var(--primary-light); }
+  .persona-avatar { font-size: 28px; margin-bottom: 5px; }
+  .persona-name { font-size: 12px; font-weight: 700; color: var(--gray-800); }
+  .persona-type { font-size: 10px; color: var(--gray-400); margin-top: 2px; }
+  .persona-tags { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; margin-top: 6px; }
+  .persona-tag {
+    font-size: 9px; padding: 2px 5px; border-radius: 4px;
+    background: var(--gray-200); color: var(--gray-600);
+  }
+  .persona-card.selected .persona-tag { background: rgba(37,99,235,0.15); color: var(--primary); }
+
+  /* Dimension grid */
+  .dimension-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .dimension-card {
+    border: 2px solid var(--gray-200); border-radius: 10px;
+    padding: 10px 6px; cursor: pointer; text-align: center; transition: all 0.15s;
+  }
+  .dimension-card.selected { border-color: var(--primary); background: var(--primary-light); }
+  .dim-icon { font-size: 22px; margin-bottom: 4px; }
+  .dim-name { font-size: 11px; font-weight: 700; color: var(--gray-700); line-height: 1.3; }
+  .dimension-card.selected .dim-name { color: var(--primary); }
+
+  /* Question type pills */
+  .qtype-row { display: flex; gap: 8px; }
+  .qtype-pill {
+    flex: 1; padding: 10px 6px; border: 2px solid var(--gray-200);
+    border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.15s;
+  }
+  .qtype-pill.selected { border-color: var(--primary); background: var(--primary-light); }
+  .qtype-icon { font-size: 18px; margin-bottom: 3px; }
+  .qtype-name { font-size: 11px; font-weight: 700; color: var(--gray-700); }
+  .qtype-pill.selected .qtype-name { color: var(--primary); }
+  .qtype-count { font-size: 10px; color: var(--gray-400); margin-top: 1px; }
+
+  /* Role strip (for case analysis) */
+  .role-strip {
+    display: flex; align-items: center; background: #F5F3FF;
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;
+    border: 1px solid #E9D5FF;
+  }
+  .role-item { flex: 1; text-align: center; }
+  .role-avatar-lg { font-size: 28px; margin-bottom: 4px; }
+  .role-label { font-size: 10px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; }
+  .role-name-lg { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+  .role-type-lg { font-size: 10px; color: var(--secondary); font-weight: 600; }
+  .role-vs { font-size: 20px; color: var(--gray-300); padding: 0 8px; }
+
+  /* Case info banner */
+  .case-banner {
+    background: linear-gradient(135deg, #EFF6FF, #F5F3FF);
+    border-radius: 12px; padding: 14px; margin-bottom: 12px;
+    border: 1px solid #DBEAFE;
+  }
+  .case-banner-title {
+    font-size: 13px; font-weight: 700; color: var(--gray-900);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .case-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .case-info-item { background: white; border-radius: 8px; padding: 8px 10px; }
+  .case-info-label { font-size: 10px; color: var(--gray-400); font-weight: 600; margin-bottom: 2px; }
+  .case-info-value { font-size: 12px; font-weight: 700; color: var(--gray-800); line-height: 1.3; }
+
+  /* 附件上传 */
+  .attach-section { background: white; border-radius: 12px; padding: 14px; box-shadow: var(--shadow); margin-bottom: 12px; }
+  .attach-title { font-size: 13px; font-weight: 700; color: var(--gray-800); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .attach-drop {
+    border: 1.5px dashed var(--gray-300); border-radius: 10px; padding: 16px 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; transition: all .18s; background: var(--gray-50);
+  }
+  .attach-drop:hover, .attach-drop.dragover { border-color: var(--primary); background: var(--primary-light); }
+  .attach-drop-icon { font-size: 26px; }
+  .attach-drop-text { font-size: 12px; color: var(--gray-500); text-align: center; line-height: 1.5; }
+  .attach-drop-btn {
+    margin-top: 2px; padding: 5px 14px; background: var(--primary-light);
+    color: var(--primary); border: 1px solid #BFDBFE; border-radius: 6px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .attach-types { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+  .attach-type-tag { font-size: 10px; color: var(--gray-400); background: var(--gray-100); padding: 2px 7px; border-radius: 4px; }
+  .attach-list { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+  .attach-item {
+    display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+    background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-100);
+  }
+  .attach-item-icon { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .attach-item-info { flex: 1; min-width: 0; }
+  .attach-item-name { font-size: 12px; font-weight: 600; color: var(--gray-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .attach-item-meta { font-size: 10.5px; color: var(--gray-400); margin-top: 1px; }
+  .attach-item-del { width: 22px; height: 22px; border-radius: 50%; border: none; background: var(--gray-200); color: var(--gray-500); font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .attach-item-del:hover { background: #FEE2E2; color: var(--danger); }
+
+  /* Roleplay chat */
+  .roleplay-chat { flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .roleplay-chat::-webkit-scrollbar { display: none; }
+
+  .doctor-msg { display: flex; gap: 10px; align-items: flex-start; }
+  .doctor-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #7C3AED, #A855F7);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0; color: white;
+  }
+  .doctor-bubble {
+    background: white; border-radius: 14px; border-top-left-radius: 4px;
+    padding: 10px 12px; font-size: 13px; color: var(--gray-800); line-height: 1.5;
+    box-shadow: var(--shadow); max-width: 78%;
+  }
+  .doctor-name { font-size: 10px; color: var(--gray-400); margin-bottom: 4px; font-weight: 600; }
+
+  /* Case context strip in chat */
+  .case-context-strip {
+    background: #F5F3FF; border-bottom: 1px solid #E9D5FF;
+    padding: 8px 16px; flex-shrink: 0;
+  }
+  .case-context-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .case-context-tag { font-size: 11px; color: #7C3AED; font-weight: 500; }
+
+  /* Hint box */
+  .hint-box {
+    background: #FFFBEB; border: 1px solid #FDE68A;
+    border-radius: 10px; padding: 10px 12px;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .hint-icon { font-size: 14px; flex-shrink: 0; }
+  .hint-text { font-size: 11px; color: #92400E; line-height: 1.4; }
+
+  /* Conclusion card in case chat */
+  .conclusion-chat-card {
+    background: linear-gradient(135deg, #ECFDF5, #EFF6FF);
+    border: 1px solid #A7F3D0; border-radius: 12px; padding: 14px; margin: 4px 0;
+  }
+  .conclusion-chat-title {
+    font-size: 13px; font-weight: 700; color: var(--gray-900);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .conclusion-item {
+    font-size: 12px; color: var(--gray-700); line-height: 1.6;
+    margin-bottom: 5px; display: flex; gap: 6px; align-items: flex-start;
+  }
+  .conclusion-dot { font-size: 14px; flex-shrink: 0; }
+
+  /* Input area */
+  .rp-input-area {
+    background: white; padding: 10px 14px 24px;
+    border-top: 1px solid var(--gray-100); flex-shrink: 0;
+  }
+  .rp-actions { display: flex; gap: 8px; margin-bottom: 8px; }
+  .rp-action-btn {
+    flex: 1; padding: 8px; background: var(--gray-100);
+    border: none; border-radius: 8px; cursor: pointer;
+    font-size: 11px; color: var(--gray-600); font-weight: 600;
+  }
+
+  /* ======================== QA PRACTICE ======================== */
+  .qa-progress-bar-wrap {
+    background: white; padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100); flex-shrink: 0;
+  }
+  .progress-bar { height: 4px; background: var(--gray-200); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+  .progress-fill { height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.3s; }
+  .progress-info { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-400); }
+
+  .question-card {
+    background: white; border-radius: var(--radius);
+    padding: 18px; box-shadow: var(--shadow); margin-bottom: 12px;
+  }
+  .question-num { font-size: 11px; color: var(--gray-400); font-weight: 600; margin-bottom: 8px; }
+  .question-text { font-size: 14px; font-weight: 600; color: var(--gray-900); line-height: 1.5; margin-bottom: 16px; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    border: 2px solid var(--gray-200); border-radius: 10px; padding: 12px 14px;
+    cursor: pointer; font-size: 13px; color: var(--gray-700);
+    display: flex; gap: 10px; align-items: center; transition: all 0.15s;
+  }
+  .option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+  .option.correct { border-color: var(--success); background: #ECFDF5; color: var(--success); }
+  .option.wrong { border-color: var(--danger); background: #FEF2F2; color: var(--danger); }
+  .option-letter {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--gray-200); color: var(--gray-600);
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .option.selected .option-letter { background: var(--primary); color: white; }
+  .option.correct .option-letter { background: var(--success); color: white; }
+  .option.wrong .option-letter { background: var(--danger); color: white; }
+
+  /* Multi-select checkbox style */
+  .option.multi-check .option-letter { border-radius: 4px; }
+
+  /* Answer feedback */
+  .answer-feedback {
+    border-radius: 10px; padding: 12px 14px; margin-top: 12px;
+    display: flex; gap: 8px;
+  }
+  .answer-feedback.wrong-fb { background: #FEF2F2; }
+  .answer-feedback.correct-fb { background: #ECFDF5; }
+  .answer-feedback-icon { font-size: 16px; flex-shrink: 0; }
+  .answer-feedback-text { font-size: 12px; line-height: 1.5; }
+  .answer-feedback.wrong-fb .answer-feedback-text { color: #B91C1C; }
+  .answer-feedback.correct-fb .answer-feedback-text { color: #065F46; }
+
+  /* Essay text area */
+  .essay-area {
+    width: 100%; border: 2px solid var(--gray-200); border-radius: 10px;
+    padding: 12px; font-size: 13px; color: var(--gray-700);
+    font-family: inherit; resize: none; outline: none; line-height: 1.5;
+    min-height: 100px; transition: border-color 0.15s;
+  }
+  .essay-area:focus { border-color: var(--primary); }
+
+  /* Score card */
+  .score-card {
+    background: white; border-radius: var(--radius);
+    padding: 20px; box-shadow: var(--shadow-md); margin-bottom: 12px;
+  }
+  .score-circle {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: conic-gradient(var(--primary) 0deg 314deg, var(--gray-200) 314deg 360deg);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px; position: relative;
+  }
+  .score-circle::after {
+    content: ''; position: absolute;
+    width: 60px; height: 60px; border-radius: 50%; background: white;
+  }
+  .score-number { position: absolute; font-size: 20px; font-weight: 800; color: var(--primary); z-index: 1; }
+  .score-label { text-align: center; font-size: 13px; color: var(--gray-500); }
+  .score-dims { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .score-dim { display: flex; align-items: center; gap: 10px; }
+  .score-dim-name { font-size: 12px; color: var(--gray-600); width: 80px; flex-shrink: 0; }
+  .score-bar { flex: 1; height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 3px; }
+  .score-dim-val { font-size: 12px; font-weight: 700; color: var(--gray-700); width: 30px; text-align: right; }
+
+  /* ======================== CASE RESULT ======================== */
+  .result-header {
+    background: linear-gradient(135deg, #059669, #10B981);
+    padding: 30px 20px; text-align: center; color: white; flex-shrink: 0;
+  }
+  .result-header-blue {
+    background: linear-gradient(135deg, #1E40AF, #2563EB);
+    padding: 24px 20px; text-align: center; color: white; flex-shrink: 0;
+  }
+  .result-score { font-size: 64px; font-weight: 900; line-height: 1; }
+  .result-grade { font-size: 16px; font-weight: 600; opacity: 0.85; margin-top: 4px; }
+  .result-label { font-size: 13px; opacity: 0.7; margin-top: 2px; }
+
+  /* ======================== EXAM ======================== */
+  .exam-progress {
+    background: white; padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100); flex-shrink: 0;
+  }
+
+  .voice-record {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    padding: 20px; background: var(--gray-50); border-radius: 12px; margin-top: 12px;
+  }
+  .voice-btn {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--primary);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; color: white;
+    box-shadow: 0 0 0 8px rgba(37,99,235,0.15); transition: all 0.2s;
+  }
+  .voice-btn.recording {
+    background: var(--danger);
+    box-shadow: 0 0 0 8px rgba(220,38,38,0.15);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(220,38,38,0.15); }
+    50% { box-shadow: 0 0 0 16px rgba(220,38,38,0.05); }
+  }
+  .voice-status { font-size: 12px; color: var(--gray-500); }
+  .waveform { display: flex; gap: 3px; align-items: center; height: 24px; }
+  .wave-bar { width: 3px; border-radius: 2px; background: var(--primary); animation: wave 0.8s ease-in-out infinite; }
+  .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+  .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+  .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+  .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+  @keyframes wave {
+    0%, 100% { height: 4px; }
+    50% { height: 20px; }
+  }
+
+  /* Radar chart */
+  .radar-container {
+    background: white; border-radius: var(--radius);
+    padding: 20px; box-shadow: var(--shadow); text-align: center;
+  }
+  .radar-svg { width: 180px; height: 180px; margin: 0 auto; display: block; }
+
+  /* Profile */
+  .profile-header {
+    background: linear-gradient(135deg, #8F1E20 0%, #A32628 55%, #B07A2A 100%);
+    padding: 24px 20px; color: white;
+    display: flex; gap: 14px; align-items: center; flex-shrink: 0;
+  }
+  .profile-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center; font-size: 30px;
+  }
+  .profile-name { font-size: 20px; font-weight: 800; }
+  .profile-role { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+  .profile-rank { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+
+  .menu-item {
+    background: white; border: none; width: 100%; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: var(--gray-800); font-weight: 500;
+    cursor: pointer; border-bottom: 1px solid var(--gray-100); text-align: left;
+  }
+  .menu-item:first-child { border-radius: 12px 12px 0 0; }
+  .menu-item:last-child { border-radius: 0 0 12px 12px; border-bottom: none; }
+  .menu-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .menu-arrow { margin-left: auto; color: var(--gray-300); }
+
+  .divider { height: 1px; background: var(--gray-100); margin: 12px 0; }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 13px; }
+  .info-label { color: var(--gray-400); }
+  .info-value { color: var(--gray-800); font-weight: 600; }
+
+  /* AI typing */
+  .typing-indicator {
+    display: flex; gap: 4px; align-items: center; padding: 8px 12px;
+    background: white; border-radius: 14px; width: fit-content; box-shadow: var(--shadow);
+  }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--gray-400);
+    animation: typing 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ======================== CITE POPUP ======================== */
+  .cite-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 200;
+    display: none;
+    align-items: flex-end;
+    animation: fadeIn 0.15s ease;
+  }
+  .cite-overlay.open { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .cite-sheet {
+    background: white;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 0 0 28px;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .cite-sheet-handle {
+    width: 36px; height: 4px; border-radius: 2px;
+    background: var(--gray-300); margin: 12px auto 0;
+  }
+  .cite-sheet-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .cite-sheet-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .cite-sheet-title { flex: 1; font-size: 13px; font-weight: 700; color: var(--gray-900); line-height: 1.3; }
+  .cite-sheet-sub { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .cite-sheet-close {
+    width: 28px; height: 28px; border-radius: 50%; border: none;
+    background: var(--gray-100); cursor: pointer;
+    font-size: 14px; color: var(--gray-500);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cite-sheet-body { padding: 12px 16px; }
+  .cite-location {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
+  }
+  .cite-loc-tag {
+    font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px;
+    background: var(--primary-light); color: var(--primary);
+  }
+  .cite-excerpt-label {
+    font-size: 10px; font-weight: 700; color: var(--gray-400);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+  }
+  .cite-excerpt {
+    background: #FFFBEB; border-left: 3px solid var(--warning);
+    border-radius: 0 8px 8px 0; padding: 10px 12px;
+    font-size: 12px; color: var(--gray-800); line-height: 1.6;
+  }
+  .cite-excerpt mark {
+    background: rgba(234,179,8,0.25); color: var(--gray-900);
+    border-radius: 2px; padding: 0 1px;
+  }
+  .cite-action {
+    margin-top: 12px; padding: 10px; background: var(--primary-light);
+    border-radius: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer;
+  }
+  .cite-action-text { font-size: 12px; color: var(--primary); font-weight: 600; }
+
+  /* ======================== OBJECTION SETUP SCREEN ======================== */
+  .objection-field { margin-bottom: 22px; }
+  .objection-field-label { font-size: 14px; color: var(--gray-600); margin-bottom: 8px; font-weight: 400; }
+  .objection-select-wrap { position: relative; }
+  .objection-setup-select {
+    width: 100%; appearance: none; -webkit-appearance: none;
+    background: white; border: 1.5px solid var(--gray-300);
+    border-radius: 10px; padding: 14px 40px 14px 16px;
+    font-size: 14px; color: var(--gray-800);
+    font-family: inherit; cursor: pointer; outline: none;
+    transition: border-color 0.15s;
+  }
+  .objection-setup-select option[value=""] { color: var(--gray-400); }
+  .objection-setup-select:focus { border-color: var(--primary); }
+  .objection-select-arrow {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 13px; color: var(--gray-400); pointer-events: none;
+  }
+  .doctor-info-card {
+    border: 1.5px solid var(--gray-200); border-radius: 12px;
+    overflow: hidden; background: white; margin-top: 4px; margin-bottom: 8px;
+  }
+  .doctor-info-header {
+    padding: 14px 14px 10px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .doctor-photo-box {
+    width: 68px; height: 68px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg, #DBEAFE, #C7D2FE);
+    display: flex; align-items: center; justify-content: center; font-size: 32px;
+    overflow: hidden;
+  }
+  .doctor-meta-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .doctor-meta-item {}
+  .doctor-meta-label { font-size: 10px; color: var(--gray-400); font-weight: 600; margin-bottom: 2px; }
+  .doctor-meta-value { font-size: 12px; font-weight: 700; color: var(--gray-800); }
+  .doctor-bg-section { padding: 0 14px 14px; }
+  .doctor-bg-title { font-size: 12px; font-weight: 700; color: var(--gray-800); margin-bottom: 6px; }
+  .doctor-bg-text { font-size: 12px; color: var(--gray-600); line-height: 1.6; }
+  .start-practice-btn-disabled {
+    width: 100%; padding: 16px; background: #C9CACB; color: white;
+    border: none; border-radius: 50px; font-size: 16px; font-weight: 600;
+    cursor: not-allowed; font-family: inherit;
+  }
+  .start-practice-btn-active {
+    width: 100%; padding: 16px; background: var(--primary); color: white;
+    border: none; border-radius: 50px; font-size: 16px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  /* ======================== ROLEPLAY CHAT NEW STYLES ======================== */
+  .rp-hints-panel {
+    background: #EFF6FF; border-bottom: 1px solid #DBEAFE;
+    padding: 10px 16px; flex-shrink: 0;
+  }
+  .rp-hints-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;
+  }
+  .rp-hints-title { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700; color: var(--gray-900); }
+  .rp-hints-toggle { border: none; background: none; font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 600; font-family: inherit; }
+  .rp-hints-text { font-size: 12px; color: var(--gray-600); line-height: 1.6; }
+  .rp-timer-strip {
+    background: white; border-bottom: 1px solid var(--gray-100);
+    padding: 8px 16px; display: flex; justify-content: space-between;
+    align-items: center; flex-shrink: 0;
+  }
+  .rp-timer-left { display: flex; align-items: center; gap: 6px; }
+  .rp-timer-label { font-size: 12px; color: var(--gray-600); font-weight: 500; }
+  .rp-timer-value { font-size: 13px; font-weight: 700; color: var(--gray-900); font-variant-numeric: tabular-nums; }
+  .rp-end-btn {
+    border: 1.5px solid var(--danger); border-radius: 6px; background: white;
+    color: var(--danger); font-size: 12px; font-weight: 600; padding: 5px 12px;
+    cursor: pointer; font-family: inherit;
+  }
+  .rp-doc-msg { display: flex; gap: 10px; align-items: flex-start; }
+  .rp-doc-avatar {
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #DBEAFE, #C7D2FE);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; border: 1px solid #BFDBFE; overflow: hidden;
+  }
+  .rp-doc-bubble {
+    background: var(--gray-100); border-radius: 14px; border-top-left-radius: 4px;
+    padding: 10px 12px; font-size: 13px; color: var(--gray-800);
+    line-height: 1.5; max-width: 80%;
+  }
+  .rp-audio-row { display: flex; align-items: center; gap: 4px; margin-top: 5px; }
+  .rp-audio-icon { font-size: 12px; color: var(--gray-400); }
+  .rp-audio-dur { font-size: 11px; color: var(--gray-400); }
+  .rp-user-msg { display: flex; gap: 10px; justify-content: flex-end; align-items: flex-start; }
+  .rp-user-avatar {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+    overflow: hidden;
+  }
+  .rp-user-bubble {
+    background: #1E3A8A; color: white; border-radius: 14px; border-top-right-radius: 4px;
+    padding: 10px 12px; font-size: 13px; line-height: 1.5; max-width: 80%;
+  }
+  .rp-voice-popup {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(28,28,30,0.96); border-radius: 24px 24px 0 0;
+    padding: 16px 20px 20px; z-index: 100;
+  }
+  .rp-voice-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .rp-voice-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #9CA3AF; }
+  .rp-voice-close { border: none; background: none; color: #9CA3AF; font-size: 20px; cursor: pointer; }
+  .rp-voice-text { font-size: 17px; color: white; min-height: 44px; margin-bottom: 12px; line-height: 1.5; }
+  .rp-voice-wave { height: 2px; background: linear-gradient(90deg, var(--primary), #7C3AED); border-radius: 1px; margin-bottom: 14px; }
+  .rp-voice-done-btn {
+    width: 100%; padding: 12px; background: var(--primary); border: none;
+    border-radius: 12px; color: white; font-size: 14px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+  .rp-disclaimer { text-align: center; font-size: 10px; color: var(--gray-400); margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="status-icons"><span>📶</span><span>📡</span><span>🔋</span></div>
+  </div>
+
+  <!-- ==================== HOME ==================== -->
+  <div class="screen active" id="screen-home">
+    <div class="home-header">
+      <div class="user-greeting">早上好，今天继续加油！</div>
+      <div class="user-name">同仁兄 东城区</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value">78</div>
+          <div class="stat-label">综合能力分</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">12</div>
+          <div class="stat-label">本月练习次数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">B+</div>
+          <div class="stat-label">上次考试评级</div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div style="background:#FEF3C7;border-radius:10px;padding:10px 12px;display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+        <span style="font-size:16px;">⚠️</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#92400E;">弱项提醒</div>
+          <div style="font-size:11px;color:#B45309;margin-top:1px;">同类中成药对比得分C，推荐针对性练习</div>
+        </div>
+        <button onclick="goTo('screen-m2')" style="margin-left:auto;background:#D97706;color:white;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;">去练习</button>
+      </div>
+
+      <div class="section-title">功能模块</div>
+      <div class="module-grid">
+        <div class="module-card" onclick="goTo('screen-m1')">
+          <div class="module-icon module-icon-blue">🧠</div>
+          <div class="module-name">问药</div>
+          <div class="module-desc">RAG检索 · 强制溯源</div>
+        </div>
+        <div class="module-card" onclick="goTo('screen-m2')">
+          <div class="module-icon module-icon-purple">🎭</div>
+          <div class="module-name">场景陪练</div>
+          <div class="module-desc">多场景对练 · 实战演练</div>
+        </div>
+        <div class="module-card" onclick="goTo('screen-m3')">
+          <div class="module-icon module-icon-green">📊</div>
+          <div class="module-name">智能考试</div>
+          <div class="module-desc">AI评分 · 能力分析</div>
+        </div>
+        <div class="module-card" onclick="goTo('screen-m2-pitch')">
+          <div class="module-icon module-icon-orange">🎙️</div>
+          <div class="module-name">演讲评测</div>
+          <div class="module-desc">PPT宣讲 · 语音分析</div>
+        </div>
+      </div>
+
+      <div class="section-title">最近学习</div>
+      <div class="recent-item" onclick="goTo('screen-m1')">
+        <div class="recent-icon" style="background:#EFF6FF;">🔍</div>
+        <div class="recent-text">
+          <div class="recent-title">参茸白术丸在脾胃虚弱人群中的适用要点</div>
+          <div class="recent-meta">知识问答 · 10分钟前</div>
+        </div>
+        <span class="recent-arrow">›</span>
+      </div>
+      <div class="recent-item" onclick="goTo('screen-m2')">
+        <div class="recent-icon" style="background:#F5F3FF;">🎭</div>
+        <div class="recent-text">
+          <div class="recent-title">异议处理 · 安全性顾虑</div>
+          <div class="recent-meta">陪练 · 陈教授 · 昨天</div>
+        </div>
+        <span class="recent-arrow">›</span>
+      </div>
+      <div class="recent-item" onclick="goTo('screen-m3-result')">
+        <div class="recent-icon" style="background:#ECFDF5;">📋</div>
+        <div class="recent-text">
+          <div class="recent-title">产品QA通关考试</div>
+          <div class="recent-meta">得分 82分 · 3天前</div>
+        </div>
+        <span class="recent-arrow">›</span>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-item active" onclick="goTo('screen-home')">
+        <span class="tab-icon">🏠</span><span class="tab-label">首页</span>
+      </button>
+      <button class="tab-item" onclick="goTo('screen-m1')">
+        <span class="tab-icon">🧠</span><span class="tab-label">问药</span>
+      </button>
+      <button class="tab-item" onclick="goTo('screen-m2')">
+        <span class="tab-icon">🎭</span><span class="tab-label">陪练</span>
+      </button>
+      <button class="tab-item" onclick="goTo('screen-m3')">
+        <span class="tab-icon">📊</span><span class="tab-label">考试</span>
+      </button>
+      <button class="tab-item" onclick="goTo('screen-profile')">
+        <span class="tab-icon">👤</span><span class="tab-label">我的</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 1: KNOWLEDGE Q&A ==================== -->
+  <div class="screen" id="screen-m1">
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar">
+        <button class="nav-back" onclick="goTo('screen-home')">‹</button>
+        <div>
+          <div class="nav-title">问药 · 北京市东城区</div>
+          <div class="card-subtitle">医学智库 · RAG检索</div>
+        </div>
+        <button class="nav-action">历史</button>
+      </div>
+      <div class="quick-queries">
+        <button class="quick-tag">禁忌症查询</button>
+        <button class="quick-tag">药物相互作用</button>
+        <button class="quick-tag">推广资料</button>
+        <button class="quick-tag">培训视频</button>
+        <button class="quick-tag">同类中成药对比</button>
+      </div>
+    </div>
+    <div class="chat-area">
+      <div class="msg-time">今天 09:32</div>
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">参茸白术丸适用于哪些脾胃虚弱相关症状？有没有需要重点提示的注意事项？</div>
+      </div>
+      <div class="msg-row">
+        <div class="msg-avatar ai"><img src="/dify-demo/ip-assets/ip-girl-01.png" alt="问药助手头像"></div>
+        <div class="msg-bubble">
+          <div style="font-size:11px;color:var(--gray-400);margin-bottom:6px;font-weight:600;">🌿 同仁问药助手 · 中医药知识库</div>
+          结合同仁堂说明书与中药图谱节点，参茸白术丸常见适用方向如下：<br><br>
+          <strong>1. 脾胃虚弱导致的食少乏力</strong><span class="cite-tag" onclick="showCite(1)">1</span>：用于脾胃虚弱、食欲不振等调理。<br><br>
+          <strong>2. 病后体虚与气短乏力</strong><span class="cite-tag" onclick="showCite(1)">1</span>：用于体虚恢复期的日常调养。<br><br>
+          <strong>3. 脾虚便溏与倦怠</strong><span class="cite-tag" onclick="showCite(2)">2</span>：在辨证匹配下可作为调理方案。<br><br>
+          <strong>4. 使用注意</strong><span class="cite-tag" onclick="showCite(3)">3</span>：孕妇及多药并用人群建议先咨询医生，出现不适及时停用并复诊。<br>
+          <div class="cite-list">
+            <div class="cite-item">
+              <div class="cite-num">1</div>
+              <div>
+                <div class="cite-text">参茸白术丸说明书要点（演示） · 适用人群与注意事项</div>
+                <div class="cite-source">📄 内部文档 · 药品说明书库 › 点击查看原文</div>
+              </div>
+            </div>
+            <div class="cite-item">
+              <div class="cite-num">2</div>
+              <div>
+                <div class="cite-text">《中成药临床应用指导原则（示例）》· 脾胃类用药章节</div>
+                <div class="cite-source">🔬 集团医学合规系统 · 中成药指导库 › 点击跳转</div>
+              </div>
+            </div>
+            <div class="cite-item">
+              <div class="cite-num">3</div>
+              <div>
+                <div class="cite-text">《中医内科学（脾胃病证）》· 常见证型辨析摘要</div>
+                <div class="cite-source">🌐 内部教材库 · 中医药培训资料 › 点击跳转</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">有没有相关的推广资料？</div>
+      </div>
+      <div class="msg-row">
+        <div class="msg-avatar ai"><img src="/dify-demo/ip-assets/ip-girl-01.png" alt="问药助手头像"></div>
+        <div class="msg-bubble">
+          <div style="font-size:11px;color:var(--gray-400);margin-bottom:6px;font-weight:600;">🌿 同仁问药助手 · 资料检索</div>
+          找到以下相关推广资料：<br><br>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="background:var(--gray-50);border-radius:8px;padding:10px;">
+              <div style="font-size:12px;font-weight:700;color:var(--gray-800);">📊 参茸白术丸图谱问药要点（东城区版）</div>
+              <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">包含功效主治、适用症状、注意事项及联合用药提示</div>
+              <div style="display:flex;gap:6px;margin-top:6px;">
+                <span style="font-size:10px;background:#EFF6FF;color:var(--primary);padding:2px 7px;border-radius:4px;">PPT</span>
+                <span style="font-size:10px;color:var(--primary);text-decoration:underline;cursor:pointer;">docs.tongrentang.com/slides/shenrong-baizhu-pill.pptx</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="msg-row" style="opacity:0.5;">
+        <div class="msg-avatar ai"><img src="/dify-demo/ip-assets/ip-girl-01.png" alt="问药助手头像"></div>
+        <div class="typing-indicator">
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <button class="chat-voice">🎙️</button>
+        <textarea class="chat-input" placeholder="输入问题，或点击麦克风语音提问…" rows="1"></textarea>
+        <button class="chat-send">↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: 场景陪练 HUB ==================== -->
+  <div class="screen" id="screen-m2">
+    <div class="scenario-tabs-bar">
+      <div class="nav-bar" style="box-shadow:none;border-bottom:none;">
+        <button class="nav-back" onclick="goTo('screen-home')">‹</button>
+        <div>
+          <div class="nav-title">同仁堂场景陪练</div>
+          <div class="card-subtitle">选择训练场景开始练习</div>
+        </div>
+        <button class="nav-action">记录</button>
+      </div>
+      <div class="scenario-tabs">
+        <button class="scenario-tab" onclick="goTo('screen-m2-objection')">异议处理</button>
+        <button class="scenario-tab active" onclick="switchScenario(this,'panel-qa')">产品QA</button>
+        <button class="scenario-tab" onclick="switchScenario(this,'panel-case')">病例分析</button>
+        <button class="scenario-tab" onclick="goTo('screen-m2-pitch')">演讲评测</button>
+      </div>
+    </div>
+
+    <!-- PANEL 1: 异议处理 -->
+    <div class="scenario-panel" id="panel-objection">
+
+      <!-- Step 1: 选择产品线 -->
+      <div class="setup-section">
+        <div class="setup-label">
+          <span class="step-num">1</span>选择产品线
+        </div>
+        <div class="product-select-wrap">
+          <select class="product-select" id="product-select" onchange="onProductChange(this)">
+            <option value="" disabled>请选择产品…</option>
+            <option value="参茸白术丸" data-emoji="🌿" data-cat="健脾益气 · 脾胃虚弱调理" selected>参茸白术丸</option>
+            <option value="牛黄清心丸" data-emoji="🫀" data-cat="清心化痰 · 头晕心悸场景" >牛黄清心丸</option>
+            <option value="六味地黄丸" data-emoji="🌙" data-cat="滋阴补肾 · 腰膝酸软场景">六味地黄丸</option>
+            <option value="藿香正气水" data-emoji="🍃" data-cat="解表化湿 · 暑湿感冒场景">藿香正气水</option>
+            <option value="同仁牛黄清心丸" data-emoji="🏮" data-cat="传统名方 · 家庭常备场景">同仁牛黄清心丸</option>
+            <option value="安宫牛黄丸" data-emoji="📿" data-cat="名贵中成药 · 合规宣教场景">安宫牛黄丸</option>
+          </select>
+          <span class="product-select-arrow">▾</span>
+        </div>
+        <div class="product-select-preview" id="product-preview">
+          <span class="product-preview-emoji">💉</span>
+          <div class="product-preview-info">
+            <div class="product-preview-name">参茸白术丸</div>
+            <div class="product-preview-cat">健脾益气 · 脾胃虚弱调理</div>
+          </div>
+          <span class="product-preview-check">✓</span>
+        </div>
+      </div>
+
+      <!-- Step 2: 选择预设核心异议 -->
+      <div class="setup-section">
+        <div class="setup-label">
+          <span class="step-num">2</span>选择预设核心异议
+        </div>
+        <div class="product-select-wrap">
+          <select class="product-select" id="objection-select" onchange="onObjectionChange(this)">
+            <option value="" disabled>请选择核心异议…</option>
+            <option value="安全性顾虑" data-emoji="⚠️" data-desc="担心体质不合、是否会出现不适反应，需明确禁忌与注意事项" selected>安全性顾虑</option>
+            <option value="用法用量不清" data-emoji="🔄" data-desc="服用频次、疗程、饭前饭后不清晰，担心效果不稳">用法用量不清</option>
+            <option value="价格顾虑" data-emoji="💰" data-desc="顾客关注长期调理成本，需做好疗程价值与替代方案说明">价格顾虑</option>
+            <option value="偏好其他品牌" data-emoji="🔁" data-desc="已有习惯品牌，需通过同仁堂品质与工艺优势建立信任">偏好其他品牌</option>
+            <option value="疗效存疑" data-emoji="🤔" data-desc="对调理周期和见效节奏存在疑虑，需要辨证解释">疗效存疑</option>
+            <option value="依从性差" data-emoji="📉" data-desc="顾客难以按时服用，需要简化提醒和用药计划">依从性差</option>
+          </select>
+          <span class="product-select-arrow">▾</span>
+        </div>
+        <div class="product-select-preview" id="objection-preview">
+          <span class="product-preview-emoji">⚠️</span>
+          <div class="product-preview-info">
+            <div class="product-preview-name">安全性顾虑</div>
+            <div class="product-preview-cat">担心体质不合、是否会出现不适反应，需明确禁忌与注意事项</div>
+          </div>
+          <span class="product-preview-check">✓</span>
+        </div>
+      </div>
+
+      <!-- Step 3: 选择医生画像（只有异议处理有此步骤，无住院医师） -->
+      <div class="setup-section">
+        <div class="setup-label">
+          <span class="step-num">3</span>选择医生画像
+        </div>
+        <div class="persona-scroll">
+          <div class="persona-card selected" onclick="selectPersona(this)">
+            <div class="persona-avatar">👨‍⚕️</div>
+            <div class="persona-name">陈教授</div>
+            <div class="persona-type">主任医师</div>
+            <div class="persona-tags">
+              <span class="persona-tag">时间紧</span>
+              <span class="persona-tag">学术型</span>
+            </div>
+          </div>
+          <div class="persona-card" onclick="selectPersona(this)">
+            <div class="persona-avatar">👩‍⚕️</div>
+            <div class="persona-name">李副主任</div>
+            <div class="persona-type">内分泌科</div>
+            <div class="persona-tags">
+              <span class="persona-tag">严谨</span>
+              <span class="persona-tag">数据导向</span>
+            </div>
+          </div>
+          <div class="persona-card" onclick="selectPersona(this)">
+            <div class="persona-avatar">👨‍⚕️</div>
+            <div class="persona-name">张主任</div>
+            <div class="persona-type">保守型</div>
+            <div class="persona-tags">
+              <span class="persona-tag">偏保守</span>
+              <span class="persona-tag">难说服</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start Button -->
+      <div style="background:white;border-radius:12px;padding:14px;box-shadow:var(--shadow);">
+        <button class="btn btn-primary btn-full" onclick="goTo('screen-m2-chat')">🎭 开始陪练</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2: 产品QA -->
+    <div class="scenario-panel active" id="panel-qa">
+
+      <!-- Step 1: 选择练习维度 -->
+      <div class="setup-section">
+        <div class="setup-label">
+          <span class="step-num">1</span>选择练习维度
+        </div>
+        <div class="product-select-wrap">
+          <select class="product-select" id="dimension-select" onchange="onDimensionChange(this)">
+            <option value="用法用量">💊 用法用量</option>
+            <option value="常见不良反应">⚠️ 常见不良反应</option>
+            <option value="适应症与禁忌症">✅ 适应症与禁忌症</option>
+            <option value="药物相互作用">🔬 药物相互作用</option>
+            <option value="特殊人群用药">👥 特殊人群用药</option>
+            <option value="同类中成药对比">📊 同类中成药对比</option>
+          </select>
+          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:14px;color:var(--gray-400);">▾</span>
+        </div>
+      </div>
+
+      <!-- Step 2: 选择题型 -->
+      <div class="setup-section">
+        <div class="setup-label">
+          <span class="step-num">2</span>选择题库类型
+        </div>
+        <div class="qtype-row">
+          <div class="qtype-pill selected" onclick="selectQtype(this)">
+            <div class="qtype-icon">☑️</div>
+            <div class="qtype-name">单选题</div>
+            <div class="qtype-count">共12题</div>
+          </div>
+          <div class="qtype-pill" onclick="selectQtype(this)">
+            <div class="qtype-icon">✅</div>
+            <div class="qtype-name">多选题</div>
+            <div class="qtype-count">共8题</div>
+          </div>
+          <div class="qtype-pill" onclick="selectQtype(this)">
+            <div class="qtype-icon">✍️</div>
+            <div class="qtype-name">问答题</div>
+            <div class="qtype-count">共6题</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 说明与开始 -->
+      <div style="background:white;border-radius:12px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;">
+          <div style="font-size:24px;">📝</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--gray-900);margin-bottom:3px;">用法用量 · 单选题</div>
+            <div style="font-size:11px;color:var(--gray-400);line-height:1.5;">答错时显示中医药知识说明，完成后给出同仁堂门店实战评分</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+          <div style="background:var(--gray-50);border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:16px;font-weight:800;color:var(--primary);">5</div>
+            <div style="font-size:10px;color:var(--gray-400);">练习题数</div>
+          </div>
+          <div style="background:var(--gray-50);border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:16px;font-weight:800;color:var(--warning);">~8min</div>
+            <div style="font-size:10px;color:var(--gray-400);">预计用时</div>
+          </div>
+          <div style="background:var(--gray-50);border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:16px;font-weight:800;color:var(--success);">即时</div>
+            <div style="font-size:10px;color:var(--gray-400);">答案解析</div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="goTo('screen-m2-qa-practice')">📝 开始练习</button>
+      </div>
+    </div>
+
+    <!-- PANEL 3: 病例分析 -->
+    <div class="scenario-panel" id="panel-case">
+
+      <!-- 角色说明 -->
+      <div class="role-strip">
+        <div class="role-item">
+          <div class="role-avatar-lg">🤖</div>
+          <div class="role-label">AI 扮演</div>
+          <div class="role-name-lg">陈主任</div>
+          <div class="role-type-lg">主任医师</div>
+        </div>
+        <div class="role-vs">⚔️</div>
+        <div class="role-item">
+          <div class="role-avatar-lg">👤</div>
+          <div class="role-label">您扮演</div>
+          <div class="role-name-lg">患者</div>
+          <div class="role-type-lg">脾胃虚弱调理需求</div>
+        </div>
+      </div>
+
+      <!-- 练习说明 -->
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;gap:8px;">
+        <span style="font-size:14px;flex-shrink:0;">💡</span>
+        <div style="font-size:11px;color:#92400E;line-height:1.5;">
+          AI医师将主导问诊，您作为患者描述症状与体质。通过角色转换，帮助店员理解“辨证-选药-随访”逻辑，多轮对话后给出调理建议。
+        </div>
+      </div>
+
+      <!-- 病例信息 -->
+      <div class="case-banner">
+        <div class="case-banner-title">🏥 病例 CASE-TRT-2024-015</div>
+        <div class="case-info-grid">
+          <div class="case-info-item">
+            <div class="case-info-label">基本信息</div>
+            <div class="case-info-value">男性，62岁</div>
+          </div>
+          <div class="case-info-item">
+            <div class="case-info-label">病史</div>
+            <div class="case-info-value">脾胃虚弱反复 2年</div>
+          </div>
+          <div class="case-info-item">
+            <div class="case-info-label">主诉</div>
+            <div class="case-info-value">食少乏力、便溏、神疲倦怠</div>
+          </div>
+          <div class="case-info-item">
+            <div class="case-info-label">最新化验</div>
+            <div class="case-info-value">舌淡苔白，脉细弱</div>
+          </div>
+          <div class="case-info-item">
+            <div class="case-info-label">BMI</div>
+            <div class="case-info-value">22.4 kg/m²</div>
+          </div>
+          <div class="case-info-item">
+            <div class="case-info-label">当前用药</div>
+            <div class="case-info-value">二甲双胍1g bid + 格列齐特80mg bid</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 附件上传 -->
+      <div class="attach-section">
+        <div class="attach-title">
+          <span>📎</span> 附件上传
+          <span style="font-size:11px;color:var(--gray-400);font-weight:500;margin-left:2px;">（可选）</span>
+        </div>
+        <input type="file" id="case-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none;" onchange="handleCaseAttach(this)">
+        <div class="attach-drop" id="case-drop-zone" onclick="document.getElementById('case-file-input').click()"
+             ondragover="event.preventDefault();this.classList.add('dragover')"
+             ondragleave="this.classList.remove('dragover')"
+             ondrop="handleCaseDrop(event)">
+          <div class="attach-drop-icon">📂</div>
+          <div class="attach-drop-text">上传检验报告、影像资料、病历文档<br>支持拖拽或点击选择文件</div>
+          <div class="attach-drop-btn">选择文件</div>
+          <div class="attach-types">
+            <span class="attach-type-tag">PDF</span>
+            <span class="attach-type-tag">Word</span>
+            <span class="attach-type-tag">Excel</span>
+            <span class="attach-type-tag">JPG/PNG</span>
+          </div>
+        </div>
+        <div class="attach-list" id="case-attach-list"></div>
+      </div>
+
+      <div style="background:white;border-radius:12px;padding:14px;box-shadow:var(--shadow);">
+        <button class="btn btn-primary btn-full" onclick="goTo('screen-m2-case')" style="background:linear-gradient(135deg,#7C3AED,#9333EA);">🏥 开始病例分析</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: 异议处理 SETUP ==================== -->
+  <div class="screen" id="screen-m2-objection" style="background:white;">
+    <!-- Nav bar -->
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;padding:12px 16px;">
+      <button class="nav-back" onclick="goTo('screen-m2')" style="font-size:20px;font-weight:300;">‹</button>
+      <button onclick="goTo('screen-m2')" style="border:none;background:none;font-size:20px;color:var(--gray-500);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-left:2px;">×</button>
+      <div class="nav-title" style="flex:1;text-align:center;font-size:15px;">异议处理 - 练习模式</div>
+      <button style="border:none;background:none;font-size:20px;color:var(--gray-500);cursor:pointer;padding:4px 8px;">⋮</button>
+    </div>
+
+    <!-- Scrollable content -->
+    <div style="flex:1;overflow-y:auto;padding:28px 20px 20px;background:white;">
+      <div style="font-size:26px;font-weight:800;color:var(--gray-900);margin-bottom:28px;">练习模式</div>
+
+      <!-- Dropdown 1: 选择预设异议 -->
+      <div class="objection-field">
+        <div class="objection-field-label">选择预设异议</div>
+        <div class="objection-select-wrap">
+          <select class="objection-setup-select" id="preset-objection-select" onchange="onPresetObjectionChange()">
+            <option value="">-请选择预设异议-</option>
+            <option value="sglt_cv">SGLT-2i和诺和泰都有心血管获益 (1/2)</option>
+            <option value="safety">安全性顾虑：甲状腺癌风险 (2/2)</option>
+            <option value="price">价格偏贵，患者难以承担</option>
+            <option value="efficacy">疗效存疑，需要更多循证数据</option>
+            <option value="compliance">依从性差，患者不接受注射</option>
+          </select>
+          <span class="objection-select-arrow">∨</span>
+        </div>
+      </div>
+
+      <!-- Dropdown 2: 选择实际异议分类 -->
+      <div class="objection-field">
+        <div class="objection-field-label">选择实际异议分类</div>
+        <div class="objection-select-wrap">
+          <select class="objection-setup-select" id="actual-class-select" onchange="onActualClassChange()">
+            <option value="">-请选择实际异议分类-</option>
+            <option value="unlimited">不限</option>
+            <option value="practiced">练习过的</option>
+            <option value="unpracticed">未练习过的</option>
+          </select>
+          <span class="objection-select-arrow">∨</span>
+        </div>
+      </div>
+
+      <!-- Dropdown 3: 选择医生 -->
+      <div class="objection-field">
+        <div class="objection-field-label">选择医生</div>
+        <div class="objection-select-wrap">
+          <select class="objection-setup-select" id="doctor-persona-select" onchange="onDoctorPersonaChange()">
+            <option value="">-请选择医生-</option>
+            <option value="zhang">张医生</option>
+            <option value="chen">陈教授</option>
+            <option value="li">李副主任</option>
+          </select>
+          <span class="objection-select-arrow">∨</span>
+        </div>
+      </div>
+
+      <!-- Doctor Info Card -->
+      <div id="doctor-persona-card" style="display:none;" class="doctor-info-card">
+        <div class="doctor-info-header">
+          <div class="doctor-photo-box" id="doctor-persona-emoji">👩‍⚕️</div>
+          <div class="doctor-meta-grid">
+            <div class="doctor-meta-item">
+              <div class="doctor-meta-label">医院类型</div>
+              <div class="doctor-meta-value" id="doctor-hospital-type">三级甲等</div>
+            </div>
+            <div class="doctor-meta-item">
+              <div class="doctor-meta-label">医生职级</div>
+              <div class="doctor-meta-value" id="doctor-rank-val">主任医师</div>
+            </div>
+            <div class="doctor-meta-item" style="grid-column:1/-1;">
+              <div class="doctor-meta-label">医生风格</div>
+              <div class="doctor-meta-value" id="doctor-style-val">友善型</div>
+            </div>
+          </div>
+        </div>
+        <div class="doctor-bg-section">
+          <div class="doctor-bg-title">异议相关背景信息</div>
+          <div class="doctor-bg-text" id="doctor-bg-text">心内科医生，会主动处方降糖药物，SGLT-2i有多年的处方经验，尤其是伴有心血管疾病或心力衰竭风险的患者，会首选SGLT-2i进行治疗。诺和泰刚开始尝试使用，通过会议了解了一些基本信息，但对心血管获益机制仍有疑虑。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom button -->
+    <div style="padding:16px 20px 32px;background:white;border-top:1px solid var(--gray-100);flex-shrink:0;">
+      <button id="start-practice-btn" class="start-practice-btn-disabled" onclick="startObjectionPractice()">
+        开始对话练习
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: ROLEPLAY CHAT (异议处理) ==================== -->
+  <div class="screen" id="screen-m2-chat" style="position:relative;">
+    <!-- Nav bar -->
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar" style="padding:12px 16px;">
+        <button class="nav-back" onclick="goTo('screen-m2-objection')" style="font-size:20px;font-weight:300;">‹</button>
+        <button onclick="goTo('screen-m2-objection')" style="border:none;background:none;font-size:20px;color:var(--gray-500);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-left:2px;">×</button>
+        <div class="nav-title" style="flex:1;text-align:center;font-size:15px;" id="chat-screen-doctor-name">张医生</div>
+        <button style="border:none;background:none;font-size:20px;color:var(--gray-500);cursor:pointer;padding:4px 8px;">⋮</button>
+      </div>
+    </div>
+
+    <!-- Hints panel -->
+    <div class="rp-hints-panel" id="rp-hints-panel">
+      <div class="rp-hints-header">
+        <div class="rp-hints-title">
+          <span>💡</span><span>提示</span>
+        </div>
+        <button class="rp-hints-toggle" id="rp-hints-toggle-btn" onclick="toggleRpHints()">收起 ∧</button>
+      </div>
+      <div class="rp-hints-text" id="rp-hints-content">
+        您可以尝试从询问指向、询问来源、询问治疗观念、询问治疗经验 4个方面提问来澄清医生的异议，还可以进行<strong>19轮</strong>对话。目前您已提问过 <span style="color:var(--primary);font-weight:600;">询问治疗理念</span>。
+      </div>
+    </div>
+
+    <!-- Timer strip -->
+    <div class="rp-timer-strip">
+      <div class="rp-timer-left">
+        <span style="font-size:13px;">⏱</span>
+        <span class="rp-timer-label">练习时长：</span>
+        <span class="rp-timer-value" id="rp-timer-display">00:00:00</span>
+      </div>
+      <button class="rp-end-btn" onclick="goTo('screen-m2-score')">结束练习</button>
+    </div>
+
+    <!-- Chat messages -->
+    <div class="roleplay-chat" id="rp-chat-messages">
+
+      <!-- Doctor opening message -->
+      <div class="rp-doc-msg">
+        <div class="rp-doc-avatar">👩‍⚕️</div>
+        <div>
+          <div class="rp-doc-bubble">
+            SGLT-2i和诺和泰都有心血管获益
+            <div class="rp-audio-row">
+              <span class="rp-audio-icon">🔊</span>
+              <span class="rp-audio-dur">4"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User reply -->
+      <div class="rp-user-msg">
+        <div class="rp-user-bubble">
+          明白，那您觉得诺和泰的心血管获益和SGLT2I的获益机制在临床上是同一类作用路径吗？
+        </div>
+        <div class="rp-user-avatar">🏔️</div>
+      </div>
+
+      <!-- Doctor reply -->
+      <div class="rp-doc-msg">
+        <div class="rp-doc-avatar">👩‍⚕️</div>
+        <div>
+          <div class="rp-doc-bubble">
+            这个问题我还真不太清楚，诺和泰的心血管获益机制我目前不了解。SGLT-2i的机制比较清楚，主要是利尿和减轻心脏负荷，诺和泰是不是也是这个机制？
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Voice recognition popup -->
+    <div class="rp-voice-popup" id="rp-voice-popup" style="display:none;">
+      <div class="rp-voice-header">
+        <div class="rp-voice-status">
+          <span style="font-size:16px;">😊</span>
+          <span>正在识别...</span>
+        </div>
+        <button class="rp-voice-close" onclick="closeRpVoice()">×</button>
+      </div>
+      <div class="rp-voice-text" id="rp-voice-text">那您</div>
+      <div class="rp-voice-wave"></div>
+      <button class="rp-voice-done-btn" onclick="goTo('screen-m2-score')">结束识别</button>
+    </div>
+
+    <!-- Input area -->
+    <div class="rp-input-area">
+      <div class="chat-input-row">
+        <button class="chat-voice" onclick="showRpVoice()">🎙️</button>
+        <textarea class="chat-input" placeholder="输入你的回应…" rows="1"></textarea>
+        <button class="chat-send" onclick="goTo('screen-m2-score')">↑</button>
+      </div>
+      <div class="rp-disclaimer">内容由AI生成，仅供参考，请仔细甄别</div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: QA PRACTICE ==================== -->
+  <div class="screen" id="screen-m2-qa-practice">
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar">
+        <button class="nav-back" onclick="goTo('screen-m2')">‹</button>
+        <div>
+          <div class="nav-title">用法用量 · 单选题</div>
+          <div class="card-subtitle">诺和泰 · 实战练习</div>
+        </div>
+        <div style="font-size:12px;color:var(--gray-400);font-weight:600;">04:15</div>
+      </div>
+      <div class="qa-progress-bar-wrap">
+        <div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div>
+        <div class="progress-info"><span>第 2 / 5 题</span><span>已得 8 / 10 分</span></div>
+      </div>
+    </div>
+
+    <div class="content" style="padding-bottom:20px;">
+
+      <!-- Q1: Already answered (wrong) — shows feedback -->
+      <div class="question-card">
+        <div class="question-num">第 1 题 · 单选题 · 10分 <span style="color:var(--danger);">✗ 答错</span></div>
+        <div class="question-text">诺和泰（司美格鲁肽注射液）的推荐起始剂量是多少？</div>
+        <div class="options" style="pointer-events:none;">
+          <div class="option correct">
+            <div class="option-letter">A</div>
+            <span>0.25 mg，每周一次，使用4周后增至0.5 mg/周</span>
+          </div>
+          <div class="option wrong">
+            <div class="option-letter">B</div>
+            <span>0.5 mg，每周一次，直接维持</span>
+          </div>
+          <div class="option">
+            <div class="option-letter">C</div>
+            <span>1 mg，每周一次，无需剂量递增</span>
+          </div>
+          <div class="option">
+            <div class="option-letter">D</div>
+            <span>0.1 mg，每天一次给药</span>
+          </div>
+        </div>
+        <div class="answer-feedback wrong-fb">
+          <span class="answer-feedback-icon">❌</span>
+          <div class="answer-feedback-text">
+            <strong>您选了B，正确答案是A。</strong><br>
+            诺和泰起始剂量为<strong>0.25 mg每周一次</strong>，使用4周后增至0.5 mg/周，若需进一步强化降糖，可在0.5 mg维持4周后再增至最高剂量1 mg/周。缓慢递增的目的是减少胃肠道不良反应的发生率，提高患者耐受性。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2: Current answerable question -->
+      <div class="question-card" id="q2-card">
+        <div class="question-num">第 2 题 · 单选题 · 10分</div>
+        <div class="question-text">关于诺和泰的注射给药方式，以下哪项描述正确？</div>
+        <div class="options" id="q2-options">
+          <div class="option" onclick="answerQ2(this,'A','wrong')">
+            <div class="option-letter">A</div>
+            <span>仅限静脉注射，每日用药</span>
+          </div>
+          <div class="option" onclick="answerQ2(this,'B','correct')">
+            <div class="option-letter">B</div>
+            <span>皮下注射，每周一次，注射时间和进餐无关</span>
+          </div>
+          <div class="option" onclick="answerQ2(this,'C','wrong')">
+            <div class="option-letter">C</div>
+            <span>皮下注射，每日两次，餐前30分钟注射</span>
+          </div>
+          <div class="option" onclick="answerQ2(this,'D','wrong')">
+            <div class="option-letter">D</div>
+            <span>肌肉注射，每两周一次</span>
+          </div>
+        </div>
+        <div id="q2-feedback" style="display:none;"></div>
+        <div id="q2-next" style="display:none;margin-top:12px;">
+          <button class="btn btn-primary btn-full" onclick="goTo('screen-m2-qa-result')">完成练习，查看评分 →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: QA RESULT ==================== -->
+  <div class="screen" id="screen-m2-qa-result">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-m2')">‹</button>
+      <div class="nav-title">练习评分报告</div>
+      <button class="nav-action">分享</button>
+    </div>
+    <div class="content">
+      <!-- Score -->
+      <div class="score-card">
+        <div style="text-align:center;margin-bottom:16px;">
+          <div class="score-circle"><div class="score-number">80</div></div>
+          <div style="font-size:16px;font-weight:800;color:var(--gray-900);margin-top:4px;">本次练习评分</div>
+          <div style="margin-top:6px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+            <span class="badge badge-blue">用法用量</span>
+            <span class="badge badge-purple">单选题 · 5题</span>
+          </div>
+        </div>
+        <div class="score-dims">
+          <div class="score-dim">
+            <div class="score-dim-name">剂量方案</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:70%;background:var(--warning);"></div></div>
+            <div class="score-dim-val">70</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">给药途径</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:100%;background:var(--success);"></div></div>
+            <div class="score-dim-val">100</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">剂量调整</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:80%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">80</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">漏注处理</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:80%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">80</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 题目详情 -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">各题得分详情</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#FEF2F2;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第1题 · 起始剂量</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--danger);">0/10</span><span>❌</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第2题 · 给药方式</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">10/10</span><span>✅</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第3题 · 剂量递增规则</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">10/10</span><span>✅</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第4题 · 肾功能患者调整</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">10/10</span><span>✅</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第5题 · 漏注处理方案</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">10/10</span><span>✅</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 建议 -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">💬 AI 学习建议</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#ECFDF5;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">✅</span>
+            <div style="font-size:12px;color:#065F46;line-height:1.4;"><strong>亮点：</strong>给药途径、剂量递增规则掌握扎实，可在与医生沟通时自信引用。</div>
+          </div>
+          <div style="background:#FEF3C7;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">⚠️</span>
+            <div style="font-size:12px;color:#92400E;line-height:1.4;"><strong>提升空间：</strong>起始剂量0.25 mg的记忆需强化，这是临床医生最常询问的核心参数之一。</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="goTo('screen-m2')">🔄 换维度练习</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="goTo('screen-m3')">📊 去考试</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: CASE ANALYSIS CHAT ==================== -->
+  <div class="screen" id="screen-m2-case">
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar">
+        <button class="nav-back" onclick="goTo('screen-m2')">‹</button>
+        <div style="display:flex;align-items:center;gap:10px;flex:1;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#A855F7);display:flex;align-items:center;justify-content:center;font-size:16px;">👨‍⚕️</div>
+          <div>
+            <div class="nav-title" style="font-size:14px;">陈主任 · 内分泌科门诊</div>
+            <div class="card-subtitle">病例分析 · 您扮演患者</div>
+          </div>
+        </div>
+        <button class="nav-action" style="color:var(--danger)">结束</button>
+      </div>
+      <div class="case-context-strip">
+        <div class="case-context-row">
+          <span class="case-context-tag">🧑 男·62岁</span>
+          <span class="case-context-tag">🩺 2型糖尿病 15年</span>
+          <span class="case-context-tag">📊 HbA1c 9.1%</span>
+          <span class="case-context-tag">💊 二甲双胍+格列齐特</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roleplay-chat">
+      <div class="msg-time">问诊开始 · 您扮演患者</div>
+
+      <!-- AI 医生开场 -->
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div>
+          <div class="doctor-name">陈主任（AI医生）</div>
+          <div class="doctor-bubble">您好，请坐。您今天来主要是什么问题，哪里不舒服？</div>
+        </div>
+      </div>
+
+      <!-- 患者（销售代表）回答 -->
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">陈主任您好，我最近血糖控制得不太好，而且两条腿经常麻木，有时候还有刺痛感，特别是晚上睡觉的时候比较明显。</div>
+      </div>
+
+      <!-- AI 医生跟进问诊 -->
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div>
+          <div class="doctor-name">陈主任（AI医生）</div>
+          <div class="doctor-bubble">腿麻这个情况有多久了？是两条腿都有，还是一条？麻木的感觉是从哪里开始的，脚趾还是整个小腿？休息的时候和活动的时候有什么不同吗？</div>
+        </div>
+      </div>
+
+      <!-- 患者回答 -->
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">大概有三四个月了，两条腿都有，从脚趾开始往上，有点像袜子套着的感觉。休息的时候反而更明显，走路倒没那么难受。</div>
+      </div>
+
+      <!-- AI 医生深入问诊 -->
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div>
+          <div class="doctor-name">陈主任（AI医生）</div>
+          <div class="doctor-bubble">嗯，这个症状描述很典型。您的血糖方面，平时自己测吗？最近空腹血糖大概在什么水平？目前在用什么药，有没有按时吃药？</div>
+        </div>
+      </div>
+
+      <!-- 患者回答 -->
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">我用二甲双胍和格列齐特，基本都按时吃。空腹血糖大概在11到13之间，餐后有时候到16，17。上次化验糖化血红蛋白是9.1。</div>
+      </div>
+
+      <!-- AI 医生综合分析 -->
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div>
+          <div class="doctor-name">陈主任（AI医生）</div>
+          <div class="doctor-bubble">好的，我初步了解了您的情况。您的血糖控制确实还不够理想，结合您的症状，我需要给您做一些检查，包括足部感觉测试和神经传导速度。同时我也要看看您的体重和血压情况。</div>
+        </div>
+      </div>
+
+      <!-- 诊疗结论 -->
+      <div class="conclusion-chat-card">
+        <div class="conclusion-chat-title">🩺 陈主任诊疗结论</div>
+        <div class="conclusion-item">
+          <span class="conclusion-dot">📋</span>
+          <div><strong>初步诊断：</strong>2型糖尿病合并周围神经病变（DPN），血糖控制不达标（HbA1c 9.1%）</div>
+        </div>
+        <div class="conclusion-item">
+          <span class="conclusion-dot">🎯</span>
+          <div><strong>血糖目标：</strong>HbA1c降至7.5%以下，兼顾低血糖风险（结合年龄与病程）</div>
+        </div>
+        <div class="conclusion-item">
+          <span class="conclusion-dot">💊</span>
+          <div><strong>治疗调整：</strong>在现有方案基础上加用GLP-1受体激动剂（如诺和泰），可显著改善HbA1c并带来心血管获益，同时注意体重管理</div>
+        </div>
+        <div class="conclusion-item">
+          <span class="conclusion-dot">🔬</span>
+          <div><strong>并发症管理：</strong>营养神经治疗，每3个月监测eGFR，定期进行足部检查</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:4px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="goTo('screen-m2')">返回陪练</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="goTo('screen-m2-case-result')">查看我的评分 →</button>
+      </div>
+    </div>
+
+    <div class="rp-input-area">
+      <div class="rp-actions">
+        <span style="font-size:11px;color:var(--gray-400);">💬 以患者身份描述您的症状和感受…</span>
+      </div>
+      <div class="chat-input-row">
+        <button class="chat-voice">🎙️</button>
+        <textarea class="chat-input" placeholder="作为患者，描述症状或回答医生问题…" rows="1"></textarea>
+        <button class="chat-send">↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: CASE RESULT ==================== -->
+  <div class="screen" id="screen-m2-case-result">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-m2')">‹</button>
+      <div class="nav-title">病例分析评估</div>
+      <button class="nav-action">分享</button>
+    </div>
+    <div class="content">
+      <!-- Score -->
+      <div class="score-card">
+        <div style="text-align:center;margin-bottom:16px;">
+          <div class="score-circle" style="background:conic-gradient(#7C3AED 0deg 295deg, var(--gray-200) 295deg 360deg);">
+            <div class="score-number" style="color:#7C3AED;">82</div>
+          </div>
+          <div style="font-size:16px;font-weight:800;color:var(--gray-900);margin-top:4px;">病例角色演练评分</div>
+          <div style="margin-top:6px;"><span class="badge badge-purple">病例分析 · CASE-2024-015</span></div>
+        </div>
+        <div class="score-dims">
+          <div class="score-dim">
+            <div class="score-dim-name">症状描述</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:92%;background:var(--success);"></div></div>
+            <div class="score-dim-val">92</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">病史完整性</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:85%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">85</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">用药信息传达</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:78%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">78</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">配合度与沟通</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:72%;background:var(--warning);"></div></div>
+            <div class="score-dim-val">72</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 诊疗结论摘要 -->
+      <div class="case-banner" style="margin-bottom:12px;">
+        <div class="case-banner-title">🩺 本次病例诊疗要点</div>
+        <div style="font-size:12px;color:var(--gray-700);line-height:1.6;">
+          <div style="margin-bottom:6px;">• <strong>诊断：</strong>2型糖尿病合并周围神经病变（DPN）</div>
+          <div style="margin-bottom:6px;">• <strong>核心问题：</strong>血糖控制不达标（HbA1c 9.1%），双药联合效果不足</div>
+          <div style="margin-bottom:6px;">• <strong>处方机会：</strong>适合加用GLP-1RA，诺和泰具有同类最高心血管获益证据</div>
+          <div>• <strong>并发症：</strong>DPN已出现，需加强神经保护及足部管理</div>
+        </div>
+      </div>
+
+      <!-- AI 建议 -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">💬 AI 临床洞察建议</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#ECFDF5;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">✅</span>
+            <div style="font-size:12px;color:#065F46;line-height:1.4;"><strong>优秀表现：</strong>症状描述层次清晰，"袜套感"的表达有效帮助AI医生快速定位DPN，是真实问诊中的高效信息。</div>
+          </div>
+          <div style="background:#FEF3C7;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">⚠️</span>
+            <div style="font-size:12px;color:#92400E;line-height:1.4;"><strong>提升空间：</strong>未主动提及近期体重变化（BMI 26.8，有减重需求），这是GLP-1RA的重要处方依据，销售拜访时可提前准备引导。</div>
+          </div>
+          <div style="background:#EFF6FF;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">🎯</span>
+            <div style="font-size:12px;color:#1D4ED8;line-height:1.4;"><strong>临床洞察：</strong>此类患者（高HbA1c+DPN+超重）正是诺和泰的目标人群。建议熟记SUSTAIN-6研究数据，用于支持处方推荐。</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="goTo('screen-m2-case')">🔄 重新练习</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="goTo('screen-m3')">📝 去考试</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: PITCH REVIEW ==================== -->
+  <div class="screen" id="screen-m2-pitch">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-m2')">‹</button>
+      <div>
+        <div class="nav-title">演讲评测</div>
+        <div class="card-subtitle">PPT宣讲 · AI语音分析</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:12px;">上传演讲材料</div>
+        <div style="border:2px dashed var(--gray-300);border-radius:10px;padding:28px;text-align:center;cursor:pointer;margin-bottom:4px;">
+          <div style="font-size:40px;margin-bottom:10px;">📤</div>
+          <div style="font-size:14px;font-weight:700;color:var(--gray-700);">上传 PPT 文件</div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:4px;">.pptx · .pdf · 最大50MB</div>
+          <div style="margin-top:12px;">
+            <button style="background:var(--primary);color:white;border:none;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;">选择文件</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:12px;">录制宣讲</div>
+        <div style="background:var(--gray-50);border-radius:10px;padding:14px;margin-bottom:12px;">
+          <div style="display:flex;gap:10px;margin-bottom:10px;">
+            <button style="flex:1;padding:10px;background:var(--primary);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">🎙️ 语音录制</button>
+            <button style="flex:1;padding:10px;background:white;color:var(--gray-700);border:1px solid var(--gray-200);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">📹 视频录制</button>
+          </div>
+          <div style="font-size:11px;color:var(--gray-400);text-align:center;">AI将通过语音识别分析演讲逻辑、关键信息传达率和语气自信度</div>
+        </div>
+        <div class="voice-record">
+          <div style="font-size:12px;color:var(--gray-500);">上传PPT后，点击开始录制您的演讲</div>
+          <button class="voice-btn" onclick="this.classList.toggle('recording')">🎙️</button>
+          <div class="waveform" style="opacity:0.3;">
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+          </div>
+          <div class="voice-status">等待录制…</div>
+        </div>
+      </div>
+
+      <div class="card" style="background:var(--gray-50);">
+        <div style="font-size:12px;color:var(--gray-500);font-weight:600;margin-bottom:8px;">AI 将评估以下维度</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div style="background:white;border-radius:8px;padding:8px 10px;font-size:11px;color:var(--gray-700);">📝 演讲逻辑结构</div>
+          <div style="background:white;border-radius:8px;padding:8px 10px;font-size:11px;color:var(--gray-700);">🎯 关键信息传达率</div>
+          <div style="background:white;border-radius:8px;padding:8px 10px;font-size:11px;color:var(--gray-700);">🗣️ 语气自信度</div>
+          <div style="background:white;border-radius:8px;padding:8px 10px;font-size:11px;color:var(--gray-700);">⏱️ 节奏时间控制</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 2: SCORE FEEDBACK ==================== -->
+  <div class="screen" id="screen-m2-score">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-m2')">‹</button>
+      <div class="nav-title">陪练评估报告</div>
+      <button class="nav-action">分享</button>
+    </div>
+    <div class="content">
+      <div class="score-card">
+        <div style="text-align:center;margin-bottom:16px;">
+          <div class="score-circle"><div class="score-number">84</div></div>
+          <div style="font-size:16px;font-weight:800;color:var(--gray-900);margin-top:4px;">本次陪练评分</div>
+          <div style="margin-top:6px;"><span class="badge badge-blue">异议处理 · 安全性顾虑</span></div>
+        </div>
+        <div class="score-dims">
+          <div class="score-dim">
+            <div class="score-dim-name">SOP完整度</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:90%;background:var(--success);"></div></div>
+            <div class="score-dim-val">90</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">共情回应</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:88%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">88</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">数据运用</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:82%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">82</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">异议化解</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:68%;background:var(--warning);"></div></div>
+            <div class="score-dim-val">68</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">达成共识</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:78%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">78</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">💬 AI 改进建议</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#ECFDF5;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">✅</span>
+            <div style="font-size:12px;color:#065F46;line-height:1.4;"><strong>亮点：</strong>引用了SUSTAIN系列人体临床数据，有效区分了动物实验与人体数据的差异，共情回应自然专业。</div>
+          </div>
+          <div style="background:#FEF3C7;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:14px;">⚠️</span>
+            <div style="font-size:12px;color:#92400E;line-height:1.4;"><strong>提升空间：</strong>异议化解时未进一步确认医生的顾虑是否完全消除，建议使用"您现在对这方面还有其他疑问吗？"来关闭异议。</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="goTo('screen-m2')">🔄 再次练习</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="goTo('screen-m3')">📊 去考试</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 3: EXAM ==================== -->
+  <div class="screen" id="screen-m3">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-home')">‹</button>
+      <div>
+        <div class="nav-title">智能考试中心</div>
+        <div class="card-subtitle">考培一体化评估</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card" style="background:linear-gradient(135deg,#8F1E20 0%,#A32628 55%,#B07A2A 100%);color:white;border-radius:14px;">
+        <div style="font-size:13px;opacity:0.8;margin-bottom:4px;">本月考试进度</div>
+        <div style="font-size:28px;font-weight:800;margin-bottom:10px;">2 / 4 <span style="font-size:14px;font-weight:400;opacity:0.7;">项已完成</span></div>
+        <div style="height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden;">
+          <div style="width:50%;height:100%;background:white;border-radius:3px;"></div>
+        </div>
+      </div>
+      <div class="section-title">考试模式</div>
+      <div class="card" onclick="goTo('screen-m3-qa-select')" style="cursor:pointer;">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div style="width:52px;height:52px;border-radius:14px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">📝</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:2px;">传统知识通关</div>
+            <div style="font-size:12px;color:var(--gray-400);line-height:1.4;">产品QA随机出题，语音作答，考试后给出题目得分</div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <span class="badge badge-blue">语音作答</span>
+              <span class="badge badge-orange">强制考核</span>
+            </div>
+          </div>
+          <span style="color:var(--gray-300);font-size:20px;">›</span>
+        </div>
+      </div>
+      <div class="card" onclick="goTo('screen-m3-dialog-select')" style="cursor:pointer;">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div style="width:52px;height:52px;border-radius:14px;background:#F5F3FF;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🤝</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:2px;">AI 对话实操考试</div>
+            <div style="font-size:12px;color:var(--gray-400);line-height:1.4;">无辅助提示的真实HCP对话，多轮后AI多维度评分</div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <span class="badge badge-purple">异议处理</span>
+              <span class="badge badge-purple">病例分析</span>
+            </div>
+          </div>
+          <span style="color:var(--gray-300);font-size:20px;">›</span>
+        </div>
+      </div>
+      <div class="section-title">能力雷达图</div>
+      <div class="radar-container">
+        <svg class="radar-svg" viewBox="0 0 180 180">
+          <polygon points="90,20 155,57 155,123 90,160 25,123 25,57" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+          <polygon points="90,40 140,67 140,113 90,140 40,113 40,67" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+          <polygon points="90,60 125,77 125,103 90,120 55,103 55,77" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+          <polygon points="90,35 148,74 138,118 90,148 42,108 42,65" fill="rgba(37,99,235,0.15)" stroke="#2563EB" stroke-width="2"/>
+          <text x="90" y="14" text-anchor="middle" font-size="10" fill="#6B7280">产品知识</text>
+          <text x="164" y="60" text-anchor="start" font-size="10" fill="#6B7280">异议处理</text>
+          <text x="164" y="128" text-anchor="start" font-size="10" fill="#6B7280">病例分析</text>
+          <text x="90" y="174" text-anchor="middle" font-size="10" fill="#6B7280">竞品对比</text>
+          <text x="16" y="128" text-anchor="end" font-size="10" fill="#6B7280">演讲力</text>
+          <text x="16" y="60" text-anchor="end" font-size="10" fill="#6B7280">沟通技巧</text>
+          <circle cx="90" cy="35" r="3" fill="#2563EB"/>
+          <circle cx="148" cy="74" r="3" fill="#2563EB"/>
+          <circle cx="138" cy="118" r="3" fill="#2563EB"/>
+          <circle cx="90" cy="148" r="3" fill="#DC2626"/>
+          <circle cx="42" cy="108" r="3" fill="#2563EB"/>
+          <circle cx="42" cy="65" r="3" fill="#2563EB"/>
+        </svg>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
+          <div style="display:flex;gap:4px;align-items:center;font-size:10px;color:var(--gray-500);">
+            <div style="width:10px;height:10px;border-radius:2px;background:var(--primary);"></div>良好 (≥75)
+          </div>
+          <div style="display:flex;gap:4px;align-items:center;font-size:10px;color:var(--gray-500);">
+            <div style="width:10px;height:10px;border-radius:2px;background:var(--danger);"></div>待提升 (&lt;75)
+          </div>
+        </div>
+        <div style="margin-top:12px;background:#FEF3C7;border-radius:8px;padding:10px;display:flex;gap:8px;align-items:center;">
+          <span style="font-size:14px;">🎯</span>
+          <div style="font-size:11px;color:#92400E;line-height:1.4;"><strong>弱项推送：</strong>竞品对比得分C级，已为你准备专项提升材料</div>
+          <button style="margin-left:auto;background:#D97706;color:white;border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;" onclick="goTo('screen-m1')">去学习</button>
+        </div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-item" onclick="goTo('screen-home')"><span class="tab-icon">🏠</span><span class="tab-label">首页</span></button>
+      <button class="tab-item" onclick="goTo('screen-m1')"><span class="tab-icon">🧠</span><span class="tab-label">问药</span></button>
+      <button class="tab-item" onclick="goTo('screen-m2')"><span class="tab-icon">🎭</span><span class="tab-label">陪练</span></button>
+      <button class="tab-item active" onclick="goTo('screen-m3')"><span class="tab-icon">📊</span><span class="tab-label">考试</span></button>
+      <button class="tab-item" onclick="goTo('screen-profile')"><span class="tab-icon">👤</span><span class="tab-label">我的</span></button>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 3: QA EXAM ==================== -->
+  <!-- ── 产品知识通关: 题型选择 ── -->
+  <div class="screen" id="screen-m3-qa-select">
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar">
+        <button class="nav-back" onclick="goTo('screen-m3')">‹</button>
+        <div class="nav-title">选择题型</div>
+        <div></div>
+      </div>
+    </div>
+    <div class="content" style="padding:20px 16px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="width:64px;height:64px;border-radius:18px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;">📝</div>
+        <div style="font-size:17px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">传统知识通关</div>
+        <div style="font-size:13px;color:var(--gray-400);">请选择本次考试的题型</div>
+      </div>
+
+      <!-- 单选题 -->
+      <div class="card" onclick="startQaExam('single')" style="cursor:pointer;margin-bottom:12px;">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div style="width:48px;height:48px;border-radius:14px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🔘</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:2px;">单选题</div>
+            <div style="font-size:12px;color:var(--gray-400);line-height:1.4;">每题4个选项，选出唯一正确答案</div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <span class="badge badge-blue">10题</span>
+              <span class="badge" style="background:#F0FDF4;color:#16A34A;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;">难度 ★★☆</span>
+            </div>
+          </div>
+          <span style="color:var(--gray-300);font-size:20px;">›</span>
+        </div>
+      </div>
+
+      <!-- 多选题 -->
+      <div class="card" onclick="startQaExam('multi')" style="cursor:pointer;margin-bottom:12px;">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div style="width:48px;height:48px;border-radius:14px;background:#FFF7ED;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">☑️</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:2px;">多选题</div>
+            <div style="font-size:12px;color:var(--gray-400);line-height:1.4;">每题含多个正确答案，全部选对方可得分</div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <span class="badge badge-orange">8题</span>
+              <span class="badge" style="background:#FFF7ED;color:#EA580C;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;">难度 ★★★</span>
+            </div>
+          </div>
+          <span style="color:var(--gray-300);font-size:20px;">›</span>
+        </div>
+      </div>
+
+      <!-- 问答题 -->
+      <div class="card" onclick="startQaExam('open')" style="cursor:pointer;margin-bottom:28px;">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div style="width:48px;height:48px;border-radius:14px;background:#F5F3FF;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🎙️</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:2px;">问答题</div>
+            <div style="font-size:12px;color:var(--gray-400);line-height:1.4;">语音或文字作答，AI评估回答完整性与准确性</div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <span class="badge" style="background:#F5F3FF;color:#7C3AED;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;">6题</span>
+              <span class="badge" style="background:#F5F3FF;color:#7C3AED;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;">难度 ★★★</span>
+            </div>
+          </div>
+          <span style="color:var(--gray-300);font-size:20px;">›</span>
+        </div>
+      </div>
+
+      <div style="background:#F8FAFC;border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start;">
+        <span style="font-size:16px;flex-shrink:0;">💡</span>
+        <div style="font-size:12px;color:var(--gray-500);line-height:1.6;">考试结束后将给出详细得分与AI学习建议，建议按顺序完成三种题型以全面检验产品知识掌握情况。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-m3-qa">
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar">
+        <button class="nav-back" onclick="goTo('screen-m3-qa-select')">‹</button>
+        <div class="nav-title" id="qa-exam-title">产品QA通关考试</div>
+        <div style="font-size:12px;color:var(--gray-400);">03:42</div>
+      </div>
+      <div class="exam-progress">
+        <div class="progress-bar"><div class="progress-fill" id="qa-progress-fill" style="width:10%;"></div></div>
+        <div class="progress-info"><span id="qa-progress-label">第 1 / 10 题</span><span id="qa-score-label">已得 0 / 40 分</span></div>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- ── 单选题 section ── -->
+      <div id="qa-content-single">
+        <div class="question-card">
+          <div class="question-num">第 1 题 · 单选题 · 4分 <span style="color:var(--success);font-size:12px;">✅ +4分</span></div>
+          <div class="question-text">以下哪项是诺和泰（司美格鲁肽）的主要作用机制？</div>
+          <div class="options">
+            <div class="option correct"><div class="option-letter">A</div><span>GLP-1受体激动剂，促进胰岛素分泌并抑制胰高糖素</span></div>
+            <div class="option wrong"><div class="option-letter">B</div><span>DPP-4抑制剂，延缓GLP-1降解</span></div>
+            <div class="option"><div class="option-letter">C</div><span>SGLT-2抑制剂，促进尿糖排出</span></div>
+            <div class="option"><div class="option-letter">D</div><span>胰岛素增敏剂，改善外周胰岛素抵抗</span></div>
+          </div>
+        </div>
+        <div class="question-card">
+          <div class="question-num">第 2 题 · 单选题 · 4分</div>
+          <div class="question-text">诺和泰的半衰期约为多少天？以下哪个选项准确描述了其药代动力学特征？</div>
+          <div class="options" id="single-opts">
+            <div class="option" onclick="selectSingleOption(this,'single-opts')"><div class="option-letter">A</div><span>约7天，每周一次皮下注射，血药浓度稳定</span></div>
+            <div class="option" onclick="selectSingleOption(this,'single-opts')"><div class="option-letter">B</div><span>约1天，需每日注射</span></div>
+            <div class="option" onclick="selectSingleOption(this,'single-opts')"><div class="option-letter">C</div><span>约14天，每两周注射一次</span></div>
+            <div class="option" onclick="selectSingleOption(this,'single-opts')"><div class="option-letter">D</div><span>约3小时，需持续静脉滴注</span></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="goTo('screen-m3-result')">提交本题</button>
+      </div>
+
+      <!-- ── 多选题 section ── -->
+      <div id="qa-content-multi" style="display:none;">
+        <div class="question-card">
+          <div class="question-num">第 1 题 · 多选题 · 5分 <span style="color:var(--success);font-size:12px;">✅ +5分</span></div>
+          <div class="question-text">关于诺和泰的适应症，以下哪些说法正确？（多选）</div>
+          <div class="options">
+            <div class="option multi-check correct"><div class="option-letter">A</div><span>用于成人2型糖尿病血糖控制</span></div>
+            <div class="option multi-check wrong"><div class="option-letter">B</div><span>可用于1型糖尿病患者</span></div>
+            <div class="option multi-check correct"><div class="option-letter">C</div><span>可降低已确诊心血管病的2型糖尿病患者的主要心血管事件风险</span></div>
+            <div class="option multi-check"><div class="option-letter">D</div><span>用于治疗成人肥胖或超重（与糖尿病无关）</span></div>
+          </div>
+          <div style="background:#ECFDF5;border-radius:8px;padding:10px;margin-top:12px;display:flex;gap:8px;">
+            <span style="font-size:14px;">✅</span>
+            <div style="font-size:12px;color:#065F46;line-height:1.4;">正确答案：A、C。诺和泰适应症为2型糖尿病控糖及已确诊心血管病患者的风险降低；1型糖尿病不在适应症范围。</div>
+          </div>
+        </div>
+        <div class="question-card">
+          <div class="question-num">第 2 题 · 多选题 · 5分</div>
+          <div class="question-text">诺和泰禁用于以下哪些情况？（多选，选出所有正确项）</div>
+          <div class="options" id="multi-opts">
+            <div class="option multi-check" onclick="toggleMultiOption(this)"><div class="option-letter">A</div><span>个人或家族有甲状腺髓样癌（MTC）病史</span></div>
+            <div class="option multi-check" onclick="toggleMultiOption(this)"><div class="option-letter">B</div><span>轻度肾功能不全（eGFR 60-89 mL/min）</span></div>
+            <div class="option multi-check" onclick="toggleMultiOption(this)"><div class="option-letter">C</div><span>多发性内分泌腺瘤病2型（MEN 2）</span></div>
+            <div class="option multi-check" onclick="toggleMultiOption(this)"><div class="option-letter">D</div><span>对本品任何成分过敏</span></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="goTo('screen-m3-result')">提交本题</button>
+      </div>
+
+      <!-- ── 问答题 section ── -->
+      <div id="qa-content-open" style="display:none;">
+        <div class="question-card">
+          <div class="question-num" id="open-question-num">第 1 题 · 问答题 · 5分</div>
+          <div class="question-text" id="open-question-text"></div>
+          <!-- Mode toggle -->
+          <div style="display:flex;gap:8px;margin:14px 0 12px;">
+            <button id="mode-text-btn" onclick="switchAnswerMode('text')"
+              style="flex:1;padding:9px;border-radius:8px;border:2px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:600;cursor:pointer;">
+              ✏️ 文字输入
+            </button>
+            <button id="mode-voice-btn" onclick="switchAnswerMode('voice')"
+              style="flex:1;padding:9px;border-radius:8px;border:2px solid var(--gray-200);background:white;color:var(--gray-500);font-size:13px;font-weight:600;cursor:pointer;">
+              🎙️ 语音输入
+            </button>
+          </div>
+          <!-- Text input -->
+          <div id="answer-text-area">
+            <textarea id="open-textarea" placeholder="请在此输入您的回答，建议100字以上…"
+              style="width:100%;min-height:130px;border:2px solid var(--gray-200);border-radius:10px;padding:12px;font-size:13px;line-height:1.6;resize:none;box-sizing:border-box;color:var(--gray-900);outline:none;font-family:inherit;"
+              onfocus="this.style.borderColor='var(--primary)'"
+              onblur="this.style.borderColor='var(--gray-200)'"></textarea>
+            <div style="font-size:11px;color:var(--gray-400);text-align:right;margin-top:4px;">AI 将对内容的完整性和准确性评分</div>
+          </div>
+          <!-- Voice input -->
+          <div id="answer-voice-area" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:16px 0 8px;">
+            <div style="font-size:12px;color:var(--gray-500);">点击麦克风开始录音（建议 30–90 秒）</div>
+            <button class="voice-btn" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#7C3AED);border:none;font-size:28px;cursor:pointer;color:white;box-shadow:0 4px 12px rgba(99,102,241,0.35);">🎙️</button>
+            <div class="waveform" style="opacity:0.3;">
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+              <div class="wave-bar"></div><div class="wave-bar"></div>
+            </div>
+            <div style="font-size:12px;color:var(--gray-400);">准备就绪</div>
+          </div>
+        </div>
+        <!-- Submitted feedback -->
+        <div id="open-submitted-hint" style="display:none;align-items:center;gap:8px;padding:10px 14px;background:#ECFDF5;border-radius:10px;margin-bottom:10px;">
+          <span style="font-size:16px;">✅</span>
+          <div style="font-size:13px;color:#065F46;font-weight:600;">回答已提交，AI 将在考试结束后评分</div>
+        </div>
+        <button id="open-confirm-btn" class="btn btn-primary btn-full" onclick="confirmOpenAnswer()">确认</button>
+        <button id="open-next-btn" class="btn btn-primary btn-full" style="display:none;margin-top:10px;" onclick="nextOpenQuestion()">下一题 →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 3: DIALOG SCENE SELECT ==================== -->
+  <div class="screen" id="screen-m3-dialog-select">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-m3')">‹</button>
+      <div>
+        <div class="nav-title">AI 对话实操考试</div>
+        <div class="card-subtitle">选择考试场景</div>
+      </div>
+    </div>
+    <div class="content">
+      <!-- 说明 -->
+      <div style="background:#FEF3C7;border-radius:10px;padding:10px 14px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;">
+        <span style="font-size:15px;flex-shrink:0;">⚠️</span>
+        <div style="font-size:12px;color:#92400E;line-height:1.5;">考试模式全程<strong>无提示、无SOP显示</strong>，模拟真实拜访场景，多轮对话后由 AI 进行多维度评分。</div>
+      </div>
+
+      <div class="section-title">请选择考试场景</div>
+
+      <!-- 场景1: 异议处理 -->
+      <div class="card" style="cursor:pointer;border:2px solid var(--gray-200);padding:0;overflow:hidden;margin-bottom:12px;" onclick="startDialogExam('objection')" id="select-card-objection">
+        <div style="background:linear-gradient(135deg,#EFF6FF,#F5F3FF);padding:16px;display:flex;gap:14px;align-items:center;">
+          <div style="width:52px;height:52px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;box-shadow:var(--shadow);">💬</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:3px;">异议处理</div>
+            <div style="font-size:12px;color:var(--gray-500);line-height:1.5;">AI 医生提出价格、竞品、安全性等异议，考察你的异议化解全流程</div>
+          </div>
+          <span style="font-size:20px;color:var(--gray-300);">›</span>
+        </div>
+        <div style="padding:10px 16px;border-top:1px solid var(--gray-100);display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="badge badge-blue">价格异议</span>
+          <span class="badge badge-purple">竞品替代</span>
+          <span class="badge badge-orange">安全性顾虑</span>
+        </div>
+      </div>
+
+      <!-- 场景2: 病例分析 -->
+      <div class="card" style="cursor:pointer;border:2px solid var(--gray-200);padding:0;overflow:hidden;margin-bottom:12px;" onclick="startDialogExam('case')" id="select-card-case">
+        <div style="background:linear-gradient(135deg,#F5F3FF,#ECFDF5);padding:16px;display:flex;gap:14px;align-items:center;">
+          <div style="width:52px;height:52px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;box-shadow:var(--shadow);">🏥</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:3px;">病例分析</div>
+            <div style="font-size:12px;color:var(--gray-500);line-height:1.5;">AI 医生给出真实病例，考察你的临床需求识别与产品推荐能力</div>
+          </div>
+          <span style="font-size:20px;color:var(--gray-300);">›</span>
+        </div>
+        <div style="padding:10px 16px;border-top:1px solid var(--gray-100);display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="badge badge-green">临床需求识别</span>
+          <span class="badge badge-purple">产品推荐</span>
+          <span class="badge badge-blue">数据引用</span>
+        </div>
+      </div>
+
+      <!-- 考试须知 -->
+      <div style="background:white;border-radius:12px;padding:14px;box-shadow:var(--shadow);">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700);margin-bottom:8px;">📋 考试须知</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <span style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">①</span>
+            <span style="font-size:11px;color:var(--gray-600);line-height:1.4;">全程无辅助提示，模拟真实拜访场景</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <span style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">②</span>
+            <span style="font-size:11px;color:var(--gray-600);line-height:1.4;">建议多轮对话后点击"结束考试"获取评分</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <span style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">③</span>
+            <span style="font-size:11px;color:var(--gray-600);line-height:1.4;">AI 将从产品知识、临床识别、沟通技巧等维度评分</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 3: DIALOG EXAM ==================== -->
+  <div class="screen" id="screen-m3-dialog">
+    <!-- 顶部导航 -->
+    <div style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <div class="nav-bar">
+        <button class="nav-back" onclick="goTo('screen-m3-dialog-select')">‹</button>
+        <div style="flex:1;">
+          <div class="nav-title">病例分析考试</div>
+          <div class="card-subtitle">无辅助提示模式</div>
+        </div>
+        <div style="background:#FEF2F2;color:var(--danger);font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;">考试中</div>
+      </div>
+      <div style="background:#FEF3C7;padding:7px 16px;display:flex;gap:8px;align-items:center;">
+        <span style="font-size:13px;">⚠️</span>
+        <span style="font-size:12px;color:#92400E;font-weight:500;">考试模式：无提示、无SOP，基于病例进行多轮对话</span>
+      </div>
+    </div>
+
+    <!-- 病例资料卡（可折叠） -->
+    <div style="background:linear-gradient(135deg,#1E40AF,#2563EB,#7C3AED);flex-shrink:0;">
+      <!-- 病例摘要行（始终可见） -->
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="toggleCase()">
+        <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🏥</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:white;">病例 CASE-EX-001 · 点击查看完整信息</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">男 · 58岁 · 2型糖尿病8年 · HbA1c 8.2%</div>
+        </div>
+        <span id="case-toggle-icon" style="color:rgba(255,255,255,0.8);font-size:14px;transition:transform 0.2s;">▾</span>
+      </div>
+
+      <!-- 可折叠病例详情 -->
+      <div id="case-detail" style="display:none;padding:0 12px 12px;">
+        <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:12px;backdrop-filter:blur(4px);">
+          <!-- 第一行：基本信息 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:2px;">性别 / 年龄</div>
+              <div style="font-size:12px;font-weight:700;color:white;">男 · 58岁</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:2px;">病史</div>
+              <div style="font-size:12px;font-weight:700;color:white;">T2DM 8年</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:2px;">BMI</div>
+              <div style="font-size:12px;font-weight:700;color:white;">28.5 kg/m²</div>
+            </div>
+          </div>
+          <!-- 第二行：关键指标 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:2px;">HbA1c</div>
+              <div style="font-size:13px;font-weight:800;color:#FCD34D;">8.2%</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:2px;">eGFR</div>
+              <div style="font-size:13px;font-weight:800;color:#FCD34D;">52 mL/min</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:2px;">血压</div>
+              <div style="font-size:13px;font-weight:800;color:#FCD34D;">148/88</div>
+            </div>
+          </div>
+          <!-- 当前用药 -->
+          <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;margin-bottom:8px;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:4px;">当前用药</div>
+            <div style="font-size:11px;color:white;line-height:1.6;">
+              • 二甲双胍 1g bid（已用5年）<br>
+              • 格列齐特 80mg qd（已用2年）<br>
+              • 氨氯地平 5mg qd（降压）
+            </div>
+          </div>
+          <!-- 合并症 & 主诉 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:4px;">合并症</div>
+              <div style="font-size:11px;color:white;line-height:1.6;">
+                • 轻度CKD（3a期）<br>
+                • 高血压 II 级<br>
+                • 超重
+              </div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:4px;">主诉 / 就诊原因</div>
+              <div style="font-size:11px;color:white;line-height:1.6;">
+                血糖控制不达标，要求调整治疗方案
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 对话区 -->
+    <div class="roleplay-chat">
+      <div class="msg-time">考试开始 · 请根据病例作答</div>
+
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👩‍⚕️</div>
+        <div>
+          <div class="doctor-name">李副主任 · 内分泌科</div>
+          <div class="doctor-bubble">你好，我刚把病例资料给你看了。这个患者血糖一直没控制好，HbA1c 8.2%，两种口服药联用了好几年效果不理想。你从贵公司产品角度，觉得这个患者有什么调整方案？请说明推荐理由。</div>
+        </div>
+      </div>
+
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">李副主任，这位患者血糖控制不达标，HbA1c 8.2%，同时合并轻度CKD和高血压，BMI 28.5属于超重。基于这些特征，我建议在现有方案基础上加用诺和泰（司美格鲁肽）。它可有效降低HbA1c约1.5%，同时具备减重和心血管获益，对这类患者有综合优势。</div>
+      </div>
+
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👩‍⚕️</div>
+        <div>
+          <div class="doctor-name">李副主任 · 内分泌科</div>
+          <div class="doctor-bubble">这个患者eGFR是52，CKD 3a期，用诺和泰有没有禁忌或剂量限制？另外他还在用格列齐特，两者叠加低血糖风险怎么看？</div>
+        </div>
+      </div>
+
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">诺和泰在eGFR≥15的患者中均可使用，无需根据肾功能调整剂量，这点相比部分SGLT-2抑制剂有优势。关于低血糖风险，诺和泰本身不直接引起低血糖，但与磺脲类联用时风险上升。建议与主任协商是否下调格列齐特用量。</div>
+      </div>
+
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👩‍⚕️</div>
+        <div>
+          <div class="doctor-name">李副主任 · 内分泌科</div>
+          <div class="doctor-bubble">血压148/88，你提到心血管获益，有具体循证数据支持吗？另外这个患者已经在用降压药了，加了诺和泰对血压有没有影响？</div>
+        </div>
+      </div>
+
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">LEADER研究证实，诺和泰可降低主要心血管不良事件（MACE）风险13%，主要包括CV死亡、非致死性心梗和卒中。在SUSTAIN-6中，收缩压平均下降约2.6mmHg。这对该患者而言是额外获益，结合其高血压和CKD背景，综合心肾保护价值更为突出。</div>
+      </div>
+
+      <div class="doctor-msg">
+        <div class="doctor-avatar">👩‍⚕️</div>
+        <div>
+          <div class="doctor-name">李副主任 · 内分泌科</div>
+          <div class="doctor-bubble">好的，数据比较扎实。起始怎么用，有什么患者需要知道的注意事项？</div>
+        </div>
+      </div>
+
+      <div class="msg-row user">
+        <div class="msg-avatar user"><img src="/dify-demo/ip-assets/ip-boy-01.png" alt="用户头像"></div>
+        <div class="msg-bubble">起始0.25mg每周一次，使用4周后增至0.5mg/周，若需进一步强化，可在0.5mg用满4周后增至1mg/周。主要注意事项是早期胃肠道反应（恶心、腹泻），从低剂量缓慢递增可显著降低发生率。注射部位选腹部、大腿或上臂皮下，每周固定时间注射，与进餐无关。</div>
+      </div>
+
+      <div class="msg-time">对话结束</div>
+      <button class="btn btn-primary btn-full" style="margin:4px 0 8px;" onclick="goTo('screen-m3-dialog-result')">📊 结束考试，获取AI评估</button>
+    </div>
+
+    <div class="rp-input-area">
+      <div class="chat-input-row">
+        <button class="chat-voice">🎙️</button>
+        <textarea class="chat-input" placeholder="基于病例进行分析，给出专业回应…" rows="1"></textarea>
+        <button class="chat-send">↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 3: DIALOG RESULT ==================== -->
+  <div class="screen" id="screen-m3-dialog-result">
+    <div class="nav-bar" style="background:white;border-bottom:1px solid var(--gray-100);box-shadow:var(--shadow);flex-shrink:0;">
+      <button class="nav-back" onclick="goTo('screen-m3')">‹</button>
+      <div class="nav-title">实操考试评估报告</div>
+      <button class="nav-action">分享</button>
+    </div>
+    <div class="content">
+      <!-- Score -->
+      <div class="score-card">
+        <div style="text-align:center;margin-bottom:16px;">
+          <div class="score-circle" style="background:conic-gradient(var(--primary) 0deg 317deg, var(--gray-200) 317deg 360deg);">
+            <div class="score-number">88</div>
+          </div>
+          <div style="font-size:16px;font-weight:800;color:var(--gray-900);margin-top:4px;">AI 对话实操评分</div>
+          <div style="margin-top:6px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+            <span class="badge badge-purple">病例分析 · 李副主任</span>
+            <span class="badge badge-blue">评级 A-</span>
+          </div>
+        </div>
+        <div class="score-dims">
+          <div class="score-dim">
+            <div class="score-dim-name">产品知识</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:92%;background:var(--success);"></div></div>
+            <div class="score-dim-val">92</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">临床需求识别</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:85%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">85</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">数据引用准确</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:90%;background:var(--success);"></div></div>
+            <div class="score-dim-val">90</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">推荐合理性</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:88%;background:var(--primary);"></div></div>
+            <div class="score-dim-val">88</div>
+          </div>
+          <div class="score-dim">
+            <div class="score-dim-name">沟通专业度</div>
+            <div class="score-bar"><div class="score-bar-fill" style="width:80%;background:var(--warning);"></div></div>
+            <div class="score-dim-val">80</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 实操建议 -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">🤖 AI 实操建议</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#ECFDF5;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:16px;">✅</span>
+            <div style="font-size:12px;color:#065F46;line-height:1.5;">
+              <strong>产品知识扎实：</strong>准确引用了LEADER研究（CV风险降低13%）及诺和泰肾功能使用规范（eGFR≥15可用，无需调量），数据引用具体有力，说服力强。
+            </div>
+          </div>
+          <div style="background:#ECFDF5;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:16px;">✅</span>
+            <div style="font-size:12px;color:#065F46;line-height:1.5;">
+              <strong>剂量方案清晰：</strong>0.25mg起始→4周后0.5mg的递增方案表述准确，并主动告知患者注意事项，体现全程管理意识。
+            </div>
+          </div>
+          <div style="background:#FEF3C7;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:16px;">⚠️</span>
+            <div style="font-size:12px;color:#92400E;line-height:1.5;">
+              <strong>可强化：</strong>患者合并高血压，可进一步引用诺和泰对收缩压的改善数据（SUSTAIN-6：收缩压平均降低2.6 mmHg），将心血管获益与降压结合论述，更具针对性。
+            </div>
+          </div>
+          <div style="background:#FEF3C7;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:16px;">⚠️</span>
+            <div style="font-size:12px;color:#92400E;line-height:1.5;">
+              <strong>沟通技巧提升：</strong>在推荐完毕后，建议主动确认医生是否还有其他顾虑（如"李主任，您觉得这个方案对该患者合适吗？"），以完成异议关闭。
+            </div>
+          </div>
+          <div style="background:#EFF6FF;border-radius:8px;padding:10px;display:flex;gap:8px;">
+            <span style="font-size:16px;">💡</span>
+            <div style="font-size:12px;color:#1D4ED8;line-height:1.5;">
+              <strong>下次尝试：</strong>对于CKD合并高血压患者，可主动提出定期监测eGFR的随访建议，体现对患者长期管理的关注，有助于建立医生信任感。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="retryDialogExam()">🔄 重新练习</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="goTo('screen-m3')">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 3: RESULT ==================== -->
+  <div class="screen" id="screen-m3-result">
+    <div class="result-header">
+      <div style="font-size:13px;opacity:0.8;margin-bottom:8px;">产品QA通关考试</div>
+      <div class="result-score">82</div>
+      <div class="result-grade">评级：B+</div>
+      <div class="result-label">共10题 · 总分100分</div>
+    </div>
+    <div class="content">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:white;border-radius:10px;padding:12px;text-align:center;box-shadow:var(--shadow);">
+          <div style="font-size:20px;font-weight:800;color:var(--success);">8</div>
+          <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">答对题数</div>
+        </div>
+        <div style="background:white;border-radius:10px;padding:12px;text-align:center;box-shadow:var(--shadow);">
+          <div style="font-size:20px;font-weight:800;color:var(--danger);">2</div>
+          <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">答错题数</div>
+        </div>
+        <div style="background:white;border-radius:10px;padding:12px;text-align:center;box-shadow:var(--shadow);">
+          <div style="font-size:20px;font-weight:800;color:var(--primary);">7:23</div>
+          <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">用时</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">各题得分详情</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第1题 · 适应症</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">10/10</span><span>✅</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第2题 · 禁忌症</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">10/10</span><span>✅</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#ECFDF5;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第3题 · 药代动力学</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--success);">4/4</span><span>✅</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#FEF3C7;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第4题 · 肾功能调整（语音）</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--warning);">4/6</span><span>⚠️</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#FEF2F2;border-radius:8px;">
+            <div style="font-size:12px;color:var(--gray-700);">第5题 · 竞品对比</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:12px;font-weight:700;color:var(--danger);">3/8</span><span>❌</span></div>
+          </div>
+          <div style="text-align:center;padding:6px;">
+            <button style="font-size:12px;color:var(--primary);border:none;background:none;cursor:pointer;">查看全部 10 题 ›</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="goTo('screen-m3')">返回考试</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="goToQAPractice()">🏋️ 去练习</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROFILE ==================== -->
+  <div class="screen" id="screen-profile">
+    <div class="profile-header">
+      <div class="profile-avatar">👨‍💼</div>
+      <div>
+        <div class="profile-name">李明</div>
+        <div class="profile-role">医药销售代表 · 华东区 · 上海</div>
+        <div class="profile-rank">🏆 本月区域排名 #3 / 28人</div>
+      </div>
+    </div>
+    <div class="content">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:white;border-radius:10px;padding:12px;text-align:center;box-shadow:var(--shadow);">
+          <div style="font-size:22px;font-weight:800;color:var(--primary);">78</div>
+          <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">综合能力分</div>
+        </div>
+        <div style="background:white;border-radius:10px;padding:12px;text-align:center;box-shadow:var(--shadow);">
+          <div style="font-size:22px;font-weight:800;color:var(--success);">36</div>
+          <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">累计练习</div>
+        </div>
+        <div style="background:white;border-radius:10px;padding:12px;text-align:center;box-shadow:var(--shadow);">
+          <div style="font-size:22px;font-weight:800;color:var(--warning);">7</div>
+          <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">连续学习天</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px;">
+        <button class="menu-item" onclick="goTo('screen-m3-result')">
+          <div class="menu-icon" style="background:#EFF6FF;">📊</div>
+          我的考试记录<span class="menu-arrow">›</span>
+        </button>
+        <button class="menu-item">
+          <div class="menu-icon" style="background:#F5F3FF;">🏆</div>
+          成就与勋章<span class="menu-arrow">›</span>
+        </button>
+        <button class="menu-item">
+          <div class="menu-icon" style="background:#ECFDF5;">📈</div>
+          能力提升报告<span class="menu-arrow">›</span>
+        </button>
+        <button class="menu-item">
+          <div class="menu-icon" style="background:#FFFBEB;">⭐</div>
+          收藏的资料<span class="menu-arrow">›</span>
+        </button>
+      </div>
+      <div style="background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px;">
+        <button class="menu-item">
+          <div class="menu-icon" style="background:var(--gray-100);">🔔</div>
+          通知设置<span class="menu-arrow">›</span>
+        </button>
+        <button class="menu-item">
+          <div class="menu-icon" style="background:var(--gray-100);">🔒</div>
+          隐私与安全<span class="menu-arrow">›</span>
+        </button>
+        <button class="menu-item">
+          <div class="menu-icon" style="background:var(--gray-100);">❓</div>
+          帮助与反馈<span class="menu-arrow">›</span>
+        </button>
+      </div>
+      <button class="btn btn-outline btn-full" style="color:var(--danger);border-color:var(--danger);">退出登录</button>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-item" onclick="goTo('screen-home')"><span class="tab-icon">🏠</span><span class="tab-label">首页</span></button>
+      <button class="tab-item" onclick="goTo('screen-m1')"><span class="tab-icon">🧠</span><span class="tab-label">问药</span></button>
+      <button class="tab-item" onclick="goTo('screen-m2')"><span class="tab-icon">🎭</span><span class="tab-label">陪练</span></button>
+      <button class="tab-item" onclick="goTo('screen-m3')"><span class="tab-icon">📊</span><span class="tab-label">考试</span></button>
+      <button class="tab-item active" onclick="goTo('screen-profile')"><span class="tab-icon">👤</span><span class="tab-label">我的</span></button>
+    </div>
+  </div>
+
+  <!-- ==================== CITE SOURCE POPUP ==================== -->
+  <div class="cite-overlay" id="cite-overlay" onclick="closeCite()">
+    <div class="cite-sheet" onclick="event.stopPropagation()">
+      <div class="cite-sheet-handle"></div>
+      <div class="cite-sheet-header">
+        <div class="cite-sheet-icon" style="background:#EFF6FF;">📄</div>
+        <div style="flex:1;">
+          <div class="cite-sheet-title">来源标题</div>
+          <div class="cite-sheet-sub">来源说明</div>
+        </div>
+        <button class="cite-sheet-close" onclick="closeCite()">✕</button>
+      </div>
+      <div class="cite-sheet-body">
+        <div class="cite-location"></div>
+        <div class="cite-excerpt-label">精准定位原文</div>
+        <div class="cite-excerpt"></div>
+        <div class="cite-action">
+          <span style="font-size:16px;">🔗</span>
+          <span class="cite-action-text"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── 病例分析附件上传 ──
+  const ATTACH_ICONS = { pdf:'📕', doc:'📘', docx:'📘', xlsx:'📗', xls:'📗', jpg:'🖼️', jpeg:'🖼️', png:'🖼️' };
+  const ATTACH_COLORS = { pdf:'#FEE2E2', doc:'#DBEAFE', docx:'#DBEAFE', xlsx:'#D1FAE5', xls:'#D1FAE5', jpg:'#FEF3C7', jpeg:'#FEF3C7', png:'#FEF3C7' };
+  let caseAttachments = [];
+
+  function handleCaseAttach(input) {
+    Array.from(input.files).forEach(f => addCaseFile(f));
+    input.value = '';
+  }
+  function handleCaseDrop(e) {
+    e.preventDefault();
+    document.getElementById('case-drop-zone').classList.remove('dragover');
+    Array.from(e.dataTransfer.files).forEach(f => addCaseFile(f));
+  }
+  function addCaseFile(file) {
+    const id = Date.now() + Math.random();
+    const ext = file.name.split('.').pop().toLowerCase();
+    const kb = (file.size / 1024).toFixed(0);
+    const size = file.size > 1024*1024 ? (file.size/1024/1024).toFixed(1)+' MB' : kb+' KB';
+    caseAttachments.push({ id, name: file.name, ext, size });
+    renderCaseAttachList();
+  }
+  function removeCaseFile(id) {
+    caseAttachments = caseAttachments.filter(f => f.id !== id);
+    renderCaseAttachList();
+  }
+  function renderCaseAttachList() {
+    const el = document.getElementById('case-attach-list');
+    if (!el) return;
+    el.innerHTML = caseAttachments.map(f => `
+      <div class="attach-item">
+        <div class="attach-item-icon" style="background:${ATTACH_COLORS[f.ext]||'#F3F4F6'}">${ATTACH_ICONS[f.ext]||'📄'}</div>
+        <div class="attach-item-info">
+          <div class="attach-item-name">${f.name}</div>
+          <div class="attach-item-meta">${f.ext.toUpperCase()} · ${f.size}</div>
+        </div>
+        <button class="attach-item-del" onclick="removeCaseFile(${f.id})" title="移除">✕</button>
+      </div>`).join('');
+  }
+
+  // ── Navigation ──
+  function goTo(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+  }
+
+  // ── Scenario tab switcher ──
+  function switchScenario(btn, panelId) {
+    if (panelId === 'pitch') {
+      goTo('screen-m2-pitch');
+      return;
+    }
+    document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.scenario-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById(panelId);
+    if (panel) panel.classList.add('active');
+  }
+
+  // ── 异议处理: Product line dropdown ──
+  var productMeta = {
+    '参茸白术丸':  { emoji: '🌿', cat: '健脾益气 · 脾胃虚弱调理' },
+    '牛黄清心丸':  { emoji: '🫀', cat: '清心化痰 · 头晕心悸场景' },
+    '六味地黄丸':  { emoji: '🌙', cat: '滋阴补肾 · 腰膝酸软场景' },
+    '藿香正气水':  { emoji: '🍃', cat: '解表化湿 · 暑湿感冒场景' },
+    '同仁牛黄清心丸': { emoji: '🏮', cat: '传统名方 · 家庭常备场景' },
+    '安宫牛黄丸':{ emoji: '📿', cat: '名贵中成药 · 合规宣教场景' }
+  };
+  function onProductChange(sel) {
+    var val = sel.value;
+    var meta = productMeta[val] || {};
+    var preview = document.getElementById('product-preview');
+    preview.querySelector('.product-preview-emoji').textContent = meta.emoji || '';
+    preview.querySelector('.product-preview-name').textContent = val;
+    preview.querySelector('.product-preview-cat').textContent = meta.cat || '';
+  }
+
+  // ── 异议处理: Objection dropdown ──
+  var objectionMeta = {
+    '安全性顾虑': { emoji: '⚠️', desc: '担心体质不合、是否会出现不适反应，需明确禁忌与注意事项' },
+    '用法用量不清':{ emoji: '🔄', desc: '服用频次、疗程、饭前饭后不清晰，担心效果不稳' },
+    '价格顾虑':   { emoji: '💰', desc: '顾客关注长期调理成本，需做好疗程价值与替代方案说明' },
+    '偏好其他品牌':   { emoji: '🔁', desc: '已有习惯品牌，需通过同仁堂品质与工艺优势建立信任' },
+    '疗效存疑':   { emoji: '🤔', desc: '对调理周期和见效节奏存在疑虑，需要辨证解释' },
+    '依从性差':   { emoji: '📉', desc: '顾客难以按时服用，需要简化提醒和用药计划' }
+  };
+  function onObjectionChange(sel) {
+    var val = sel.value;
+    var meta = objectionMeta[val] || {};
+    var preview = document.getElementById('objection-preview');
+    preview.querySelector('.product-preview-emoji').textContent = meta.emoji || '';
+    preview.querySelector('.product-preview-name').textContent = val;
+    preview.querySelector('.product-preview-cat').textContent = meta.desc || '';
+  }
+
+  // ── 异议处理: Persona selection ──
+  function selectPersona(card) {
+    card.closest('.persona-scroll').querySelectorAll('.persona-card')
+      .forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  }
+
+  // ── 产品知识通关: 题型选择 ──
+  var qaExamTypeMeta = {
+    single: { title: '单选题考试', progress: '第 1 / 10 题', score: '已得 0 / 40 分', fill: '10%' },
+    multi:  { title: '多选题考试', progress: '第 1 / 8 题',  score: '已得 0 / 40 分', fill: '12%' },
+    open:   { title: '问答题考试', progress: '第 1 / 6 题',  score: '已得 0 / 30 分', fill: '16%' }
+  };
+  var currentQaType = 'single';
+  function startQaExam(type) {
+    currentQaType = type;
+    var meta = qaExamTypeMeta[type];
+    document.getElementById('qa-exam-title').textContent = meta.title;
+    document.getElementById('qa-progress-label').textContent = meta.progress;
+    document.getElementById('qa-score-label').textContent = meta.score;
+    document.getElementById('qa-progress-fill').style.width = meta.fill;
+    ['single','multi','open'].forEach(function(s) {
+      document.getElementById('qa-content-' + s).style.display = s === type ? 'block' : 'none';
+    });
+    if (type === 'open') {
+      currentOpenQ = 0;
+      renderOpenQuestion(0);
+    }
+    goTo('screen-m3-qa');
+  }
+
+  var openQuestions = [
+    { text: '请描述诺和泰在肾功能不全患者中的使用注意事项，以及需要监测的关键指标。' },
+    { text: '当医生询问诺和泰的心血管获益证据时，请介绍相关临床研究数据及试验名称。' },
+    { text: '请解释诺和泰的起始剂量方案及剂量调整步骤，并说明注射时的注意事项。' },
+    { text: '如何向医生解释诺和泰与竞品在降糖效果和体重控制方面的主要差异？' },
+    { text: '请描述诺和泰常见不良反应及应对建议，并说明何种情况下需要停药。' },
+    { text: '请阐述诺和泰在体重管理方面的作用机制及相关临床证据。' }
+  ];
+  var currentOpenQ = 0;
+
+  function renderOpenQuestion(idx) {
+    var q = openQuestions[idx];
+    var total = openQuestions.length;
+    document.getElementById('open-question-num').textContent = '第 ' + (idx + 1) + ' 题 · 问答题 · 5分';
+    document.getElementById('open-question-text').textContent = q.text;
+    // Reset input
+    var ta = document.getElementById('open-textarea');
+    ta.value = '';
+    ta.disabled = false;
+    ta.style.background = 'white';
+    ta.style.color = 'var(--gray-900)';
+    switchAnswerMode('text');
+    document.getElementById('mode-text-btn').disabled = false;
+    document.getElementById('mode-voice-btn').disabled = false;
+    // Reset button state
+    document.getElementById('open-submitted-hint').style.display = 'none';
+    document.getElementById('open-confirm-btn').style.display = 'block';
+    var nextBtn = document.getElementById('open-next-btn');
+    nextBtn.style.display = 'none';
+    nextBtn.textContent = idx === total - 1 ? '提交考试' : '下一题 →';
+    nextBtn.onclick = idx === total - 1 ? function() { goTo('screen-m3-result'); } : nextOpenQuestion;
+    // Progress
+    document.getElementById('qa-progress-label').textContent = '第 ' + (idx + 1) + ' / ' + total + ' 题';
+    document.getElementById('qa-score-label').textContent = '已得 ' + (idx * 5) + ' / 30 分';
+    document.getElementById('qa-progress-fill').style.width = Math.round(((idx + 1) / total) * 100) + '%';
+  }
+
+  function confirmOpenAnswer() {
+    var ta = document.getElementById('open-textarea');
+    ta.disabled = true;
+    ta.style.background = '#F8FAFC';
+    ta.style.color = 'var(--gray-500)';
+    document.getElementById('mode-text-btn').disabled = true;
+    document.getElementById('mode-voice-btn').disabled = true;
+    document.getElementById('open-submitted-hint').style.display = 'flex';
+    document.getElementById('open-confirm-btn').style.display = 'none';
+    document.getElementById('open-next-btn').style.display = 'block';
+  }
+
+  function nextOpenQuestion() {
+    if (currentOpenQ < openQuestions.length - 1) {
+      currentOpenQ++;
+      renderOpenQuestion(currentOpenQ);
+    }
+  }
+
+  function selectSingleOption(el, containerId) {
+    document.querySelectorAll('#' + containerId + ' .option').forEach(function(o) {
+      o.classList.remove('selected');
+    });
+    el.classList.add('selected');
+  }
+
+  function toggleMultiOption(el) {
+    el.classList.toggle('selected');
+  }
+
+  function switchAnswerMode(mode) {
+    var textArea = document.getElementById('answer-text-area');
+    var voiceArea = document.getElementById('answer-voice-area');
+    var textBtn = document.getElementById('mode-text-btn');
+    var voiceBtn = document.getElementById('mode-voice-btn');
+    if (mode === 'text') {
+      textArea.style.display = 'block';
+      voiceArea.style.display = 'none';
+      textBtn.style.borderColor = 'var(--primary)';
+      textBtn.style.background = 'var(--primary-light)';
+      textBtn.style.color = 'var(--primary)';
+      voiceBtn.style.borderColor = 'var(--gray-200)';
+      voiceBtn.style.background = 'white';
+      voiceBtn.style.color = 'var(--gray-500)';
+    } else {
+      textArea.style.display = 'none';
+      voiceArea.style.display = 'flex';
+      voiceBtn.style.borderColor = 'var(--primary)';
+      voiceBtn.style.background = 'var(--primary-light)';
+      voiceBtn.style.color = 'var(--primary)';
+      textBtn.style.borderColor = 'var(--gray-200)';
+      textBtn.style.background = 'white';
+      textBtn.style.color = 'var(--gray-500)';
+    }
+  }
+
+  function goToQAPractice() {
+    goTo('screen-m2');
+    document.querySelectorAll('.scenario-tab').forEach(function(t) {
+      t.classList.toggle('active', t.textContent.trim() === '产品QA');
+    });
+    document.querySelectorAll('.scenario-panel').forEach(function(p) {
+      p.classList.remove('active');
+    });
+    document.getElementById('panel-qa').classList.add('active');
+  }
+
+  // ── 产品QA: Dimension selection ──
+  function onDimensionChange(sel) {
+    // No additional UI update needed; value is read on start
+  }
+
+  // ── 产品QA: Question type selection ──
+  function selectQtype(pill) {
+    pill.closest('.qtype-row').querySelectorAll('.qtype-pill')
+      .forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+  }
+
+  // ── QA Practice: Answer Q2 ──
+  var q2Answered = false;
+  function answerQ2(optionEl, letter, result) {
+    if (q2Answered) return;
+    q2Answered = true;
+
+    const options = document.querySelectorAll('#q2-options .option');
+    options.forEach(o => {
+      o.style.pointerEvents = 'none';
+      o.onclick = null;
+    });
+
+    if (result === 'correct') {
+      optionEl.classList.add('correct');
+      optionEl.querySelector('.option-letter').style.background = 'var(--success)';
+      optionEl.querySelector('.option-letter').style.color = 'white';
+
+      const fb = document.getElementById('q2-feedback');
+      fb.style.display = 'flex';
+      fb.innerHTML = `
+        <div class="answer-feedback correct-fb" style="display:flex;gap:8px;">
+          <span class="answer-feedback-icon">✅</span>
+          <div class="answer-feedback-text">
+            <strong>回答正确！</strong><br>
+            诺和泰为<strong>每周一次皮下注射</strong>，可注射于腹部、大腿或上臂。注射时间灵活，不受进餐影响，每周同一天注射即可。这与每日注射的GLP-1药物有明显区别，是患者依从性的重要优势。
+          </div>
+        </div>`;
+    } else {
+      optionEl.classList.add('wrong');
+      // Highlight correct answer (B)
+      options.forEach(o => {
+        const letter = o.querySelector('.option-letter').textContent.trim();
+        if (letter === 'B') o.classList.add('correct');
+      });
+
+      const fb = document.getElementById('q2-feedback');
+      fb.style.display = 'flex';
+      fb.innerHTML = `
+        <div class="answer-feedback wrong-fb" style="display:flex;gap:8px;">
+          <span class="answer-feedback-icon">❌</span>
+          <div class="answer-feedback-text">
+            <strong>答案有误，正确答案是B。</strong><br>
+            诺和泰为<strong>皮下注射，每周一次</strong>，注射时间与进餐无关。可注射部位包括腹部、大腿和上臂皮下组织。此特性有助于提高患者用药依从性。
+          </div>
+        </div>`;
+    }
+
+    document.getElementById('q2-next').style.display = 'block';
+  }
+
+  // ── Dialog exam scene selection ──
+  var currentDialogScene = 'case'; // default
+
+  var dialogSceneMeta = {
+    objection: {
+      title: '异议处理考试',
+      subtitle: '异议处理 · 无辅助提示模式',
+      doctorName: '陈教授 · 主任医师',
+      timeLabel: '考试开始 · 异议处理',
+      openingMsg: '我们科室一直用A药，效果也还可以，价格便宜。诺和泰这个药贵了不少，而且我担心它的安全性——听说有胃肠道副作用，长期注射患者也很难坚持。你怎么看？'
+    },
+    case: {
+      title: '病例分析考试',
+      subtitle: '病例分析 · 无辅助提示模式',
+      doctorName: '李副主任 · 内分泌科',
+      timeLabel: '考试开始 · 病例分析',
+      openingMsg: '我这里有个患者，男，58岁，2型糖尿病病史8年，目前服用二甲双胍1g bid，HbA1c 8.2%，BMI 28.5，合并轻度CKD（eGFR 52），最近血压也有点高。你觉得从您产品角度，这个患者有什么用药建议？'
+    }
+  };
+
+  function startDialogExam(scene) {
+    currentDialogScene = scene;
+    var meta = dialogSceneMeta[scene];
+
+    // Update dialog exam screen header
+    document.querySelector('#screen-m3-dialog .nav-title').textContent = meta.title;
+    document.querySelector('#screen-m3-dialog .card-subtitle').textContent = meta.subtitle;
+
+    // Update result screen subtitle badge
+    var resultBadge = document.querySelector('#screen-m3-dialog-result .badge-purple');
+    if (resultBadge) resultBadge.textContent = (scene === 'objection' ? '异议处理' : '病例分析') + ' · 李副主任';
+
+    goTo('screen-m3-dialog');
+  }
+
+  function retryDialogExam() {
+    goTo('screen-m3-dialog');
+  }
+
+  function toggleCase() {
+    var detail = document.getElementById('case-detail');
+    var icon = document.getElementById('case-toggle-icon');
+    if (detail.style.display === 'none') {
+      detail.style.display = 'block';
+      icon.textContent = '▴';
+    } else {
+      detail.style.display = 'none';
+      icon.textContent = '▾';
+    }
+  }
+
+  // ── Cite popup ──
+  var citeData = {
+    1: {
+      icon: '📄',
+      iconBg: '#EFF6FF',
+      title: '诺和泰产品说明书（2024版）',
+      sub: '内部文档 · 药品说明书库',
+      locs: ['第3.2节 · 禁忌症', 'P.8–9'],
+      excerpt: '【禁忌】\n本品禁用于以下患者：\n• <mark>既往有甲状腺髓样癌（MTC）病史者</mark>，或直系家属中有MTC病史者；\n• <mark>患有多发性内分泌腺瘤病2型（MEN2）</mark>的患者。\n如患者出现甲状腺结节或甲状腺素水平升高，应进一步评估。',
+      actionText: '在说明书库中打开原文 →'
+    },
+    2: {
+      icon: '🔬',
+      iconBg: '#ECFDF5',
+      title: '《2型糖尿病合并心血管疾病用药指南》',
+      sub: '医学合规系统 · 临床指南库 · 2023年更新',
+      locs: ['第4章 · 特殊人群用药', '4.3节 · 胃肠道疾病'],
+      excerpt: '对于合并<mark>严重胃肠道疾病（包括严重胃轻瘫、炎症性肠病）</mark>的患者，GLP-1受体激动剂的应用需综合评估风险与获益。\n\n该类药物可能进一步减缓胃排空速率，加重上述患者的消化道症状。建议在内分泌科与消化科联合评估后方可使用。',
+      actionText: '在临床指南库中查看 →'
+    },
+    3: {
+      icon: '🌐',
+      iconBg: '#F5F3FF',
+      title: 'Ozempic® Prescribing Information (FDA)',
+      sub: '外部数据库 · FDA官方文件 · Rev. 09/2024',
+      locs: ['Section 4 · Contraindications'],
+      excerpt: '4 CONTRAINDICATIONS\n\nOzempic® is contraindicated in patients with:\n• <mark>A personal or family history of medullary thyroid carcinoma (MTC)</mark>\n• <mark>Multiple Endocrine Neoplasia syndrome type 2 (MEN 2)</mark>\n• Known hypersensitivity to semaglutide or any of the excipients in Ozempic®',
+      actionText: '在 FDA 官网查看原文 →'
+    }
+  };
+
+  function showCite(num) {
+    var d = citeData[num];
+    if (!d) return;
+    var overlay = document.getElementById('cite-overlay');
+    overlay.querySelector('.cite-sheet-icon').style.background = d.iconBg;
+    overlay.querySelector('.cite-sheet-icon').textContent = d.icon;
+    overlay.querySelector('.cite-sheet-title').textContent = d.title;
+    overlay.querySelector('.cite-sheet-sub').textContent = d.sub;
+    var locEl = overlay.querySelector('.cite-location');
+    locEl.innerHTML = d.locs.map(function(l){ return '<span class="cite-loc-tag">' + l + '</span>'; }).join('');
+    overlay.querySelector('.cite-excerpt').innerHTML = d.excerpt.replace(/\n/g, '<br>');
+    overlay.querySelector('.cite-action-text').textContent = d.actionText;
+    overlay.classList.add('open');
+  }
+  function closeCite() {
+    document.getElementById('cite-overlay').classList.remove('open');
+  }
+
+  // ── 异议处理练习模式 Setup ──
+  var doctorPersonaData = {
+    zhang: {
+      emoji: '👩‍⚕️',
+      hospital: '三级甲等',
+      rank: '主任医师',
+      style: '友善型',
+      bg: '心内科医生，会主动处方降糖药物，SGLT-2i有多年的处方经验，尤其是伴有心血管疾病或心力衰竭风险的患者，会首选SGLT-2i进行治疗。诺和泰刚开始尝试使用，通过会议了解了一些基本信息，但对心血管获益机制仍有疑虑，需要更多沟通来建立信心。',
+      name: '张医生'
+    },
+    chen: {
+      emoji: '👨‍⚕️',
+      hospital: '三级甲等',
+      rank: '主任医师',
+      style: '学术型',
+      bg: '内分泌科权威专家，对新药临床数据要求严格，习惯引用文献佐证。对诺和泰安全性存在疑虑，尤其关注甲状腺癌风险的动物实验数据。需要以高质量人体RCT数据打消顾虑。',
+      name: '陈教授'
+    },
+    li: {
+      emoji: '👩‍⚕️',
+      hospital: '二级甲等',
+      rank: '副主任医师',
+      style: '严谨型',
+      bg: '内分泌科医生，数据导向，对性价比要求高。目前处方以二甲双胍联合胰岛素为主，认为诺和泰价格偏贵，需要充分论证其相对于竞品的临床获益，才会考虑调整处方习惯。',
+      name: '李副主任'
+    }
+  };
+
+  function onPresetObjectionChange() { checkStartBtnState(); }
+  function onActualClassChange() { checkStartBtnState(); }
+
+  function onDoctorPersonaChange() {
+    var val = document.getElementById('doctor-persona-select').value;
+    var card = document.getElementById('doctor-persona-card');
+    if (!val) {
+      card.style.display = 'none';
+    } else {
+      var d = doctorPersonaData[val];
+      if (d) {
+        document.getElementById('doctor-persona-emoji').textContent = d.emoji;
+        document.getElementById('doctor-hospital-type').textContent = d.hospital;
+        document.getElementById('doctor-rank-val').textContent = d.rank;
+        document.getElementById('doctor-style-val').textContent = d.style;
+        document.getElementById('doctor-bg-text').textContent = d.bg;
+        card.style.display = 'block';
+      }
+    }
+    checkStartBtnState();
+  }
+
+  function checkStartBtnState() {
+    var p = document.getElementById('preset-objection-select').value;
+    var a = document.getElementById('actual-class-select').value;
+    var d = document.getElementById('doctor-persona-select').value;
+    var btn = document.getElementById('start-practice-btn');
+    if (p && a && d) {
+      btn.className = 'start-practice-btn-active';
+      btn.disabled = false;
+    } else {
+      btn.className = 'start-practice-btn-disabled';
+      btn.disabled = true;
+    }
+  }
+
+  function startObjectionPractice() {
+    var d = document.getElementById('doctor-persona-select').value;
+    var data = doctorPersonaData[d];
+    if (data) {
+      document.getElementById('chat-screen-doctor-name').textContent = data.name;
+      document.getElementById('rp-doc-avatar-main') && (document.getElementById('rp-doc-avatar-main').textContent = data.emoji);
+    }
+    resetRpTimer();
+    startRpTimer();
+    goTo('screen-m2-chat');
+  }
+
+  // ── Roleplay chat: hints panel toggle ──
+  var rpHintsVisible = true;
+  function toggleRpHints() {
+    rpHintsVisible = !rpHintsVisible;
+    var content = document.getElementById('rp-hints-content');
+    var btn = document.getElementById('rp-hints-toggle-btn');
+    if (rpHintsVisible) {
+      content.style.display = 'block';
+      btn.textContent = '收起 ∧';
+    } else {
+      content.style.display = 'none';
+      btn.textContent = '展开 ∨';
+    }
+  }
+
+  // ── Roleplay chat: timer ──
+  var rpTimerInterval = null;
+  var rpTimerSeconds = 0;
+  function resetRpTimer() {
+    clearInterval(rpTimerInterval);
+    rpTimerSeconds = 0;
+    var el = document.getElementById('rp-timer-display');
+    if (el) el.textContent = '00:00:00';
+  }
+  function startRpTimer() {
+    rpTimerInterval = setInterval(function() {
+      rpTimerSeconds++;
+      var h = Math.floor(rpTimerSeconds / 3600);
+      var m = Math.floor((rpTimerSeconds % 3600) / 60);
+      var s = rpTimerSeconds % 60;
+      var str = (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      var el = document.getElementById('rp-timer-display');
+      if (el) el.textContent = str;
+    }, 1000);
+  }
+
+  // ── Roleplay chat: voice recognition popup ──
+  function showRpVoice() {
+    document.getElementById('rp-voice-popup').style.display = 'block';
+  }
+  function closeRpVoice() {
+    document.getElementById('rp-voice-popup').style.display = 'none';
+  }
+</script>
+</body>
+</html>

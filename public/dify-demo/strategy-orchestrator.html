@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>问策智能体策略编排 Demo</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --brand: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+    }
+    .wrap { max-width: 1320px; margin: 0 auto; }
+    .head {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    .head h1 { margin: 0; font-size: 22px; }
+    .head p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 210px;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    ul { margin: 0; padding-left: 18px; color: #334155; font-size: 13px; line-height: 1.6; }
+    .flow {
+      margin-top: 14px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .kpi {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .kpi div {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+      text-align: center;
+    }
+    .kpi b { display: block; font-size: 18px; color: var(--brand); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <h1>问策智能体：集团级策略编排 Demo</h1>
+      <p>融合问药（知识语义）+ 问数（经营数据）双输入，生成区域策略建议并追踪执行状态。</p>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2><span class="pill">输入层</span> 数据融合输入</h2>
+        <ul>
+          <li>问药侧：品种功效、适应症、竞品替代关系、患者问答高频标签</li>
+          <li>问数侧：区域动销、毛利贡献、终端覆盖、活动转化与库存周转</li>
+          <li>外部侧：行业政策变化、价格带波动、渠道反馈与舆情趋势</li>
+        </ul>
+        <div class="flow">流程：采集 -> 统一口径 -> 规则校验 -> 策略计算</div>
+      </section>
+
+      <section class="card">
+        <h2><span class="pill">执行层</span> CLINE 策略 Agent</h2>
+        <ul>
+          <li>自动识别“人/货/场”偏差并输出可执行动作（调价、铺货、促销、培训）</li>
+          <li>按单位自动生成《区域经营建议单》并推送到责任部门</li>
+          <li>对策略执行结果进行回写评估，形成下轮优化建议</li>
+        </ul>
+        <div class="flow">流程：识别机会点 -> 生成建议 -> 分派执行 -> 复盘迭代</div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top: 14px;">
+      <h2><span class="pill">输出层</span> 周度经营看板（示例）</h2>
+      <div class="kpi">
+        <div><b>+12.6%</b><span>重点品种动销提升</span></div>
+        <div><b>-18.3%</b><span>低效促销投入</span></div>
+        <div><b>+9.4%</b><span>区域策略执行率</span></div>
+      </div>
+      <div class="flow" style="margin-top: 10px;">
+        建议结论：先攻“高潜低渗透”区域，优先匹配门店培训与结构化促销动作；控制库存风险，避免促销后回落。
+      </div>
+    </section>
+  </div>
+</body>
+</html>

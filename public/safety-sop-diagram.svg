@@ -1,0 +1,65 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eaf4ff" />
+      <stop offset="100%" stop-color="#f8fbff" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1280" height="720" fill="url(#bg)" />
+  <rect x="0" y="0" width="1280" height="84" fill="url(#panel)" />
+  <text x="36" y="54" font-size="34" font-family="Segoe UI, Arial, sans-serif" fill="#ffffff" font-weight="700">
+    SOP Action Recognition Monitoring
+  </text>
+
+  <rect x="56" y="136" width="788" height="476" rx="24" fill="#ffffff" stroke="#c7dbff" stroke-width="3" />
+  <text x="88" y="190" font-size="26" font-family="Segoe UI, Arial, sans-serif" fill="#0f172a" font-weight="700">
+    Live Production Camera View
+  </text>
+
+  <rect x="90" y="220" width="720" height="350" rx="18" fill="#0f172a" />
+  <rect x="120" y="250" width="168" height="232" rx="16" fill="#1e293b" />
+  <rect x="320" y="250" width="168" height="232" rx="16" fill="#1e293b" />
+  <rect x="520" y="250" width="168" height="232" rx="16" fill="#1e293b" />
+
+  <circle cx="204" cy="366" r="52" fill="#10b981" opacity="0.2" />
+  <circle cx="404" cy="366" r="52" fill="#ef4444" opacity="0.22" />
+  <circle cx="604" cy="366" r="52" fill="#10b981" opacity="0.2" />
+
+  <rect x="152" y="442" width="104" height="28" rx="14" fill="#10b981" />
+  <rect x="352" y="442" width="104" height="28" rx="14" fill="#ef4444" />
+  <rect x="552" y="442" width="104" height="28" rx="14" fill="#10b981" />
+
+  <text x="158" y="462" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#ffffff" font-weight="700">Compliant</text>
+  <text x="365" y="462" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#ffffff" font-weight="700">Alert</text>
+  <text x="558" y="462" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#ffffff" font-weight="700">Compliant</text>
+
+  <rect x="890" y="136" width="334" height="476" rx="24" fill="#ffffff" stroke="#c7dbff" stroke-width="3" />
+  <text x="926" y="190" font-size="26" font-family="Segoe UI, Arial, sans-serif" fill="#0f172a" font-weight="700">
+    Real-time Alerts
+  </text>
+
+  <rect x="926" y="222" width="260" height="76" rx="14" fill="#ecfeff" stroke="#67e8f9" />
+  <text x="946" y="255" font-size="17" font-family="Segoe UI, Arial, sans-serif" fill="#155e75" font-weight="700">No Helmet Detection</text>
+  <text x="946" y="279" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#155e75">Camera 02 | High</text>
+
+  <rect x="926" y="316" width="260" height="76" rx="14" fill="#fef2f2" stroke="#fca5a5" />
+  <text x="946" y="349" font-size="17" font-family="Segoe UI, Arial, sans-serif" fill="#991b1b" font-weight="700">SOP Action Missing</text>
+  <text x="946" y="373" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#991b1b">Camera 04 | Medium</text>
+
+  <rect x="926" y="410" width="260" height="76" rx="14" fill="#ecfdf5" stroke="#86efac" />
+  <text x="946" y="443" font-size="17" font-family="Segoe UI, Arial, sans-serif" fill="#166534" font-weight="700">Area Intrusion</text>
+  <text x="946" y="467" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#166534">Camera 01 | Medium</text>
+
+  <rect x="926" y="504" width="260" height="76" rx="14" fill="#eff6ff" stroke="#93c5fd" />
+  <text x="946" y="537" font-size="17" font-family="Segoe UI, Arial, sans-serif" fill="#1e3a8a" font-weight="700">Fall-down Detection</text>
+  <text x="946" y="561" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#1e3a8a">Camera 05 | Critical</text>
+
+  <text x="56" y="676" font-size="20" font-family="Segoe UI, Arial, sans-serif" fill="#334155">
+    Standard capability map: video stream + SOP action model + real-time warning + event review
+  </text>
+</svg>
