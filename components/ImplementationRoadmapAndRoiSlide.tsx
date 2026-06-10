@@ -3,11 +3,11 @@
 import { BarChart3, CalendarClock, LineChart, Rocket, ShieldCheck, TrendingUp } from "lucide-react";
 
 const roadmapData = {
-  title: "十五五初期：三个月破局、六个月成型的实施路线图",
+  title: "推广期与深化期实施路线图（6个月）",
   phases: [
     {
       range: "第 1-2 个月",
-      title: "基建搭建与首战",
+      title: "底座搭建与首批上线",
       desc: "完成本地算力就绪与业务中枢统建；“问药”专题率先上线验证。",
       tag: "问药上线",
       start: 1,
@@ -16,7 +16,7 @@ const roadmapData = {
     },
     {
       range: "第 3-4 个月",
-      title: "数据融合与深水区",
+      title: "数据融合与能力验证",
       desc: "打通主数据只读视图，完成语义转 SQL 优化，“问数”专题上线。",
       tag: "问数上线",
       start: 3,
@@ -25,7 +25,7 @@ const roadmapData = {
     },
     {
       range: "第 5-6 个月",
-      title: "全栈协同",
+      title: "协同运行与策略落地",
       desc: "门店外部数据汇聚，多角色协同流程跑通，“问策”专题全面上线。",
       tag: "问策上线",
       start: 5,
@@ -35,26 +35,38 @@ const roadmapData = {
   ],
   roi: [
     {
-      title: "降本增效",
-      metric: "40%",
-      unit: "培训通过率提升",
-      desc: "一线导购与药师产品培训周期缩短，整体通过率显著提升。",
+      title: "AI能力认知与场景想象",
+      phase: "从0到1",
+      focus: "先让业务团队敢用、会用本地AI",
+      desc: "围绕同仁堂本地AI能力开展认知培训与场景共创，形成“先试用、再沉淀”的使用习惯。",
+      actions: ["建立统一入口与示例问法", "按部门组织小范围试用", "沉淀可复用场景清单"],
       icon: "shield" as const,
       tone: "emerald" as const,
     },
     {
-      title: "敏捷决策",
-      metric: "周级 -> 秒级",
-      unit: "分析时效压缩",
-      desc: "管理层数据查询与多维分析耗时由“周级别”压缩到“秒级”。",
+      title: "新技术与新场景持续跟进",
+      phase: "从0到1",
+      focus: "建立“评估-试点-复盘”闭环",
+      desc: "对眼前新技术和新场景保持月度跟进，先做小范围验证，再决定是否纳入集团推进节奏。",
+      actions: ["月度技术与场景盘点", "试点结果复盘与归档", "形成是否继续投入的判断依据"],
       icon: "line" as const,
       tone: "blue" as const,
     },
     {
-      title: "营销响应",
-      metric: "100%",
-      unit: "策略生成自动化",
-      desc: "区域竞品报告及营销策略生成实现自动化，消除人工滞后。",
+      title: "问数推进数据积累与质量提升",
+      phase: "从0到1",
+      focus: "在使用中反哺数据治理",
+      desc: "通过问数过程持续暴露口径、缺失与质量问题；同时结合问药反馈机制，用问题牵引数据与知识的持续补齐。",
+      actions: ["建立高频问题回收机制", "按周修订指标口径与字典", "形成问药/问数联动反馈闭环"],
+      icon: "line" as const,
+      tone: "blue" as const,
+    },
+    {
+      title: "问策沉淀与市场机制铺开",
+      phase: "从0到1",
+      focus: "策略方法先沉淀、能力建设先行",
+      desc: "问策侧重点是策略模板与机制沉淀；具体营销执行可由营销团队按业务节奏自主引入第三方推进。",
+      actions: ["沉淀可复用策略模板", "建立区域策略复盘机制", "营销侧自主对接第三方执行"],
       icon: "rocket" as const,
       tone: "violet" as const,
     },
@@ -90,16 +102,16 @@ export default function ImplementationRoadmapAndRoiSlide() {
     <div className="min-h-full overflow-y-auto bg-[#fcfcfd] px-4 py-6 md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
-          <p className="inline-flex items-center rounded-full border border-[#e5e7eb] bg-white px-3 py-1 text-xs font-semibold tracking-[0.08em] text-slate-700">
+          <p className="report-chip">
             收官页 · 路线图与ROI
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{roadmapData.title}</h2>
         </div>
 
-        <section className="mt-6 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+        <section className="report-panel mt-6 p-5 md:p-6">
           <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
             <CalendarClock className="h-4.5 w-4.5 text-sky-600" />
-            顶部时间轴
+            时间轴
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
             <div className="grid grid-cols-6 gap-1 text-center text-[10px] font-semibold text-slate-500">
@@ -122,7 +134,7 @@ export default function ImplementationRoadmapAndRoiSlide() {
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             {roadmapData.phases.map((phase, idx) => (
-              <article key={phase.range} className="relative rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <article key={phase.range} className="report-panel-soft relative p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-sky-700">{phase.range}</p>
                 <h3 className="mt-1.5 text-base font-semibold text-[#111827]">{phase.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{phase.desc}</p>
@@ -140,31 +152,41 @@ export default function ImplementationRoadmapAndRoiSlide() {
         <section className="mt-5">
           <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
             <BarChart3 className="h-4.5 w-4.5 text-[#b91c1c]" />
-            预期 ROI 价值区
+            建设成效
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2">
             {roadmapData.roi.map((item) => {
               const tone = roiTone[item.tone];
               return (
-                <article key={item.title} className={`rounded-3xl border p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] ${tone.card}`}>
+                <article key={item.title} className={`report-panel p-5 ${tone.card}`}>
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="text-lg font-semibold text-[#111827]">{item.title}</h3>
                     <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ${tone.icon}`}>
                       <RoiIcon icon={item.icon} />
                     </span>
                   </div>
-                  <p className={`mt-3 text-4xl font-black tracking-tight ${tone.number} md:text-5xl`}>{item.metric}</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-700">{item.unit}</p>
+                  <div className="mt-3 inline-flex rounded-full border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700">
+                    {item.phase}
+                  </div>
+                  <p className={`mt-2 text-base font-semibold ${tone.number}`}>{item.focus}</p>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.desc}</p>
+                  <ul className="mt-2 space-y-1.5 text-xs text-slate-600">
+                    {item.actions.map((line) => (
+                      <li key={line} className="flex gap-1.5">
+                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+                        <span>{line}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </article>
               );
             })}
           </div>
         </section>
 
-        <div className="mx-auto mt-5 flex w-fit items-center gap-2 rounded-full border border-[#fecaca] bg-[#fff1f2] px-4 py-2 text-sm font-semibold text-[#7f1d1d]">
+        <div className="report-conclusion mx-auto mt-5 flex w-fit items-center gap-2 text-sm font-semibold text-slate-700">
           <TrendingUp className="h-4.5 w-4.5 text-[#b91c1c]" />
-          <span>6个月形成“可复制、可衡量、可持续”的集团级 AI 作战体系</span>
+          <span>先完成从0到1的能力建设，再按业务价值逐步扩大应用范围</span>
         </div>
       </div>
     </div>

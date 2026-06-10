@@ -3,35 +3,35 @@
 import { BadgeDollarSign, Coins, Database, HardDrive, Server, ShieldCheck, Wrench } from "lucide-react";
 
 const budgetData = {
-  title: "整体投资预算：控制在 100 万元以内",
-  subtitle: "秉持‘重资产、抱开源、买服务’的极简建设策略，打造高性价比数字化底座",
+  title: "推荐方案经费：约 50.8 万（探索期）",
+  subtitle: "采用“Token采购 + 中台能力建设”方式先跑通场景，私有化155万作为备选路径",
   costColumns: [
     {
-      title: "硬件资产保底",
-      amount: "约 75 万",
-      desc: "转化为集团固定资产",
+      title: "中台授权与技术支持",
+      amount: "约 50 万",
+      desc: "统一中台能力底座与联调上线保障",
       items: [
-        "1台 8卡高性价比推理服务器，满足高并发推理",
-        "2-3台 高主频通用服务器，部署编排中台与数据库",
+        "建设统一编排流，支撑问药、问数、问策三场景接入",
+        "提供权限、日志、审计、监控与稳定性保障",
       ],
       tone: "red" as const,
     },
     {
-      title: "软件授权费用",
-      amount: "0 元",
-      desc: "拒绝商业授权绑架",
-      items: ["全面采用 Dify + Qwen + Milvus 顶级开源生态", "省下百万级商业软件订阅费"],
-      tone: "emerald" as const,
+      title: "Token池费用",
+      amount: "约 0.8 万/年",
+      desc: "满足150人使用规模（含MCP调用）",
+      items: ["支持DeepSeek/Kimi/GLM/MiniMax/Claude/GPT等模型", "按需消耗，探索期投入更轻"],
+      tone: "blue" as const,
     },
     {
-      title: "业务中枢实施与技术共创",
-      amount: "约 25 万",
-      desc: "购买专业团队技术落地",
+      title: "应用服务器",
+      amount: "0 元",
+      desc: "申请集团现有资源",
       items: [
-        "业务中枢落地：完成 Dify/ThinkingAI 工作流、权限策略与业务系统嵌入集成",
-        "四层链路打通实施：管控层 × 模型算力层 × 数据填入层 × 数据底座层一体联调",
+        "不新增服务器采购费用",
+        "作为通用计算与接口承载资源",
       ],
-      tone: "blue" as const,
+      tone: "emerald" as const,
     },
   ],
 } as const;
@@ -64,7 +64,7 @@ export default function OverallBudgetAndCostPlanSlide() {
     <div className="min-h-full overflow-y-auto bg-[#fcfcfd] px-4 py-6 md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
-          <p className="inline-flex items-center rounded-full border border-[#fecaca] bg-[#fff1f2] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#b91c1c]">
+          <p className="report-chip">
             财务决策视角 · 总结页
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{budgetData.title}</h2>
@@ -72,13 +72,13 @@ export default function OverallBudgetAndCostPlanSlide() {
         </div>
 
         <div className="mt-5 text-center">
-          <p className="text-4xl font-black tracking-tight text-[#b91c1c] md:text-6xl lg:text-7xl">100 万以内</p>
-          <p className="mt-1 text-sm font-medium text-slate-600 md:text-base">重资产 · 抱开源 · 买服务</p>
+          <p className="text-4xl font-black tracking-tight text-[#b91c1c] md:text-6xl lg:text-7xl">50.8 万</p>
+          <p className="mt-1 text-sm font-medium text-slate-600 md:text-base">中台能力建设 · Token采购 · 服务器0元</p>
         </div>
 
-        <div className="mx-auto mt-4 flex w-fit items-center gap-2 rounded-full border border-[#fecaca] bg-white px-4 py-2 shadow-sm">
+        <div className="mx-auto mt-4 flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
           <BadgeDollarSign className="h-4.5 w-4.5 text-[#b91c1c]" />
-          <span className="text-sm font-semibold text-[#7f1d1d]">预算总控：100 万以内，75 万硬件 + 25 万服务 + 0 元授权</span>
+          <span className="text-sm font-semibold text-slate-700">预算总控：50.8 万（50万中台+技术支持 + 0.8万Token/年 + 应用服务器0元）</span>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
@@ -86,15 +86,11 @@ export default function OverallBudgetAndCostPlanSlide() {
             const style = toneStyles[column.tone];
             const Icon = columnIcons[idx] ?? Server;
             return (
-              <section key={column.title} className={`rounded-3xl border p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6 ${style.card}`}>
+              <section key={column.title} className={`report-panel p-5 md:p-6 ${style.card}`}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-semibold text-[#111827]">{column.title}</h3>
-                    <p
-                      className={`mt-2 font-bold ${style.amount} ${
-                        idx === 1 ? "text-5xl leading-none md:text-6xl lg:text-7xl drop-shadow-[0_8px_24px_rgba(16,185,129,0.35)]" : "text-2xl"
-                      }`}
-                    >
+                    <p className={`mt-2 text-2xl font-bold ${style.amount}`}>
                       {column.amount}
                     </p>
                     <p className="mt-1 text-sm text-slate-600">{column.desc}</p>
@@ -104,9 +100,9 @@ export default function OverallBudgetAndCostPlanSlide() {
                   </span>
                 </div>
 
-                {idx === 1 ? (
+                {idx === 2 ? (
                   <div className="mt-2 rounded-xl border border-emerald-200 bg-white px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.12em] text-emerald-700">
-                    帮集团省下百万级商业授权
+                    集团现有资源可直接承载
                   </div>
                 ) : null}
 
@@ -121,7 +117,7 @@ export default function OverallBudgetAndCostPlanSlide() {
                 </ul>
 
                 <div className={`mt-3 inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${style.badge}`}>
-                  {idx === 0 ? "重资产" : idx === 1 ? "抱开源" : "买服务"}
+                  {idx === 0 ? "中台+技术支持" : idx === 1 ? "Token采购" : "应用服务器"}
                 </div>
               </section>
             );
@@ -129,26 +125,26 @@ export default function OverallBudgetAndCostPlanSlide() {
         </div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-3">
-          <div className="rounded-2xl border border-[#e5e7eb] bg-white px-4 py-3 text-sm text-slate-700">
+          <div className="report-panel px-4 py-3 text-sm text-slate-700">
             <p className="flex items-center gap-1.5 font-semibold text-slate-800">
               <Coins className="h-4 w-4 text-[#b91c1c]" />
               财务可控
             </p>
             <p className="mt-1">一次性投入边界清晰，后续运维成本结构透明。</p>
           </div>
-          <div className="rounded-2xl border border-[#e5e7eb] bg-white px-4 py-3 text-sm text-slate-700">
+          <div className="report-panel px-4 py-3 text-sm text-slate-700">
             <p className="flex items-center gap-1.5 font-semibold text-slate-800">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               自主可控
             </p>
-            <p className="mt-1">关键能力掌握在集团内部，避免外部平台锁定。</p>
+            <p className="mt-1">核心能力掌握在集团内部，飞书等平台用于办公场景补位。</p>
           </div>
-          <div className="rounded-2xl border border-[#e5e7eb] bg-white px-4 py-3 text-sm text-slate-700">
+          <div className="report-panel px-4 py-3 text-sm text-slate-700">
             <p className="flex items-center gap-1.5 font-semibold text-slate-800">
               <Server className="h-4 w-4 text-sky-600" />
               持续扩展
             </p>
-            <p className="mt-1">按业务成熟度扩容，资金投入与业务价值同步增长。</p>
+            <p className="mt-1">达标后再评估是否进入私有化155万重投入路径。</p>
           </div>
         </div>
       </div>

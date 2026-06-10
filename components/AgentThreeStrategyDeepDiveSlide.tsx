@@ -4,7 +4,8 @@ import { AudioLines, BarChart3, Cpu, DatabaseZap, FileText, GitBranch, Radar, Ro
 
 const strategyDeepDive = {
   title: "专题三：经营问策",
-  subtitle: "围绕“人、事、物”与经营数据，形成可执行的区域策略建议",
+  subtitle: "融合问药与问数结果，形成可执行、可复盘的区域策略建议",
+  leadDepartment: "信息化管理部",
   leftPanel: {
     title: "数据来源",
     items: [
@@ -24,7 +25,7 @@ const strategyDeepDive = {
     features: [
       { title: "顾客抗性深度洞察", desc: "从千万条真实门店录音中，语义聚类出顾客最常见的疑虑与拒绝购买原因", compactDesc: "语义聚类挖掘顾客疑虑与拒买原因。" },
       { title: "竞品动态自动监测", desc: "输入竞品名称，自动爬取公开舆情并生成本品与竞品的优劣势对比报告", compactDesc: "自动监测竞品舆情并生成对比报告。" },
-      { title: "区域策略自动化生成", desc: "每月融合上述数据，自动输出高保真《重点产品区域营销策略建议书》", compactDesc: "自动生成区域营销策略建议书。" },
+      { title: "区域策略自动化生成", desc: "每月融合上述数据，自动输出《重点产品区域营销策略建议书》", compactDesc: "自动生成区域营销策略建议书。" },
     ],
   },
   delivery: {
@@ -42,6 +43,7 @@ const strategyDeepDive = {
       "大促复盘优化：活动后自动归因“转化差异点”并输出下一轮优化方案。",
     ],
   },
+  metrics: ["策略建议可执行率 >= 80%", "策略生成时效 <= 24小时", "月度复盘闭环完成率 >= 90%"],
 } as const;
 
 const styleMap = {
@@ -85,15 +87,18 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
     <div className="min-h-full overflow-y-auto bg-[#fcfcfd] px-4 py-6 md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
-          <p className="inline-flex items-center rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#7c3aed]">
+          <p className="report-chip">
             专题 03 · 经营问策
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{strategyDeepDive.title}</h2>
           <p className="mx-auto mt-3 max-w-4xl text-sm leading-relaxed text-[#64748b] md:text-base">{strategyDeepDive.subtitle}</p>
+          <p className="mx-auto mt-3 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-700 md:text-base">
+            牵头部门：{strategyDeepDive.leadDepartment}
+          </p>
         </div>
 
         <div className="mt-7 grid gap-5 md:grid-cols-2">
-          <section className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+          <section className="report-panel p-5 md:p-6">
             <h3 className="text-lg font-semibold text-[#111827]">{strategyDeepDive.leftPanel.title}</h3>
             <div className="mt-4 space-y-3">
               {strategyDeepDive.leftPanel.items.map((item, idx) => {
@@ -142,7 +147,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
               </div>
             </article>
 
-            <article className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+            <article className="report-panel p-5 md:p-6">
               <h3 className="text-lg font-semibold text-[#111827]">核心能力</h3>
               <div className="mt-3 space-y-2.5">
                 {strategyDeepDive.rightPanel.features.map((feature, idx) => {
@@ -166,7 +171,7 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
           </section>
         </div>
 
-        <section className="mt-5 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+        <section className="report-panel mt-5 p-5 md:p-6">
           <h3 className="text-lg font-semibold text-[#111827]">{strategyDeepDive.delivery.title}</h3>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
@@ -227,6 +232,17 @@ export default function AgentThreeStrategyDeepDiveSlide({ showFullVersion = fals
             </div>
           </div>
         </section>
+        <div className="report-conclusion mt-4 text-sm text-[#334155]">
+          <p className="font-semibold text-violet-700">本页结论：问策价值取决于问药与问数数据联动质量。</p>
+          <p className="mt-1">下一步：由{strategyDeepDive.leadDepartment}牵头，按月跟踪策略生成与落地指标。</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {strategyDeepDive.metrics.map((item) => (
+              <span key={item} className="rounded-full border border-violet-200 bg-white px-2.5 py-1 text-xs text-violet-700">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,8 @@ import { AlertTriangle, Cpu, DatabaseZap, ShieldCheck, Sparkles, Stethoscope, Wo
 
 const deepDiveData = {
   title: "专题一：问药服务",
-  subtitle: "基于“智小谱”知识图谱升级，形成标准、合规、可复用的产品知识服务能力",
+  subtitle: "基于“智小谱”知识图谱升级，形成可追溯、可复用的产品知识服务能力",
+  leadDepartment: "北京同仁堂股份有限公司",
   leftPanel: {
     title: "数据来源",
     items: [
@@ -53,9 +54,10 @@ const deepDiveData = {
       "门店即时问答：导购询问“高血压 + 胃病是否可用某产品”并给出禁忌说明。",
       "内部员工问答：新员工模拟接待问药场景，自动评分 SOP 与合规表达。",
       "售后风险应答：针对不良反应咨询提供标准话术与升级建议。",
-      "中医里的或然证：中成药原来可以这样妙用。",
+      "知识复盘训练：沉淀高频问法与标准答案，持续优化问答质量。",
     ],
   },
+  metrics: ["问药高频问法准确率 >= 85%", "敏感问法拦截命中率 >= 95%", "引用可追溯率 = 100%"],
 } as const;
 
 const sourceStyleMap = {
@@ -92,15 +94,18 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
     <div className="min-h-full overflow-y-auto bg-[#fcfcfd] px-4 py-6 md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
-          <p className="inline-flex items-center rounded-full border border-[#fecaca] bg-[#fff1f2] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#b91c1c]">
+          <p className="report-chip">
             专题 01 · 问药服务
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{deepDiveData.title}</h2>
           <p className="mx-auto mt-3 max-w-4xl text-sm leading-relaxed text-[#64748b] md:text-base">{deepDiveData.subtitle}</p>
+          <p className="mx-auto mt-3 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-700 md:text-base">
+            牵头部门：{deepDiveData.leadDepartment}
+          </p>
         </div>
 
         <div className="mt-7 grid gap-5 md:grid-cols-2">
-          <section className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+          <section className="report-panel p-5 md:p-6">
             <h3 className="text-lg font-semibold text-[#111827]">{deepDiveData.leftPanel.title}</h3>
             <div className="mt-4 space-y-3">
               {deepDiveData.leftPanel.items.map((item, idx) => {
@@ -145,7 +150,7 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
               </p>
             </article>
 
-            <article className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+            <article className="report-panel p-5 md:p-6">
               <h3 className="text-lg font-semibold text-[#111827]">核心能力</h3>
               <div className="mt-3 space-y-2.5">
                 {deepDiveData.rightPanel.features.map((feature, idx) => {
@@ -169,7 +174,7 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
           </section>
         </div>
 
-        <section className="mt-5 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+        <section className="report-panel mt-5 p-5 md:p-6">
           <h3 className="text-lg font-semibold text-[#111827]">{deepDiveData.delivery.title}</h3>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
@@ -225,6 +230,17 @@ export default function AgentOneMedicineDeepDiveSlide({ showFullVersion = false 
             </div>
           </div>
         </section>
+        <div className="report-conclusion mt-4 text-sm text-[#334155]">
+          <p className="font-semibold text-rose-700">本页结论：问药场景可先行落地，重点在准确率与合规双达标。</p>
+          <p className="mt-1">下一步：由{deepDiveData.leadDepartment}牵头，按月跟踪以下验收指标。</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {deepDiveData.metrics.map((item) => (
+              <span key={item} className="rounded-full border border-rose-200 bg-white px-2.5 py-1 text-xs text-rose-700">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

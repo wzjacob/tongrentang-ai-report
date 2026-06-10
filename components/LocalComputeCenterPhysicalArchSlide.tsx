@@ -4,8 +4,8 @@ import { BadgeAlert, Building2, Cpu, Database, Network, Server, ShieldCheck } fr
 
 const physicalArchData = {
   title: "云网一体：本地化算力中心物理架构",
-  subtitle: "弱化参数堆叠，强化安全、集约与可持续运营能力",
-  corePositioning: "筑牢集团自主可控的数智化基座，打造经营数字化的“水电煤”。",
+  subtitle: "聚焦安全、集约与可持续运营，参数细节按需展示",
+  corePositioning: "作为集团数字化基础设施，优先保障安全可控、统一纳管与稳定运行。",
   layers: [
     {
       id: "room",
@@ -40,7 +40,7 @@ export default function LocalComputeCenterPhysicalArchSlide() {
     <div className="min-h-full overflow-y-auto bg-[#fcfcfd] px-4 py-6 md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
-          <p className="inline-flex items-center rounded-full border border-[#fecaca] bg-[#fff1f2] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#b91c1c]">
+          <p className="report-chip">
             模块二 · 基础架构与可落地性
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{physicalArchData.title}</h2>
@@ -48,9 +48,9 @@ export default function LocalComputeCenterPhysicalArchSlide() {
         </div>
 
         <div className="mt-7 grid gap-4 lg:grid-cols-3">
-          <section className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] lg:col-span-2 md:p-6">
-            <div className="rounded-2xl border border-[#fecaca] bg-[#fff1f2] px-4 py-3">
-              <p className="text-sm font-semibold text-[#b91c1c]">{physicalArchData.corePositioning}</p>
+          <section className="report-panel p-5 lg:col-span-2 md:p-6">
+            <div className="report-panel-soft px-4 py-3">
+              <p className="text-sm font-semibold text-slate-700">{physicalArchData.corePositioning}</p>
             </div>
 
             <div className="mt-5">
@@ -112,27 +112,27 @@ export default function LocalComputeCenterPhysicalArchSlide() {
             </div>
           </section>
 
-          <aside className="rounded-3xl border border-[#fecaca] bg-[#fff1f2] p-5 shadow-[0_12px_28px_rgba(185,28,28,0.12)] md:p-6">
+          <aside className="report-panel-soft p-5 md:p-6">
             <div className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#b91c1c] text-white">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-700 text-white">
                 <ShieldCheck className="h-4.5 w-4.5" />
               </span>
-              <h3 className="text-lg font-semibold text-[#7f1d1d]">安全与集约化高亮</h3>
+              <h3 className="text-lg font-semibold text-slate-800">安全与集约化重点</h3>
             </div>
 
             <div className="mt-4 space-y-2.5">
-              <div className="rounded-2xl border border-[#fca5a5] bg-white px-3 py-2.5 text-center text-sm font-semibold text-[#b91c1c] shadow-sm">
+              <div className="rounded-2xl border border-slate-300 bg-white px-3 py-2.5 text-center text-sm font-semibold text-slate-800 shadow-sm">
                 数据绝不出域
               </div>
 
               {physicalArchData.highlights.slice(1).map((item) => (
-                <div key={item} className="rounded-2xl border border-[#fecaca] bg-white px-3 py-2.5 text-sm font-medium text-[#7f1d1d]">
+                <div key={item} className="rounded-2xl border border-slate-300 bg-white px-3 py-2.5 text-sm font-medium text-slate-700">
                   {item}
                 </div>
               ))}
             </div>
 
-            <div className="mt-4 rounded-xl border border-[#fca5a5] bg-white/80 px-3 py-2 text-xs leading-relaxed text-[#991b1b]">
+            <div className="mt-4 rounded-xl border border-slate-300 bg-white/90 px-3 py-2 text-xs leading-relaxed text-slate-700">
               <p className="flex items-center gap-1.5 font-semibold">
                 <BadgeAlert className="h-3.5 w-3.5" />
                 安全红线

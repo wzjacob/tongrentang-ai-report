@@ -14,6 +14,8 @@ import LocalComputeCenterPhysicalArchSlide from "@/components/LocalComputeCenter
 import OverallBudgetAndCostPlanSlide from "@/components/OverallBudgetAndCostPlanSlide";
 import ImplementationRoadmapAndRoiSlide from "@/components/ImplementationRoadmapAndRoiSlide";
 import DifyThreeScenariosDemoSlide from "@/components/DifyThreeScenariosDemoSlide";
+import FeishuVsDifyStrategySlide from "@/components/FeishuVsDifyStrategySlide";
+import TokenRouteSecuritySlide from "@/components/TokenRouteSecuritySlide";
 import { REPORT_TITLE_FULL, REPORT_TITLE_MAIN } from "@/lib/reportMeta";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
@@ -122,13 +124,13 @@ const defaultLayoutData: LayoutPayload = {
 };
 
 const aiBlueprint = {
-  title: "试点阶段业务中枢蓝图（先三场景后扩展）",
+  title: "两阶段建设蓝图（推广期3个月 / 深化期3个月）",
   layers: [
     {
       id: "saas",
       name: "SaaS (场景层)",
       type: "grid",
-      items: ["问药", "问数", "问策", "领导试用驾驶舱", "核心部门试用工作台"],
+      items: ["问药", "问数", "问策", "推广期试用驾驶舱", "深化期协同工作台"],
     },
     {
       id: "paas",
@@ -196,89 +198,102 @@ const painBridgeData = {
 
 const distillationData = {
   core_process: {
-    title: "试用验证与知识库增强闭环",
-    base_model: "统一业务中枢（问药 / 问数 / 问策）",
-    target_model: "可扩展的集团场景中台",
-    action: "准确率验证与迭代",
-    enhancements: ["问答日志采集", "答案溯源校验", "低分样本复盘", "知识库增补发布"],
+    title: "两阶段推进闭环",
+    base_model: "推广期（0-3个月）",
+    target_model: "深化期（4-6个月）",
+    action: "阶段评审 → 数据沉淀 → 问法复盘 → Agent持续优化",
+    enhancements: ["问答日志采集与标签化", "高频问法收集与归类", "低分问法复盘与改写", "知识库增补发布与版本迭代"],
   },
   modules: [
     {
       id: "knowledge",
-      title: "知识库增强",
+      title: "推广期：数据采集与沉淀机制上线",
       themeColor: "blue",
-      items: ["非结构化文档增补", "标签与实体统一", "向量化与重排优化", "版本发布与回滚"],
+      items: ["统一日志、权限、审计与监控发布", "问答数据自动归档并建立标签体系", "业务反馈与真实问法统一沉淀入库"],
     },
     {
       id: "top_design",
-      title: "试用组织协同",
+      title: "推广期：双场景上线与问法采集",
       themeColor: "purple",
-      items: ["核心部门试用机制", "领导试用反馈闭环", "周度复盘与口径统一"],
+      items: ["问药/问数双场景上线试用", "核心部门与领导组织150人试用", "高频问法周度复盘与口径统一"],
     },
     {
       id: "reasoning",
-      title: "场景准确率验证",
+      title: "深化期：复盘提效与Agent优化",
       themeColor: "red",
-      items: ["问药首问命中率", "问数口径一致率", "问策建议可执行率"],
+      items: ["低分问法专项改写与规则优化", "问策场景上线并接入复盘链路", "问药/问数/问策效果指标持续提升"],
     },
     {
       id: "generation",
-      title: "扩展决策门槛",
+      title: "深化期：联动扩展与机制固化",
       themeColor: "green",
-      items: ["并发稳定性达标", "100人试用满意度达标", "再进入下一阶段扩展"],
+      items: ["跨单位数据联动机制形成", "形成‘收集-复盘-优化-发布’闭环机制", "输出下一阶段扩展建议与治理清单"],
     },
   ],
 } as const;
 
 const computeComparisonData = {
-  pageTitle: "试点期统建底座方案对比（100万）",
+  pageTitle: "Token采购 vs 私有化算力底座经费对比",
   planA: {
-    title: "方案A：单位分散试点（不推荐）",
-    architecture: "各单位独立采购与部署，资源口径不统一，复用率低。",
-    capex: 1300000,
-    utilization: 35,
-    opexComplexity: "高（多套环境并行维护）",
-    scenes: ["问药试点", "问数试点", "问策试点", "知识库各自建设"],
+    title: "方案A：私有化自建算力底座",
+    architecture: "本地化算力中心建设 + 企业中台授权与技术支持，适合长期重资产布局。",
+    capex: 1550000,
+    utilization: 68,
+    opexComplexity: "高（需持续硬件运维与资源管理）",
+    scenes: [
+      "本地化算力底座：约105万",
+      "应用服务器：申请集团公司现有资源（0元）",
+      "中台软件授权+技术支持：50万",
+      "合计：约155万",
+      "数据可控性高，建设周期较长",
+    ],
   },
   planB: {
-    title: "方案B：集团统建试点底座（当前方案）",
-    architecture: "统一平台服务 + 统一基础设施，集中纳管三大核心场景。",
-    capex: 1000000,
-    utilization: 70,
-    opexComplexity: "低（单一底座统一运维）",
-    scenes: ["问药/问数/问策统一上线", "约10并发稳定支撑", "100人规模试用", "知识库统一增补与复盘"],
+    title: "方案B：API买Token（推荐）",
+    architecture: "按需采购模型Token + 企业中台授权与技术支持，探索期投入更轻。",
+    capex: 508000,
+    utilization: 82,
+    opexComplexity: "低（无需自建算力硬件运维）",
+    scenes: [
+      "Token池费用：约8000元/年（150人，含MCP调用）",
+      "应用服务器：申请集团公司现有资源（0元）",
+      "中台软件授权+技术支持：50万",
+      "合计：约50.8万",
+      "支持模型多，问答效果好",
+    ],
   },
 } as const;
 
 const localComputePlanningData = {
   header: {
-    title: "第一步：建设统一算力与模型底座",
-    subtitle: "总投资 100 万，先支撑三大核心场景试用与准确率验证",
+    title: "推广期（3个月）：统一底座与双场景上线",
+    subtitle: "聚焦先上线、先试用、先验证，形成可复制的推广期执行模板",
   },
   investment: {
-    total: "100 万",
-    desc: "试点期统一投入：平台费 40 万 + 基础设施底座 60 万",
+    total: "50.8 万",
+    desc: "探索期轻投入先跑通，后续按评审结果决定是否转入私有化重投入",
     breakdown: [
-      { name: "平台服务费", amount: "约 40万", share: "40%", detail: "编排平台、权限审计、日志监控与场景接入能力", color: "bg-blue-500", theme: "blue" },
-      { name: "基础设施底座", amount: "约 60万", share: "60%", detail: "统一算力与存储网络底座，保障 10 并发与 100 人试用", color: "bg-emerald-500", theme: "emerald" },
+      { name: "中台授权+技术支持", amount: "约 50万", share: "98.4%", detail: "统一编排、权限、日志、审计与联调上线保障", color: "bg-rose-600", theme: "blue" },
+      { name: "Token池费用", amount: "约 0.8万/年", share: "1.6%", detail: "满足150人使用并覆盖MCP组件调用", color: "bg-amber-500", theme: "violet" },
+      { name: "应用服务器", amount: "0元", share: "0%", detail: "申请集团公司现有资源，无新增采购成本", color: "bg-emerald-500", theme: "emerald" },
     ],
   },
   strategy: {
-    title: "试点路径与上线边界",
+    title: "两阶段推进路径",
     current: {
-      status: "当前目标：先跑通",
-      points: ["先上线问药、问数、问策三大核心场景", "先做10并发与100人试用，验证准确率与稳定性"],
+      status: "推广期目标（0-3个月）",
+      points: ["上线问药、问数双场景 POC", "完成10并发与150人试用验证", "沉淀统一验收口径与推广期复盘结论"],
     },
     future: {
-      status: "后续目标：再扩展",
-      points: ["持续补齐非结构化知识库", "达到准确率门槛后再决策扩容与新场景建设"],
+      status: "深化期目标（4-6个月）",
+      points: ["提升三场景准确率与可执行性", "形成跨单位数据联动机制", "形成下一阶段扩展方向与投入建议"],
     },
     architecture: {
-      top: ["问药", "问数", "问策"],
-      middle: "统一试点中枢（平台层）",
+      top: ["问药", "问数", "问策", "统一验收口径"],
+      middle: "统一AI中台与编排流",
       bottom: [
-        { name: "基础设施底座（60万）", theme: "emerald" },
-        { name: "平台能力与治理（40万）", theme: "blue" },
+        { name: "模型接入能力（多模型 API）", theme: "emerald" },
+        { name: "统一中台能力（权限/日志/审计）", theme: "blue" },
       ],
     },
   },
@@ -286,27 +301,27 @@ const localComputePlanningData = {
 
 const buildMethodData = {
   header: {
-    title: "同步推进试用组织与系统建设",
-    subtitle: "聚焦核心业务部门与领导试用，周度复盘、闭环迭代",
+    title: "两阶段推进：推广期打基础，深化期提质量",
+    subtitle: "推广期聚焦上线与试用，深化期聚焦提效与扩展建议",
   },
   columns: {
     left: {
-      title: "试点实施与协同",
+      title: "阶段执行与协同",
       items: [
         {
           id: "l1",
           icon: "Zap",
-          title: "小步快跑迭代",
-          desc: "先以问药、问数、问策上线试用版本，按反馈快速迭代，优先保证准确率与稳定性。",
+          title: "推广期：先上线后验证",
+          desc: "三场景上线试用并快速迭代，先保障可用性与稳定性。",
         },
         {
           id: "l2",
           icon: "Users",
-          title: "试用协同机制",
+          title: "深化期：提效与联动",
           details: [
-            { label: "集团侧", text: "统一平台与底座建设，保障安全与运维" },
-            { label: "业务侧", text: "核心业务部门组织约100人开展试用与反馈" },
-            { label: "管理侧", text: "领导参与阶段评审，确认扩展节奏与投入策略" },
+            { label: "集团侧", text: "提供统一中台、算力和治理规则" },
+            { label: "业务侧", text: "各单位围绕场景持续优化并反馈效果" },
+            { label: "评审侧", text: "按阶段评审产出扩展建议与投入计划" },
           ],
         },
       ],
@@ -314,18 +329,18 @@ const buildMethodData = {
     center: {
       title: "试点治理中枢",
       nodes: [
-        { id: "c1", type: "management", title: "集团信息化管理部", desc: "统一推进试点与评审节奏" },
-        { id: "core", type: "hub", title: "统一业务中枢", desc: "问药/问数/问策试点底座" },
-        { id: "c2", type: "external", title: "实施与运维团队", desc: "保障10并发稳定运行与问题修复" },
-        { id: "c3", type: "business", title: "核心业务部门", desc: "组织试用与准确率反馈验证" },
+        { id: "c1", type: "management", title: "集团信息化管理部", desc: "统筹两阶段推进与评审节奏" },
+        { id: "core", type: "hub", title: "统一AI中台", desc: "问药/问数/问策统一能力底座" },
+        { id: "c2", type: "external", title: "技术支持与开发团队", desc: "保障上线、联调与稳定运行" },
+        { id: "c3", type: "business", title: "各单位业务部门", desc: "组织试用并沉淀场景优化需求" },
       ],
     },
     right: {
-      title: "知识与数据治理",
+      title: "知识与数据深化",
       items: [
-        { id: "r1", icon: "Waypoints", title: "统一接入口径", desc: "统一问药、问数、问策三场景的数据接口与口径，减少重复建设。" },
-        { id: "r2", icon: "ShieldCheck", title: "试用期合规管控", desc: "按角色分级授权，确保领导与核心业务部门试用过程可审计、可追踪。" },
-        { id: "r3", icon: "DatabaseZap", title: "非结构化知识增补", desc: "围绕低分问题持续补齐文档、制度和经验知识，提升答案准确率。" },
+        { id: "r1", icon: "Waypoints", title: "统一接入口径", desc: "推广期统一问药、问数、问策接入口径，降低重复建设成本。" },
+        { id: "r2", icon: "ShieldCheck", title: "全过程合规可审计", desc: "两阶段均按角色分级授权，保障过程可追踪、可审计。" },
+        { id: "r3", icon: "DatabaseZap", title: "低分问题专项提升", desc: "深化期围绕低分问题增补知识与规则，持续提高答案质量。" },
       ],
     },
   },
@@ -333,16 +348,16 @@ const buildMethodData = {
 
 const localModelHybridData = {
   header: {
-    title: "第二步：三大场景能力编排与试用验证",
-    subtitle: "先保障问药、问数、问策上线可用，再按准确率结果扩展模型与场景",
+    title: "深化期（3个月）：三场景提效与跨单位协同",
+    subtitle: "在推广期基础上持续优化准确率、联动能力与扩展准备",
   },
   models: [
     {
       id: "general",
       type: "问药场景能力",
       name: "问药",
-      version: "试用版",
-      features: ["支撑药品问答与溯源", "聚焦高频问法准确率验证", "支持门店与内训试用"],
+      version: "推广期上线版",
+      features: ["支撑药品问答与溯源", "聚焦高频问法准确率提升", "支持门店与内训持续优化"],
       theme: "blue",
       icon: "Brain",
     },
@@ -350,8 +365,8 @@ const localModelHybridData = {
       id: "professional",
       type: "问数场景能力",
       name: "问数",
-      version: "试用版",
-      features: ["面向经营数据问答", "聚焦核心指标口径一致性", "支持管理看板联动验证"],
+      version: "推广期上线版",
+      features: ["面向经营数据问答", "聚焦核心指标口径一致性提升", "支持跨单位看板联动验证"],
       theme: "emerald",
       icon: "Microscope",
     },
@@ -359,8 +374,8 @@ const localModelHybridData = {
       id: "vector",
       type: "问策场景能力",
       name: "问策",
-      version: "试用版",
-      features: ["融合问药与问数结果", "输出可执行策略建议", "用于领导试用决策验证"],
+      version: "深化期上线版",
+      features: ["融合问药与问数结果", "输出可执行策略建议", "推广期完成模板沉淀，深化期正式上线"],
       theme: "amber",
       icon: "Network",
     },
@@ -368,8 +383,8 @@ const localModelHybridData = {
       id: "security",
       type: "知识库与治理",
       name: "知识中枢",
-      version: "持续增强",
-      features: ["非结构化文档持续入库", "低分问答反哺知识优化", "支撑后续扩展决策"],
+      version: "深化期增强",
+      features: ["非结构化文档持续入库", "低分问答反哺知识优化", "支撑下一阶段扩展决策"],
       theme: "slate",
       icon: "ShieldCheck",
     },
@@ -378,20 +393,38 @@ const localModelHybridData = {
     mapping: {
       title: "模型与场景映射关系",
       items: [
-        { model: "问药能力", version: "试用版", theme: "blue", modelId: "general", scenarios: ["药品问答", "门店试用", "领导抽检"] },
-        { model: "问数能力", version: "试用版", theme: "emerald", modelId: "professional", scenarios: ["经营问答", "指标校核", "看板联动"] },
+        {
+          model: "问药能力",
+          version: "试用版",
+          theme: "blue",
+          modelId: "general",
+          scenarios: ["药品问答", "门店试用", "领导抽检"],
+          trigger: "成分、适应症、用法问答",
+          output: "标准答复 + 溯源依据（知识条目）+ 或然症 + 使用小妙招",
+          metric: "首答命中率、人工改写率、问答完成时长",
+        },
+        {
+          model: "问数能力",
+          version: "试用版",
+          theme: "emerald",
+          modelId: "professional",
+          scenarios: ["经营问答", "指标校核", "看板联动"],
+          trigger: "经营复盘、日报周报、口径核对",
+          output: "口径一致的数据解释 + 可复用看板问法",
+          metric: "口径争议次数、取数时长、复盘周期缩短比例",
+        },
       ],
     },
     advantages: {
-      title: "试点阶段核心收益",
+      title: "两阶段核心收益",
       items: [
-        { title: "先聚焦再扩展", desc: "先跑通三大核心场景，降低一次性大规模投入风险", icon: "Scale" },
-        { title: "容量与成本匹配", desc: "按10并发、100人试用配置资源，保障可用同时控制成本", icon: "Zap" },
-        { title: "以准确率驱动决策", desc: "通过持续评测与知识增补，为后续扩展提供量化依据", icon: "Layers" },
+        { title: "预算结构清晰", desc: "推荐方案约50.8万（中台+技术支持50万 + Token池0.8万/年），投入边界明确", icon: "Scale" },
+        { title: "推广期快速见效", desc: "三场景上线并完成10并发、150人试用，形成首轮业务验证", icon: "Zap" },
+        { title: "深化期稳步提升", desc: "围绕准确率和联动能力优化，形成下一阶段扩展依据", icon: "Layers" },
       ],
     },
   },
-  footer: "试点部署策略：先满足三场景试用容量与稳定性，准确率达标后再进入下一阶段扩容与场景拓展。",
+  footer: "两阶段部署策略：推广期完成上线与试用验证，深化期完成提效与扩展建议收口。",
 } as const;
 
 const marketingBadgeData = {
@@ -519,8 +552,8 @@ function SlideChapter({
 }) {
   return (
     <SlideWrap>
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-[radial-gradient(circle_at_20%_20%,rgba(239,68,68,0.10),transparent_42%)] px-4 py-10 text-center">
-        <p className="inline-flex items-center rounded-full border border-[#fecaca] bg-[#fff1f2] px-4 py-1.5 text-xs font-semibold tracking-[0.16em] text-[#b91c1c] md:text-sm">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-[radial-gradient(circle_at_20%_20%,rgba(148,163,184,0.10),transparent_42%)] px-4 py-10 text-center">
+        <p className="report-chip">
           Chapter {index}
         </p>
         <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#111827] md:text-5xl">{title}</h2>
@@ -534,7 +567,7 @@ const commercialDiagnosisSwotData = {
   header: {
     title: "案例剖析：商业公司中医药 AI 辅助诊疗系统",
     subtitle: "剥离外部包装，客观评估其业务真实价值与集团管控风险（SWOT 矩阵）",
-    conclusion: "核心结论：优秀的业务场景探索，但底层技术受制于人。应“取其思想，弃其黑盒”，将其辨证逻辑融入集团自研底座。",
+    conclusion: "核心结论：业务场景探索价值明确，但底层技术外部依赖较高。建议提炼其辨证逻辑并纳入集团统一底座。",
   },
   swot: [
     {
@@ -554,7 +587,7 @@ const commercialDiagnosisSwotData = {
       type: "劣势（内部/现有）",
       theme: "orange",
       items: [
-        { title: "核心资产外部依赖", desc: "系统由第三方主导，核心算法与逻辑处于“陪跑”和“黑盒”状态，内部掌控力极低。" },
+        { title: "核心资产外部依赖", desc: "系统由第三方主导，核心算法与关键逻辑外部依赖明显，内部掌控力不足。" },
         { title: "系统复用性极差", desc: "作为单体项目建设，其能力无法被集团其他单位（如股份公司）沉淀和复用。" },
         { title: "沦为应用孤岛", desc: "独立于集团主干网络之外，难以与智小谱等现有知识库打通协同。" },
       ],
@@ -1520,14 +1553,14 @@ function SlideOpenClawStory() {
 
 function SlideAIBlueprint() {
   return (
-    <div className="min-h-full w-full overflow-y-auto bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.14),transparent_36%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_55%,#e3f0ff_100%)] pb-8 text-slate-800">
-      <h3 className="text-3xl font-semibold text-sky-900">{aiBlueprint.title}</h3>
+    <div className="min-h-full w-full overflow-y-auto bg-[radial-gradient(circle_at_20%_10%,rgba(239,68,68,0.12),transparent_36%),linear-gradient(180deg,#fffaf9_0%,#fff2f2_55%,#ffe8e8_100%)] pb-8 text-slate-800">
+      <h3 className="text-3xl font-semibold text-rose-900">{aiBlueprint.title}</h3>
 
       <div className="mt-5 space-y-4">
         {aiBlueprint.layers.map((layer) => {
           return (
-            <div key={layer.id} className="rounded-2xl border border-sky-200/80 bg-white/70 p-4 backdrop-blur-xl">
-              <div className="mb-3 inline-flex rounded-full border border-sky-300 bg-sky-50 px-3 py-1 text-sm font-semibold text-sky-700">
+            <div key={layer.id} className="rounded-2xl border border-rose-200/80 bg-white/75 p-4 backdrop-blur-xl">
+              <div className="mb-3 inline-flex rounded-full border border-rose-300 bg-rose-50 px-3 py-1 text-sm font-semibold text-rose-700">
                 {layer.name}
               </div>
 
@@ -1536,7 +1569,7 @@ function SlideAIBlueprint() {
                   {layer.items.map((item) => (
                     <div
                       key={item}
-                      className="rounded-xl border border-sky-200 bg-white px-3 py-2 text-center text-xs text-slate-700 transition-all duration-200 hover:-translate-y-1 hover:border-sky-300 hover:shadow-[0_0_24px_rgba(56,189,248,0.25)]"
+                      className="rounded-xl border border-rose-200 bg-white px-3 py-2 text-center text-xs text-slate-700 transition-all duration-200 hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_0_24px_rgba(239,68,68,0.22)]"
                     >
                       {item}
                     </div>
@@ -1545,16 +1578,16 @@ function SlideAIBlueprint() {
               ) : null}
 
               {"subLayers" in layer && layer.type === "nested" ? (
-                <div className="rounded-xl border border-sky-200 bg-[#f5faff]/85 p-3">
+                <div className="rounded-xl border border-rose-200 bg-[#fff6f6]/85 p-3">
                   <div className="grid gap-3 md:grid-cols-3">
                     {layer.subLayers.map((sub) => (
-                      <div key={sub.name} className="rounded-xl border border-sky-200 bg-white p-3">
-                        <p className="text-sm font-semibold text-sky-700">{sub.name}</p>
+                      <div key={sub.name} className="rounded-xl border border-rose-200 bg-white p-3">
+                        <p className="text-sm font-semibold text-rose-700">{sub.name}</p>
                         <div className="mt-2 space-y-2">
                           {sub.items.map((item) => (
                             <div
                               key={item}
-                              className="rounded-lg border border-sky-100 bg-slate-50 px-2 py-1 text-xs text-slate-700 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_18px_rgba(56,189,248,0.25)]"
+                              className="rounded-lg border border-rose-100 bg-slate-50 px-2 py-1 text-xs text-slate-700 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_18px_rgba(239,68,68,0.18)]"
                             >
                               {item}
                             </div>
@@ -1562,10 +1595,10 @@ function SlideAIBlueprint() {
                         </div>
                         {sub.name === "原子能力层" ? (
                           <div className="mt-2 grid gap-2">
-                            <div className="rounded-lg border border-dashed border-sky-300 bg-sky-50/60 px-2 py-2 text-xs text-sky-700">
+                            <div className="rounded-lg border border-dashed border-rose-300 bg-rose-50/60 px-2 py-2 text-xs text-rose-700">
                               扩展预留 A（准确率达标后启用）
                             </div>
-                            <div className="rounded-lg border border-dashed border-sky-300 bg-sky-50/60 px-2 py-2 text-xs text-sky-700">
+                            <div className="rounded-lg border border-dashed border-rose-300 bg-rose-50/60 px-2 py-2 text-xs text-rose-700">
                               扩展预留 B（知识库完善后启用）
                             </div>
                           </div>
@@ -1585,9 +1618,9 @@ function SlideAIBlueprint() {
                       return (
                         <div
                           key={item}
-                          className="group relative flex min-h-[148px] flex-col items-center justify-center gap-3 rounded-2xl border border-sky-200/90 bg-gradient-to-b from-white via-white to-sky-50/70 px-4 py-7 text-center shadow-[0_10px_40px_-12px_rgba(14,116,144,0.18)] ring-1 ring-sky-100/80 transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-300/90 hover:shadow-[0_24px_48px_-14px_rgba(56,189,248,0.38)] md:min-h-[168px] md:px-5 md:py-8"
+                          className="group relative flex min-h-[148px] flex-col items-center justify-center gap-3 rounded-2xl border border-rose-200/90 bg-gradient-to-b from-white via-white to-rose-50/70 px-4 py-7 text-center shadow-[0_10px_40px_-12px_rgba(185,28,28,0.15)] ring-1 ring-rose-100/80 transition-all duration-300 hover:-translate-y-1.5 hover:border-rose-300/90 hover:shadow-[0_24px_48px_-14px_rgba(239,68,68,0.32)] md:min-h-[168px] md:px-5 md:py-8"
                         >
-                          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-100 to-indigo-50 text-sky-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-sky-200/70 transition-transform duration-300 group-hover:scale-105 md:h-16 md:w-16">
+                          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-100 to-amber-50 text-rose-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-rose-200/70 transition-transform duration-300 group-hover:scale-105 md:h-16 md:w-16">
                             <Icon className="h-7 w-7 md:h-8 md:w-8" strokeWidth={1.5} aria-hidden />
                           </span>
                           <p className="text-lg font-semibold tracking-[0.12em] text-slate-800 md:text-xl">{item}</p>
@@ -1601,7 +1634,7 @@ function SlideAIBlueprint() {
                     {layer.items.map((item) => (
                       <div
                         key={item}
-                        className="inline-flex w-full items-center justify-center gap-1 rounded-full border border-sky-200 bg-white px-3 py-1 text-xs text-slate-700 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_18px_rgba(56,189,248,0.25)]"
+                        className="inline-flex w-full items-center justify-center gap-1 rounded-full border border-rose-200 bg-white px-3 py-1 text-xs text-slate-700 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_18px_rgba(239,68,68,0.22)]"
                       >
                         {item}
                       </div>
@@ -2120,7 +2153,7 @@ function SlideDistillationPanorama() {
   const [deepseekLogoError, setDeepseekLogoError] = useState(false);
 
   const themeClasses: Record<string, string> = {
-    blue: "bg-blue-50/70 border-blue-200",
+    blue: "bg-rose-50/70 border-rose-200",
     purple: "bg-violet-50/70 border-violet-200",
     red: "bg-rose-50/70 border-rose-200",
     green: "bg-emerald-50/70 border-emerald-200",
@@ -2145,7 +2178,7 @@ function SlideDistillationPanorama() {
         <div className="mb-4 flex items-center justify-center gap-3 text-center">
           <p className="text-lg font-semibold tracking-[0.16em] text-[#374151] md:text-2xl">{distillationData.core_process.action}</p>
           {deepseekLogoError ? (
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#dbeafe] bg-sky-50 text-sky-600 md:h-10 md:w-10">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-rose-200 bg-rose-50 text-rose-600 md:h-10 md:w-10">
               <Sparkles size={18} />
             </span>
           ) : (
@@ -2155,7 +2188,7 @@ function SlideDistillationPanorama() {
               width={40}
               height={40}
               unoptimized
-              className="h-9 w-9 rounded-full border border-[#dbeafe] bg-white object-contain p-1 md:h-10 md:w-10"
+              className="h-9 w-9 rounded-full border border-rose-200 bg-white object-contain p-1 md:h-10 md:w-10"
               onError={() => setDeepseekLogoError(true)}
             />
           )}
@@ -2165,17 +2198,17 @@ function SlideDistillationPanorama() {
             {distillationData.core_process.base_model}
           </div>
           <div className="relative h-44 w-56">
-            <div className="absolute left-1/2 top-3 h-[86%] w-[2px] -translate-x-1/2 rounded-full bg-gradient-to-b from-sky-300 via-blue-400 to-indigo-500/60" />
+            <div className="absolute left-1/2 top-3 h-[86%] w-[2px] -translate-x-1/2 rounded-full bg-gradient-to-b from-rose-300 via-red-400 to-amber-500/60" />
             {distillationData.core_process.enhancements.map((step, idx) => (
               <motion.div
                 key={step}
                 animate={{
                   opacity: coreHover ? 1 : 0.45,
                   scale: coreHover ? 1 : 0.96,
-                  backgroundColor: coreHover ? "#eff6ff" : "#f8fafc",
+                  backgroundColor: coreHover ? "#fff1f2" : "#f8fafc",
                 }}
                 transition={{ duration: 0.25, delay: coreHover ? idx * 0.12 : 0 }}
-                className="absolute left-1/2 w-44 -translate-x-1/2 rounded-full border border-[#dbeafe] px-2 py-1 text-center text-xs text-[#1e3a8a]"
+                className="absolute left-1/2 w-44 -translate-x-1/2 rounded-full border border-rose-200 px-2 py-1 text-center text-xs text-rose-700"
                 style={{ top: `${16 + idx * 36}px` }}
               >
                 {step}
@@ -2184,12 +2217,12 @@ function SlideDistillationPanorama() {
             <motion.div
               animate={{ y: coreHover ? [-8, -120, -8] : -8, opacity: coreHover ? [0, 1, 0] : 0 }}
               transition={{ duration: 1.6, repeat: coreHover ? Infinity : 0, ease: "easeInOut" }}
-              className="absolute left-1/2 top-[82%] -translate-x-1/2 text-sky-500"
+              className="absolute left-1/2 top-[82%] -translate-x-1/2 text-rose-500"
             >
               <ArrowRight size={16} className="-rotate-90" />
             </motion.div>
           </div>
-          <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-center text-sm font-semibold text-sky-700 shadow-[0_0_20px_rgba(56,189,248,0.22)]">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-center text-sm font-semibold text-rose-700 shadow-[0_0_20px_rgba(244,63,94,0.2)]">
             {distillationData.core_process.target_model}
           </div>
         </div>
@@ -2245,40 +2278,39 @@ function SlideComputeFoundationDashboard() {
   const chartH = 248;
 
   const radarData = [
-    { metric: "投入可控性", A: 5, B: 9 },
-    { metric: "运维复杂度", A: 3, B: 8 },
-    { metric: "资源利用率", A: 4, B: 8 },
-    { metric: "试用稳定性", A: 5, B: 8 },
-    { metric: "扩展准备度", A: 4, B: 8 },
+    { metric: "投入可控性", A: 4, B: 9 },
+    { metric: "上线速度", A: 5, B: 9 },
+    { metric: "运维简化度", A: 4, B: 8 },
+    { metric: "扩展弹性", A: 6, B: 8 },
+    { metric: "数据可控性", A: 9, B: 7 },
   ];
 
   const utilizationData = [
-    { name: "分散建设", value: computeComparisonData.planA.utilization, fill: "#f59e0b" },
-    { name: "统建底座", value: computeComparisonData.planB.utilization, fill: "#2563eb" },
+    { name: "私有化自建", value: computeComparisonData.planA.utilization, fill: "#f59e0b" },
+    { name: "Token采购", value: computeComparisonData.planB.utilization, fill: "#b91c1c" },
   ];
   const utilizationLift = computeComparisonData.planB.utilization - computeComparisonData.planA.utilization;
   const capexDelta = computeComparisonData.planB.capex - computeComparisonData.planA.capex;
-  const annualOpsSaving = Math.round(computeComparisonData.planA.capex * 0.18 - computeComparisonData.planB.capex * 0.08);
+  const annualOpsSaving = computeComparisonData.planA.capex - computeComparisonData.planB.capex;
   const capexIsSaving = capexDelta < 0;
   const capexDeltaAbs = Math.abs(capexDelta);
-  const capexLabel = capexIsSaving ? "Capex 节约" : "新增 Capex";
+  const capexLabel = capexIsSaving ? "方案B经费节约" : "方案B新增经费";
   const capexSign = capexIsSaving ? "-" : "+";
-  const paybackYears =
-    annualOpsSaving > 0 ? (capexDelta <= 0 ? "即期回正" : `${(capexDelta / annualOpsSaving).toFixed(1)} 年`) : "--";
+  const paybackYears = "探索期不设回收期";
 
   const summaryCards = [
-    { title: "试点并发能力", desc: "统一底座支撑约 10 并发，满足首期稳定试用", icon: <AlarmClock size={18} className="text-blue-600" /> },
-    { title: "统一纳管", desc: "问药/问数/问策统一监控、告警与审计闭环", icon: <LayoutGrid size={18} className="text-indigo-600" /> },
-    { title: "试用规模", desc: "面向核心业务部门与领导约 100 人组织试用", icon: <Shield size={18} className="text-emerald-600" /> },
-    { title: "扩展门槛", desc: "以准确率与知识库完善度作为后续扩容依据", icon: <Cpu size={18} className="text-cyan-600" /> },
+    { title: "通用费用", desc: "两种方案均需中台授权+技术支持，合计50万", icon: <LayoutGrid size={18} className="text-red-700" /> },
+    { title: "Token年费估算", desc: "150人规模约8000元/年（含MCP组件调用费）", icon: <AlarmClock size={18} className="text-rose-600" /> },
+    { title: "本地化算力报价", desc: "自建算力底座报价约105万（素材口径）", icon: <Shield size={18} className="text-amber-600" /> },
+    { title: "探索期建议", desc: "先以Token模式跑通场景，再评估是否重资产投入", icon: <Cpu size={18} className="text-rose-700" /> },
   ];
 
   return (
-    <div className="min-h-full overflow-y-auto bg-gradient-to-b from-[#f9fbff] to-white pb-6">
+    <div className="min-h-full overflow-y-auto bg-gradient-to-b from-[#fff7f7] to-white pb-6">
       <h3 className="text-2xl font-semibold text-[#111827] md:text-3xl">{computeComparisonData.pageTitle}</h3>
       <div className="mt-4 grid gap-3 md:grid-cols-4">
         <div className="rounded-xl border border-[#e5e7eb] bg-white p-3">
-          <p className="text-xs text-[#6b7280]">利用率提升</p>
+          <p className="text-xs text-[#6b7280]">资源弹性提升</p>
           <p className="mt-1 text-xl font-semibold text-[#111827]">+{utilizationLift}%</p>
         </div>
         <div className="rounded-xl border border-[#e5e7eb] bg-white p-3">
@@ -2288,11 +2320,11 @@ function SlideComputeFoundationDashboard() {
           </p>
         </div>
         <div className="rounded-xl border border-[#e5e7eb] bg-white p-3">
-          <p className="text-xs text-[#6b7280]">年化运维节约</p>
+          <p className="text-xs text-[#6b7280]">两方案总经费差额</p>
           <p className="mt-1 text-xl font-semibold text-[#111827]">¥{annualOpsSaving.toLocaleString("zh-CN")}</p>
         </div>
         <div className="rounded-xl border border-[#e5e7eb] bg-white p-3">
-          <p className="text-xs text-[#6b7280]">预计回收期</p>
+          <p className="text-xs text-[#6b7280]">评估方式</p>
           <p className="mt-1 text-xl font-semibold text-[#111827]">{paybackYears}</p>
         </div>
       </div>
@@ -2326,21 +2358,21 @@ function SlideComputeFoundationDashboard() {
           onHoverStart={() => setActivePlan("B")}
           onHoverEnd={() => setActivePlan(null)}
           animate={{ opacity: activePlan && activePlan !== "B" ? 0.45 : 1 }}
-          className="relative rounded-2xl border border-sky-200 bg-sky-50/50 p-4 shadow-[0_6px_20px_rgba(37,99,235,0.1)]"
+          className="relative rounded-2xl border border-rose-200 bg-rose-50/50 p-4 shadow-[0_6px_20px_rgba(225,29,72,0.12)]"
         >
-          <span className="absolute right-4 top-4 rounded-full border border-sky-200 bg-white px-3 py-1 text-xs font-semibold text-sky-700">推荐方案</span>
+          <span className="absolute right-4 top-4 rounded-full border border-rose-200 bg-white px-3 py-1 text-xs font-semibold text-rose-700">推荐方案</span>
           <p className="pr-28 text-lg font-semibold text-[#111827]">{computeComparisonData.planB.title}</p>
           <p className="mt-2 text-sm text-[#4b5563]">{computeComparisonData.planB.architecture}</p>
           <div className="mt-3 grid gap-2 text-sm text-[#374151]">
-            <div className="rounded-xl border border-sky-100 bg-white/90 px-3 py-2">
-              预估 Capex：<span className="font-semibold text-sky-700">¥{computeComparisonData.planB.capex.toLocaleString("zh-CN")}</span>
+            <div className="rounded-xl border border-rose-100 bg-white/90 px-3 py-2">
+              预估 Capex：<span className="font-semibold text-rose-700">¥{computeComparisonData.planB.capex.toLocaleString("zh-CN")}</span>
             </div>
-            <div className="rounded-xl border border-sky-100 bg-white/90 px-3 py-2">资源平均利用率：{computeComparisonData.planB.utilization}%</div>
-            <div className="rounded-xl border border-sky-100 bg-white/90 px-3 py-2">运维复杂度：{computeComparisonData.planB.opexComplexity}</div>
+            <div className="rounded-xl border border-rose-100 bg-white/90 px-3 py-2">资源平均利用率：{computeComparisonData.planB.utilization}%</div>
+            <div className="rounded-xl border border-rose-100 bg-white/90 px-3 py-2">运维复杂度：{computeComparisonData.planB.opexComplexity}</div>
           </div>
           <div className="mt-3 space-y-2">
             {computeComparisonData.planB.scenes.map((scene) => (
-              <div key={scene} className="rounded-xl border border-sky-100 bg-white px-3 py-2 text-sm text-[#374151]">
+              <div key={scene} className="rounded-xl border border-rose-100 bg-white px-3 py-2 text-sm text-[#374151]">
                 {scene}
               </div>
             ))}
@@ -2364,16 +2396,16 @@ function SlideComputeFoundationDashboard() {
                 <PolarAngleAxis dataKey="metric" tick={{ fill: "#4b5563", fontSize: 12 }} />
                 <PolarRadiusAxis domain={[0, 10]} tick={{ fill: "#9ca3af", fontSize: 10 }} />
                 <Radar name="方案A" dataKey="A" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.35} isAnimationActive={false} />
-                <Radar name="方案B" dataKey="B" stroke="#2563eb" fill="#2563eb" fillOpacity={0.28} isAnimationActive={false} />
+                <Radar name="方案B" dataKey="B" stroke="#b91c1c" fill="#b91c1c" fillOpacity={0.28} isAnimationActive={false} />
                 <Tooltip />
               </RadarChart>
             ) : (
-              <div className="rounded-xl border border-dashed border-sky-200 bg-sky-50/50" style={{ width: chartW, height: chartH }} aria-hidden />
+              <div className="rounded-xl border border-dashed border-rose-200 bg-rose-50/50" style={{ width: chartW, height: chartH }} aria-hidden />
             )}
           </div>
         </div>
         <div className="min-h-[260px] min-w-0 rounded-2xl border border-[#e5e7eb] bg-white p-4">
-          <p className="mb-2 text-sm font-semibold text-[#374151]">资源利用率对比（%）</p>
+          <p className="mb-2 text-sm font-semibold text-[#374151]">资源弹性对比（%）</p>
           <div
             className="overflow-x-auto overflow-y-visible [isolation:isolate]"
             style={{ minWidth: chartW, minHeight: chartH }}
@@ -2391,7 +2423,7 @@ function SlideComputeFoundationDashboard() {
                 </Bar>
               </BarChart>
             ) : (
-              <div className="rounded-xl border border-dashed border-sky-200 bg-sky-50/50" style={{ width: chartW, height: chartH }} aria-hidden />
+              <div className="rounded-xl border border-dashed border-rose-200 bg-rose-50/50" style={{ width: chartW, height: chartH }} aria-hidden />
             )}
           </div>
         </div>
@@ -2411,120 +2443,178 @@ function SlideComputeFoundationDashboard() {
 }
 
 function SlideLocalComputeInvestmentPlan() {
-  const [activeTheme, setActiveTheme] = useState<"emerald" | "blue" | null>(null);
-  const bars = localComputePlanningData.investment.breakdown.map((item) => ({
-    ...item,
-    ratio: Number(item.share.replace("%", "")) / 100,
-  }));
+  const [hoveredModel, setHoveredModel] = useState<"general" | "professional" | null>(null);
+  const iconMap: Record<string, LucideIcon> = {
+    Brain,
+    Microscope,
+    Network,
+    ShieldCheck,
+    CheckCircle,
+    Zap,
+    Layers,
+  };
+  const themeStyles: Record<string, { card: string; chip: string; glow: string; mappingChip: string; mappingPill: string }> = {
+    blue: {
+      card: "from-red-700 to-rose-800",
+      chip: "bg-white/20 text-rose-50",
+      glow: "shadow-[0_18px_34px_rgba(185,28,28,0.35)]",
+      mappingChip: "bg-rose-100 text-rose-700",
+      mappingPill: "border-rose-200 bg-rose-50 text-rose-700",
+    },
+    emerald: {
+      card: "from-emerald-500 to-emerald-700",
+      chip: "bg-white/20 text-emerald-50",
+      glow: "shadow-[0_18px_34px_rgba(16,185,129,0.35)]",
+      mappingChip: "bg-emerald-100 text-emerald-700",
+      mappingPill: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    },
+    amber: {
+      card: "from-amber-500 to-orange-500",
+      chip: "bg-white/20 text-amber-50",
+      glow: "shadow-[0_18px_34px_rgba(245,158,11,0.3)]",
+      mappingChip: "bg-amber-100 text-amber-700",
+      mappingPill: "border-amber-200 bg-amber-50 text-amber-700",
+    },
+    slate: {
+      card: "from-slate-800 to-gray-900",
+      chip: "bg-white/20 text-slate-100",
+      glow: "shadow-[0_18px_34px_rgba(15,23,42,0.35)]",
+      mappingChip: "bg-slate-200 text-slate-700",
+      mappingPill: "border-slate-300 bg-slate-100 text-slate-700",
+    },
+  };
+  const phaseActionData = {
+    promotion: {
+      title: "推广期要做的事（0-3个月）",
+      items: ["上线问药、问数双场景 POC", "完成10并发与150人试用验证", "统一接入口径并完成首轮问题清单闭环"],
+    },
+    deepen: {
+      title: "深化期要做的事（4-6个月）",
+      items: ["问策场景正式上线，形成策略建议闭环", "围绕低分问法做专项提效，提升准确率与可执行性", "形成跨单位数据联动机制与协同节奏，并输出扩展建议"],
+    },
+    keyResults: [
+      { title: "推广期快速见效", desc: "先把三场景跑通并完成试用验证，形成首轮业务证据。", icon: "Zap" },
+      { title: "深化期稳步提升", desc: "在推广期基础上持续优化准确率、联动能力与治理机制。", icon: "Layers" },
+      { title: "两阶段可持续", desc: "先验证再扩展，确保每一步都可量化、可复盘、可决策。", icon: "CheckCircle" },
+    ],
+  } as const;
 
   return (
     <SlideWrap>
       <div className="min-h-full overflow-y-auto bg-[#fcfcfd]">
         <header className="text-center">
           <h3 className="text-3xl font-bold tracking-tight text-[#111827] md:text-4xl">{localComputePlanningData.header.title}</h3>
-          <p className="mx-auto mt-2 max-w-3xl text-sm tracking-[0.06em] text-[#6b7280] md:text-base">{localComputePlanningData.header.subtitle}</p>
+          <p className="mx-auto mt-2 max-w-4xl text-sm text-[#6b7280] md:text-base">以三场景能力卡为主线，推广期先上线问药/问数，问策在深化期正式上线并协同提效。</p>
         </header>
 
-        <section className="mt-6 grid gap-4 rounded-3xl border border-[#e5e7eb] bg-white p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] md:grid-cols-[0.95fr_1.35fr] md:p-6">
-          <div className="rounded-2xl border border-[#fee2e2] bg-gradient-to-br from-[#fff1f2] via-white to-white p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9f1239]">投资看板</p>
-            <p className="mt-3 text-6xl font-bold tracking-tight text-red-700 md:text-7xl">{localComputePlanningData.investment.total}</p>
-            <p className="mt-3 text-sm leading-7 text-[#4b5563]">{localComputePlanningData.investment.desc}</p>
-          </div>
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {localModelHybridData.models.map((model, idx) => {
+            const Icon = iconMap[model.icon] ?? Sparkles;
+            const style = themeStyles[model.theme];
+            return (
+              <motion.article
+                key={model.id}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: idx * 0.08 }}
+                onHoverStart={() =>
+                  setHoveredModel(model.id === "general" || model.id === "professional" ? (model.id as "general" | "professional") : null)
+                }
+                onHoverEnd={() => setHoveredModel(null)}
+                className={`rounded-3xl bg-gradient-to-br p-5 text-white ${style.card} ${style.glow}`}
+              >
+                <div className="flex items-center gap-2 text-sm font-semibold text-white/90">
+                  <Icon className="h-5 w-5" />
+                  <span>{model.type}</span>
+                </div>
+                <p className="mt-3 text-3xl font-bold tracking-tight">{model.name}</p>
+                <span className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${style.chip}`}>{model.version}</span>
+                <ul className="mt-4 space-y-2 text-sm">
+                  {model.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-white/95">
+                      <CheckCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.article>
+            );
+          })}
+        </div>
 
-          <div className="space-y-3">
-            <div className="overflow-hidden rounded-xl border border-[#e5e7eb] bg-[#f8fafc]">
-              <div className="flex h-3 w-full">
-                {bars.map((item) => (
-                  <div key={item.name} className={item.color} style={{ width: `${Math.round(item.ratio * 100)}%` }} />
-                ))}
-              </div>
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {bars.map((item) => {
-                const linkable = item.theme === "emerald" || item.theme === "blue";
-                const active = linkable && activeTheme === item.theme;
+        <div className="mt-7 grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <section className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[inset_0_0_0_1px_rgba(226,232,240,0.4)] lg:col-span-5">
+            <h4 className="text-lg font-semibold text-[#111827]">{localModelHybridData.bottomSection.mapping.title}</h4>
+            <div className="mt-4 space-y-3">
+              {localModelHybridData.bottomSection.mapping.items.map((row) => {
+                const style = themeStyles[row.theme];
+                const focused = !hoveredModel || hoveredModel === row.modelId;
                 return (
-                  <article
-                    key={item.name}
-                    onMouseEnter={() => setActiveTheme(linkable ? (item.theme as "emerald" | "blue") : null)}
-                    onMouseLeave={() => setActiveTheme(null)}
-                    className={[
-                      "rounded-2xl border bg-white p-3 transition-all duration-200",
-                      active ? "border-[#c7d2fe] shadow-[0_0_0_2px_rgba(99,102,241,0.2)]" : "border-[#e5e7eb]",
-                    ].join(" ")}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-semibold text-[#111827]">{item.name}</p>
-                      <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
+                  <div key={row.model} className={`rounded-2xl border border-[#e5e7eb] bg-[#fcfcfd] p-3 transition-all ${focused ? "opacity-100" : "opacity-35"}`}>
+                    <div className="flex items-center gap-2">
+                      <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${style.mappingChip}`}>
+                        {row.model} · {row.version}
+                      </span>
                     </div>
-                    <p className="mt-1 text-xl font-semibold text-[#111827]">{item.amount}</p>
-                    <p className="text-xs text-[#6b7280]">占比 {item.share}</p>
-                    <p className="mt-2 text-xs leading-5 text-[#4b5563]">{item.detail}</p>
-                  </article>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {row.scenarios.map((scene) => (
+                        <span key={scene} className={`rounded-full border px-2.5 py-1 text-xs font-medium ${style.mappingPill}`}>
+                          {scene}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-3 space-y-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs leading-5 text-slate-600">
+                      <p><span className="font-semibold text-slate-700">触发：</span>{row.trigger}</p>
+                      <p><span className="font-semibold text-slate-700">输出：</span>{row.output}</p>
+                      <p><span className="font-semibold text-slate-700">验收：</span>{row.metric}</p>
+                    </div>
+                  </div>
                 );
               })}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="mt-6 grid gap-6 md:grid-cols-2">
-          <div className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
-            <h4 className="text-xl font-semibold text-[#111827]">{localComputePlanningData.strategy.title}</h4>
-            <div className="mt-4 grid gap-3">
-              <div className="rounded-2xl border border-[#e5e7eb] bg-[#f8fafc] p-4">
-                <p className="text-sm font-semibold text-[#6b7280]">{localComputePlanningData.strategy.current.status}</p>
-                <ul className="mt-2 space-y-1.5 text-sm text-[#4b5563]">
-                  {localComputePlanningData.strategy.current.points.map((point) => (
-                    <li key={point}>- {point}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="flex items-center justify-center text-[#9ca3af]">
-                <ArrowRight size={18} />
-              </div>
-              <div className="rounded-2xl border border-[#bfdbfe] bg-gradient-to-br from-[#eff6ff] to-white p-4">
-                <p className="text-sm font-semibold text-[#1d4ed8]">{localComputePlanningData.strategy.future.status}</p>
-                <ul className="mt-2 space-y-1.5 text-sm text-[#1f2937]">
-                  {localComputePlanningData.strategy.future.points.map((point) => (
-                    <li key={point}>- {point}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
-            <h4 className="text-xl font-semibold text-[#111827]">双擎底座简图</h4>
+          <section className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_12px_28px_rgba(15,23,42,0.04)] lg:col-span-7">
+            <h4 className="text-lg font-semibold text-[#111827]">两阶段推进要点</h4>
             <div className="mt-4 space-y-3">
-              <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-                {localComputePlanningData.strategy.architecture.top.map((item) => (
-                  <div key={item} className="rounded-xl border border-[#e5e7eb] bg-white px-2 py-2 text-center text-xs font-semibold text-[#374151]">
-                    {item}
-                  </div>
-                ))}
-              </div>
-              <div className="rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-[0_10px_24px_rgba(79,70,229,0.35)]">
-                {localComputePlanningData.strategy.architecture.middle}
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {localComputePlanningData.strategy.architecture.bottom.map((item) => {
-                  const isEmerald = item.theme === "emerald";
-                  const active = activeTheme === item.theme;
-                  const base = isEmerald
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                    : "border-blue-200 bg-blue-50 text-blue-800";
-                  const glow = isEmerald
-                    ? "shadow-[0_0_0_2px_rgba(16,185,129,0.35),0_12px_24px_rgba(16,185,129,0.25)]"
-                    : "shadow-[0_0_0_2px_rgba(37,99,235,0.3),0_12px_24px_rgba(37,99,235,0.2)]";
-                  return (
-                    <div key={item.name} className={`rounded-2xl border px-3 py-4 text-center text-sm font-semibold transition-all duration-200 ${base} ${active ? glow : ""}`}>
-                      {item.name}
+              {phaseActionData.keyResults.map((item, idx) => {
+                const Icon = iconMap[item.icon] ?? Sparkles;
+                return (
+                  <div key={item.title} className="rounded-2xl border border-[#e5e7eb] bg-[#fcfcfd] p-3">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${
+                          idx === 0 ? "bg-emerald-50 text-emerald-600" : idx === 1 ? "bg-amber-50 text-amber-600" : "bg-slate-100 text-slate-700"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <p className="text-sm font-semibold text-[#111827]">{item.title}</p>
                     </div>
-                  );
-                })}
-              </div>
+                    <p className="mt-2 text-sm leading-6 text-[#4b5563]">{item.desc}</p>
+                  </div>
+                );
+              })}
             </div>
+          </section>
+        </div>
+
+        <section className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="report-panel p-4 md:p-5">
+            <p className="text-base font-semibold text-[#111827]">{phaseActionData.promotion.title}</p>
+            <ul className="mt-3 space-y-2 text-sm text-[#4b5563]">
+              {phaseActionData.promotion.items.map((item) => (
+                <li key={item}>- {item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="report-panel p-4 md:p-5">
+            <p className="text-base font-semibold text-[#111827]">{phaseActionData.deepen.title}</p>
+            <ul className="mt-3 space-y-2 text-sm text-[#4b5563]">
+              {phaseActionData.deepen.items.map((item) => (
+                <li key={item}>- {item}</li>
+              ))}
+            </ul>
           </div>
         </section>
       </div>
@@ -2535,69 +2625,69 @@ function SlideLocalComputeInvestmentPlan() {
 function SlideNextStepTaskBoard() {
   const boardData = {
     header: {
-      title: "试点推进计划（30/60/90）",
-      subtitle: "先上线三大核心场景，先验证准确率，再决策扩展节奏",
+      title: "两阶段推进计划",
+      subtitle: "以责任人牵引推进节奏：先推广落地，再深化提效，最终形成扩展建议",
     },
-    milestones: ["30 天：三场景上线试用", "60 天：10并发/100人稳定运行", "90 天：准确率评审并形成扩展决策"],
+    milestones: ["推广期 M1-M3：三场景上线并完成试用", "深化期 M4-M6：准确率与联动能力提升", "阶段收口：形成下一阶段扩展建议"],
     tracks: [
       {
         id: "scenario",
-        title: "场景上线与试用验证",
+        title: "场景推进与效果验证",
         theme: "red",
         tasks: [
           {
-            name: "上线问药、问数、问策三大核心场景",
-            desc: "统一入口与统一中枢发布试用版本，确保核心链路可用、可追踪。",
+            name: "推广期完成三场景上线",
+            desc: "统一入口与统一中枢发布问药、问数、问策版本，确保链路可用、可追踪。",
             tag: "第一优先级",
-            owner: "集团信息中心 + 业务条线",
-            deadline: "T+30 天",
+            owner: "信息化管理部 + 业务条线",
+            deadline: "M1-M2",
             metric: "三场景全链路可用率 >= 99%",
           },
           {
-            name: "组织核心部门与领导试用",
-            desc: "围绕核心业务部门和管理层组织约100人试用，覆盖高频问法与核心业务流程。",
+            name: "推广期组织试用与验收",
+            desc: "围绕核心业务部门和管理层组织约100人试用，覆盖高频问法与核心流程。",
             tag: "重点验证",
             owner: "业务部门 + 项目PMO",
-            deadline: "T+60 天",
+            deadline: "M2-M3",
             metric: "试用人数 >= 100，稳定支撑约10并发",
           },
           {
-            name: "准确率与可执行性评审",
-            desc: "按场景建立评测集，按周复盘结果，形成是否扩展的量化依据。",
+            name: "深化期专项提效",
+            desc: "围绕低分问题、跨单位联动和建议可执行性开展专项优化，形成量化提升结果。",
             tag: "决策门槛",
             owner: "项目评审组 + 业务评委",
-            deadline: "T+90 天",
+            deadline: "M4-M6",
             metric: "关键问法准确率达标后再进入扩展阶段",
           },
         ],
       },
       {
         id: "infrastructure",
-        title: "底座建设与知识治理",
-        theme: "blue",
+        title: "预算执行与底座治理",
+        theme: "amber",
         tasks: [
           {
-            name: "100万试点预算落地",
-            desc: "按平台费40万、基础设施底座60万完成统一投入与验收。",
+            name: "推荐方案预算落地",
+            desc: "按中台授权+技术支持50万、Token池约0.8万/年、应用服务器0元完成投入与验收。",
             tag: "预算执行",
-            owner: "集团信息中心 + 财务",
-            deadline: "T+30 天",
+            owner: "信息化管理部 + 财务",
+            deadline: "M1",
             metric: "预算执行偏差 <= 5%",
           },
           {
-            name: "统一底座保障试用容量",
-            desc: "统一监控、权限和告警，保障三场景在试用期稳定运行。",
+            name: "推广期稳定性保障",
+            desc: "统一监控、权限和告警，保障三场景试用期稳定运行。",
             tag: "容量保障",
-            owner: "平台运维组",
-            deadline: "T+60 天",
+            owner: "信息化管理部",
+            deadline: "M1-M3",
             metric: "10并发持续稳定运行",
           },
           {
-            name: "非结构化知识库增补",
-            desc: "围绕低分问题补齐制度文档、会议纪要、经验案例，持续提升回答质量。",
+            name: "深化期知识与数据联动优化",
+            desc: "围绕低分问题与跨单位联动需求，补齐知识与规则，沉淀扩展建议。",
             tag: "持续迭代",
-            owner: "知识治理组 + 业务专家",
-            deadline: "T+90 天",
+            owner: "信息化管理部 + 业务专家",
+            deadline: "M4-M6",
             metric: "低分问题回收闭环率 >= 90%",
           },
         ],
@@ -2613,14 +2703,29 @@ function SlideNextStepTaskBoard() {
       hover: "hover:-translate-y-1 hover:border-red-200 hover:shadow-[0_14px_28px_rgba(225,29,72,0.14)]",
       icon: Target,
     },
-    blue: {
-      accent: "text-blue-600",
-      line: "from-blue-500/60 to-transparent",
-      tag: "bg-blue-50 text-blue-600 border-blue-100",
-      hover: "hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_14px_28px_rgba(37,99,235,0.14)]",
+    amber: {
+      accent: "text-amber-700",
+      line: "from-amber-500/60 to-transparent",
+      tag: "bg-amber-50 text-amber-700 border-amber-100",
+      hover: "hover:-translate-y-1 hover:border-amber-200 hover:shadow-[0_14px_28px_rgba(217,119,6,0.16)]",
       icon: Server,
     },
   };
+  const executionGuardrails = {
+    title: "实施保障与责任协同",
+    subtitle: "在责任人分工基础上，明确方法、协同与治理底线，保障两阶段推进稳定落地",
+    method: [
+      "低代码先行验证：先跑通流程，再做稳定性优化",
+      "复杂接口专项攻坚：由工程团队负责高复杂度集成",
+      "周节奏迭代：需求-验证-复盘-迭代闭环推进",
+    ],
+    triangle: [
+      "集团信息化部（主导）：统筹架构与推进节奏",
+      "业务牵头部门（牵头）：定义场景并验收效果",
+      "技术支持团队（配合）：私有化部署与调优",
+    ],
+    governance: ["统一 API 接入标准", "零信任数据权限管控", "数据清洗与标注规范"],
+  } as const;
 
   return (
     <SlideWrap>
@@ -2670,8 +2775,8 @@ function SlideNextStepTaskBoard() {
                         <p className="text-sm leading-6 text-[#6b7280]">{task.desc}</p>
                       </div>
                       <div className="mt-3 grid gap-2 rounded-lg border border-[#e5e7eb] bg-[#f8fafc] px-3 py-2 text-xs text-[#4b5563]">
-                        <p>责任人：{task.owner}</p>
-                        <p>时间节点：{task.deadline}</p>
+                        <p><span className="font-semibold text-[#374151]">责任人：</span>{task.owner}</p>
+                        <p><span className="font-semibold text-[#374151]">时间节点：</span>{task.deadline}</p>
                       </div>
                     </article>
                   ))}
@@ -2680,6 +2785,41 @@ function SlideNextStepTaskBoard() {
             );
           })}
         </div>
+
+        <section className="mt-6 rounded-2xl border border-[#e5e7eb] bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h4 className="text-lg font-semibold text-[#111827]">{executionGuardrails.title}</h4>
+              <p className="mt-1 text-xs text-[#64748b]">{executionGuardrails.subtitle}</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            <article className="rounded-xl border border-sky-200 bg-sky-50/40 p-3">
+              <p className="text-sm font-semibold text-sky-700">敏捷开发方法</p>
+              <ul className="mt-2 space-y-1.5 text-xs leading-5 text-slate-700">
+                {executionGuardrails.method.map((item) => (
+                  <li key={item}>- {item}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="rounded-xl border border-violet-200 bg-violet-50/40 p-3">
+              <p className="text-sm font-semibold text-violet-700">协同铁三角（责任到人）</p>
+              <ul className="mt-2 space-y-1.5 text-xs leading-5 text-slate-700">
+                {executionGuardrails.triangle.map((item) => (
+                  <li key={item}>- {item}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="rounded-xl border border-emerald-200 bg-emerald-50/40 p-3">
+              <p className="text-sm font-semibold text-emerald-700">数据治理底线</p>
+              <ul className="mt-2 space-y-1.5 text-xs leading-5 text-slate-700">
+                {executionGuardrails.governance.map((item) => (
+                  <li key={item}>- {item}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
+        </section>
       </div>
     </SlideWrap>
   );
@@ -2750,7 +2890,7 @@ function SlideGovernanceBoundary() {
     keySplitSummary: {
       left: {
         title: "集团信息化管理部统筹",
-        points: ["统一服务门户：AI中台 / 资源调度平台", "统一技术底座：大模型 / 认知中台 / 开箱即用的编排流", "统一云算力"],
+        points: ["统一服务门户：AI中台 / 资源调度平台", "统一技术底座：大模型 / 认知中台 / 开箱即用的编排流", "统一算力"],
       },
       center: "标准 API 与容器切分界面",
       right: {
@@ -2912,13 +3052,6 @@ function SlideGovernanceBoundary() {
           })}
         </div>
 
-        <section className="mt-5 rounded-2xl border border-amber-200 bg-amber-50/40 p-5 shadow-[0_10px_24px_rgba(251,191,36,0.12)] md:p-6">
-          <h4 className="text-lg font-semibold text-amber-800 md:text-xl">治理边界说明（场景侧）</h4>
-          <p className="mt-2 text-base leading-8 text-[#374151]">
-            集团层面不直接管控场景（各单位、各部门自主推进、集团提供支撑）。此类场景具备“业务专业性强、仅服务于本单位特定业务、无跨单位复用价值”的特征，
-            由各单位根据自身业务需求自主推进建设，集团层面不直接干预，仅通过统一的算力平台、智能化工具提供技术支撑，数据和场景定调由牵头部门掌握。
-          </p>
-        </section>
       </div>
     </SlideWrap>
   );
@@ -3173,7 +3306,7 @@ function SlidePainBridgeBoard() {
                 </div>
               ))}
               <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3 text-sm text-emerald-800">
-                结论：先以 100 万投入跑通三场景试用，准确率达标并完善知识库后，再进入扩展阶段。
+                结论：先以推荐方案约50.8万跑通三场景试用，达标后再评估是否进入155万私有化重投入。
               </div>
             </div>
           </div>
@@ -3229,7 +3362,7 @@ function SlideBuildMethodAndOrg() {
                     <div key={row.label} className="flex items-start gap-2 text-sm text-[#4b5563]">
                       <span
                         className={`mt-1.5 h-2 w-2 rounded-full ${
-                          idx === 0 ? "bg-emerald-500" : idx === 1 ? "bg-blue-500" : "bg-rose-500"
+                          idx === 0 ? "bg-emerald-500" : idx === 1 ? "bg-amber-500" : "bg-rose-500"
                         }`}
                       />
                       <p>
@@ -3288,7 +3421,7 @@ function SlideBuildMethodAndOrg() {
                     className={`rounded-2xl border bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md ${leftBorderGlow}`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-rose-600">
                         <Icon size={18} />
                       </span>
                       <p className="text-base font-semibold text-[#111827]">{item.title}</p>
@@ -3319,11 +3452,11 @@ function SlideLocalModelHybridDeployment() {
 
   const themeStyles: Record<string, { card: string; chip: string; glow: string; mappingChip: string; mappingPill: string }> = {
     blue: {
-      card: "from-blue-600 to-blue-800",
-      chip: "bg-white/20 text-blue-50",
-      glow: "shadow-[0_18px_34px_rgba(37,99,235,0.35)]",
-      mappingChip: "bg-blue-100 text-blue-700",
-      mappingPill: "border-blue-200 bg-blue-50 text-blue-700",
+      card: "from-red-700 to-rose-800",
+      chip: "bg-white/20 text-rose-50",
+      glow: "shadow-[0_18px_34px_rgba(185,28,28,0.35)]",
+      mappingChip: "bg-rose-100 text-rose-700",
+      mappingPill: "border-rose-200 bg-rose-50 text-rose-700",
     },
     emerald: {
       card: "from-emerald-500 to-emerald-700",
@@ -3429,7 +3562,7 @@ function SlideLocalModelHybridDeployment() {
                     <div className="flex items-center gap-2">
                       <span
                         className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${
-                          idx === 0 ? "bg-blue-50 text-blue-600" : idx === 1 ? "bg-emerald-50 text-emerald-600" : "bg-violet-50 text-violet-600"
+                          idx === 0 ? "bg-rose-50 text-rose-600" : idx === 1 ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"
                         }`}
                       >
                         <Icon className="h-4 w-4" />
@@ -3471,11 +3604,13 @@ function SlideById({
   if (slide.slide_id === 1404) return <LowCodeAgileAndCollabSlide />;
   if (slide.slide_id === 1405) return <LocalComputeCenterPhysicalArchSlide />;
   if (slide.slide_id === 1406) return <OverallBudgetAndCostPlanSlide />;
+  if (slide.slide_id === 1416) return <FeishuVsDifyStrategySlide />;
+  if (slide.slide_id === 1517) return <TokenRouteSecuritySlide />;
   if (slide.slide_id === 1407) return <ImplementationRoadmapAndRoiSlide />;
   if (slide.slide_id === 1) return <SlideCover />;
   if (slide.slide_id === 2) return <SlideCatalog />;
-  if (slide.slide_id === 2001) return <SlideChapter index="01" title="现状盘点分析" desc="各二级单位场景摸排及深入分析" />;
-  if (slide.slide_id === 2003) return <SlideChapter index="02" title="专题深化与建设方案" desc="围绕问药、问数、问策三类场景深化，形成可执行方案与量化目标。" />;
+  if (slide.slide_id === 2001) return <SlideChapter index="01" title="现状盘点分析" desc="章节目标：形成场景现状、问题与治理边界的统一认知。" />;
+  if (slide.slide_id === 2003) return <SlideChapter index="02" title="专题深化与建设方案" desc="章节目标：围绕问药、问数、问策形成可执行方案与验收指标。" />;
   if (slide.slide_id === 401) return <SlideDivisionAndInterfaceSplit />;
   if (slide.slide_id === 5) return <SlideFiveExecutive onOpenKnowledgeMatrix={onOpenKnowledgeMatrix} />;
   if (slide.slide_id === 701) return <SlidePainBridgeBoard />;
@@ -3522,7 +3657,7 @@ export default function Home() {
   const [strategicPage, setStrategicPage] = useState(0);
   const isBrowser = useSyncExternalStore(subscribeNoop, snapshotTrue, snapshotFalse);
   const version1OnlySlideIds = new Set([8001]);
-  const version2OnlySlideIds = new Set([8]);
+  const version2OnlySlideIds = new Set([8, 1405]);
   const emptyScenarioDraft: ScenarioDraft = {
     background: "",
     strengths: "",
@@ -3613,15 +3748,16 @@ export default function Home() {
   }, [showFullVersion, isBrowser]);
 
   const baseExcludedSlideIds = new Set([4, 6, 9]);
-  const removedFromMainlineSlideIds = new Set([3, 7, 10, 11]);
-  const strategicFlowOrder = [1099, 1101, 1298, 13, 1299, 12, 1301, 1100] as const;
+  const removedFromMainlineSlideIds = new Set([3, 7, 10, 11, 1298]);
+  const strategicFlowOrder = [1099, 12, 1100, 1101] as const;
   const painVisionOrder = [701, 703] as const;
-  const tailSlideIds = [1400, 1401, 1402, 1403, 1501, 1404, 1405, 1406] as const;
+  const tailSlideIds = [1400, 1401, 1402, 1403, 1501, 1416] as const;
+  const endingSlideIds = [1517] as const;
   const slideExpansionRules: Record<number, (slide: LayoutSlide) => LayoutSlide[]> = {
     5: (slide) => [slide, { slide_id: 1101, elements: [] }],
     7: () => [{ slide_id: 701, elements: [] }, { slide_id: 703, elements: [] }, { slide_id: 704, elements: [] }],
     11: () => [{ slide_id: 1099, elements: [] }, { slide_id: 1100, elements: [] }],
-    13: (slide) => [{ slide_id: 1298, elements: [] }, slide, { slide_id: 1299, elements: [] }, { slide_id: 1301, elements: [] }, { slide_id: 1399, elements: [] }],
+    13: (slide) => [slide, { slide_id: 1299, elements: [] }, { slide_id: 1399, elements: [] }],
   };
 
   const visibleSlidesRaw = data.slides
@@ -3698,13 +3834,13 @@ export default function Home() {
     }
   };
 
-  const renderSlideContent = (slide: LayoutSlide) => {
+  const renderSlideContent = (slide: LayoutSlide, pageNo: number, totalPages: number) => {
     const shellBleed = slideShellBleedIds.has(slide.slide_id);
     const shellWhite = slideShellWhiteIds.has(slide.slide_id);
     return (
       <div
         className={[
-          "flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
+          "relative flex min-h-0 flex-1 flex-col overflow-y-auto [min-height:max(560px,calc(100vh-9.5rem))]",
           shellBleed ? "p-0" : "p-4 md:p-6",
           shellWhite ? "bg-white" : "bg-[#fcfcfd]",
         ].join(" ")}
@@ -3716,11 +3852,14 @@ export default function Home() {
             onOpenKnowledgeMatrix={handleOpenScenarioDetail}
           />
         </div>
+        <div className="pointer-events-none absolute bottom-3 right-3 z-10 rounded-full border border-[#e5e7eb] bg-white/90 px-2.5 py-1 text-[10px] font-medium text-[#6b7280] shadow-sm md:bottom-4 md:right-4 md:text-xs">
+          第 {pageNo} / {totalPages} 页
+        </div>
       </div>
     );
   };
 
-  const renderSingleSlideSection = (slide: LayoutSlide) => {
+  const renderSingleSlideSection = (slide: LayoutSlide, pageNo: number, totalPages: number) => {
     const shellWhite = slideShellWhiteIds.has(slide.slide_id);
     return (
       <section
@@ -3735,12 +3874,12 @@ export default function Home() {
         <div className="report-corner-logo pointer-events-none absolute right-3 top-3 z-20 h-16 w-16 md:h-20 md:w-20">
           <Image src="/brand/trt-logo.png" alt="" fill unoptimized className="object-contain" aria-hidden />
         </div>
-        {renderSlideContent(slide)}
+        {renderSlideContent(slide, pageNo, totalPages)}
       </section>
     );
   };
 
-  const renderStrategicFlowSection = () => {
+  const renderStrategicFlowSection = (pageIndexById: Map<number, number>, totalPages: number) => {
     if (roadmapWithStrategicSlides.length === 0) return null;
     return (
       <section
@@ -3768,7 +3907,7 @@ export default function Home() {
           {roadmapWithStrategicSlides.map((slide) => {
             return (
               <article key={slide.slide_id} data-report-slide={slide.slide_id} className="flex min-h-0 min-w-full snap-start flex-col overflow-y-auto">
-                {renderSlideContent(slide)}
+                {renderSlideContent(slide, pageIndexById.get(slide.slide_id) ?? 0, totalPages)}
               </article>
             );
           })}
@@ -3777,7 +3916,7 @@ export default function Home() {
     );
   };
 
-  const renderPainVisionSection = () => {
+  const renderPainVisionSection = (pageIndexById: Map<number, number>, totalPages: number) => {
     if (painVisionSlides.length === 0) return null;
     return (
       <section
@@ -3793,7 +3932,7 @@ export default function Home() {
         >
           {painVisionSlides.map((slide) => (
             <article key={slide.slide_id} data-report-slide={slide.slide_id} className="flex min-h-0 min-w-full snap-start flex-col overflow-y-auto">
-              {renderSlideContent(slide)}
+              {renderSlideContent(slide, pageIndexById.get(slide.slide_id) ?? 0, totalPages)}
             </article>
           ))}
         </div>
@@ -3801,29 +3940,59 @@ export default function Home() {
     );
   };
 
-  const tailSlides: LayoutSlide[] = tailSlideIds.map((id) => ({ slide_id: id, elements: [] }));
+  const tailSlides: LayoutSlide[] = tailSlideIds
+    .filter((id) => (showFullVersion ? !version1OnlySlideIds.has(id) : !version2OnlySlideIds.has(id)))
+    .map((id) => ({ slide_id: id, elements: [] }));
+  const endingSlides: LayoutSlide[] = endingSlideIds
+    .filter((id) => (showFullVersion ? !version1OnlySlideIds.has(id) : !version2OnlySlideIds.has(id)))
+    .map((id) => ({ slide_id: id, elements: [] }));
   const nonStrategicSlideMap = new Map<number, LayoutSlide>(nonStrategicWithoutClosing.map((slide) => [slide.slide_id, slide]));
+  const orderedSlides: LayoutSlide[] = [];
+  const addOrderedSlide = (slide: LayoutSlide | undefined) => {
+    if (slide) orderedSlides.push(slide);
+  };
+  addOrderedSlide(nonStrategicSlideMap.get(1));
+  addOrderedSlide(nonStrategicSlideMap.get(2));
+  addOrderedSlide({ slide_id: 2001, elements: [] });
+  addOrderedSlide(nonStrategicSlideMap.get(5));
+  painVisionSlides.forEach((slide) => addOrderedSlide(slide));
+  addOrderedSlide(nonStrategicSlideMap.get(704));
+  addOrderedSlide(nonStrategicSlideMap.get(8));
+  addOrderedSlide({ slide_id: 2003, elements: [] });
+  tailSlides.forEach((slide) => addOrderedSlide(slide));
+  roadmapWithStrategicSlides.forEach((slide) => addOrderedSlide(slide));
+  endingSlides.forEach((slide) => addOrderedSlide(slide));
+  addOrderedSlide(closingSlide);
+
+  const totalPages = orderedSlides.length;
+  const pageIndexById = new Map<number, number>(orderedSlides.map((slide, idx) => [slide.slide_id, idx + 1]));
+
   const renderedSections: React.ReactNode[] = [];
   const pushNonStrategicSlide = (id: number) => {
     const slide = nonStrategicSlideMap.get(id);
-    if (slide) renderedSections.push(renderSingleSlideSection(slide));
+    if (slide) {
+      renderedSections.push(renderSingleSlideSection(slide, pageIndexById.get(slide.slide_id) ?? 0, totalPages));
+    }
   };
 
   pushNonStrategicSlide(1);
   pushNonStrategicSlide(2);
-  renderedSections.push(renderSingleSlideSection({ slide_id: 2001, elements: [] }));
+  renderedSections.push(renderSingleSlideSection({ slide_id: 2001, elements: [] }, pageIndexById.get(2001) ?? 0, totalPages));
   pushNonStrategicSlide(5);
-  if (painVisionSlides.length > 0) renderedSections.push(renderPainVisionSection());
+  if (painVisionSlides.length > 0) renderedSections.push(renderPainVisionSection(pageIndexById, totalPages));
 
   pushNonStrategicSlide(704);
   pushNonStrategicSlide(8);
 
-  renderedSections.push(renderSingleSlideSection({ slide_id: 2003, elements: [] }));
+  renderedSections.push(renderSingleSlideSection({ slide_id: 2003, elements: [] }, pageIndexById.get(2003) ?? 0, totalPages));
   for (let i = 0; i < tailSlides.length; i += 1) {
-    renderedSections.push(renderSingleSlideSection(tailSlides[i]));
+    renderedSections.push(renderSingleSlideSection(tailSlides[i], pageIndexById.get(tailSlides[i].slide_id) ?? 0, totalPages));
   }
-  if (roadmapWithStrategicSlides.length > 0) renderedSections.push(renderStrategicFlowSection());
-  if (closingSlide) renderedSections.push(renderSingleSlideSection(closingSlide));
+  if (roadmapWithStrategicSlides.length > 0) renderedSections.push(renderStrategicFlowSection(pageIndexById, totalPages));
+  for (let i = 0; i < endingSlides.length; i += 1) {
+    renderedSections.push(renderSingleSlideSection(endingSlides[i], pageIndexById.get(endingSlides[i].slide_id) ?? 0, totalPages));
+  }
+  if (closingSlide) renderedSections.push(renderSingleSlideSection(closingSlide, pageIndexById.get(closingSlide.slide_id) ?? 0, totalPages));
 
   return (
     <main className="report-root min-h-screen bg-[#f5f6f8] text-[#111827]">

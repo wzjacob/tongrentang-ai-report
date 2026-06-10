@@ -5,7 +5,8 @@ import { Bar, BarChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis
 
 const dataDeepDive = {
   title: "专题二：经营问数",
-  subtitle: "基于业务主数据与语义转 SQL 技术，形成可追问、可下钻的经营分析能力",
+  subtitle: "基于业务主数据与语义转 SQL 技术，形成可追问、可下钻、可追溯的经营分析能力",
+  leadDepartment: "信息化管理部",
   leftPanel: {
     title: "数据来源",
     items: [
@@ -50,6 +51,7 @@ const dataDeepDive = {
       "供应协同预警：库存周转异常时联动采购与销售侧给出建议动作。",
     ],
   },
+  metrics: ["核心指标口径一致率 >= 90%", "查询结果可追溯率 = 100%", "关键查询平均响应时长 <= 10秒"],
 } as const;
 
 const styleMap = {
@@ -99,15 +101,18 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
     <div className="min-h-full overflow-y-auto bg-[#fcfcfd] px-4 py-6 md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
-          <p className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#0284c7]">
+          <p className="report-chip">
             专题 02 · 经营问数
           </p>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#111827] md:text-3xl">{dataDeepDive.title}</h2>
           <p className="mx-auto mt-3 max-w-4xl text-sm leading-relaxed text-[#64748b] md:text-base">{dataDeepDive.subtitle}</p>
+          <p className="mx-auto mt-3 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-700 md:text-base">
+            牵头部门：{dataDeepDive.leadDepartment}
+          </p>
         </div>
 
         <div className="mt-7 grid gap-5 md:grid-cols-2">
-          <section className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+          <section className="report-panel p-5 md:p-6">
             <h3 className="text-lg font-semibold text-[#111827]">{dataDeepDive.leftPanel.title}</h3>
             <div className="mt-4 space-y-3">
               {dataDeepDive.leftPanel.items.map((item, idx) => {
@@ -151,7 +156,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
               </p>
             </article>
 
-            <article className="rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+            <article className="report-panel p-5 md:p-6">
               <h3 className="text-lg font-semibold text-[#111827]">核心能力</h3>
               <div className="mt-3 space-y-2.5">
                 {dataDeepDive.rightPanel.features.map((feature, idx) => {
@@ -175,7 +180,7 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
           </section>
         </div>
 
-        <section className="mt-5 rounded-3xl border border-[#e5e7eb] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] md:p-6">
+        <section className="report-panel mt-5 p-5 md:p-6">
           <h3 className="text-lg font-semibold text-[#111827]">{dataDeepDive.delivery.title}</h3>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
@@ -261,6 +266,17 @@ export default function AgentTwoDataDeepDiveSlide({ showFullVersion = false }: {
             </div>
           </div>
         </section>
+        <div className="report-conclusion mt-4 text-sm text-[#334155]">
+          <p className="font-semibold text-sky-700">本页结论：问数场景可形成稳定决策支撑，关键在口径治理与可追溯能力。</p>
+          <p className="mt-1">下一步：由{dataDeepDive.leadDepartment}牵头，按月核验以下指标。</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {dataDeepDive.metrics.map((item) => (
+              <span key={item} className="rounded-full border border-sky-200 bg-white px-2.5 py-1 text-xs text-sky-700">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

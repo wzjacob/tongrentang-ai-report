@@ -477,6 +477,62 @@ body {
   animation-duration: 1.8s !important;
 }
 
+/* 全局视觉规范：标签/面板/结论条 */
+.report-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.75rem;
+}
+
+.report-chip-accent {
+  border-color: #fda4af;
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+.report-panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.report-panel-soft {
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: #f8fafc;
+}
+
+.report-conclusion {
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #334155;
+  padding: 0.75rem 1rem;
+}
+
+.report-conclusion strong {
+  color: #0f172a;
+}
+
+/* 还原同类“大红条”标签为中性样式 */
+.report-root [class*="rounded-full"][class*="border-[#fecaca]"][class*="bg-[#fff1f2]"] {
+  border-color: #e2e8f0 !important;
+  background: #ffffff !important;
+}
+
+.report-root [class*="rounded-full"][class*="border-[#fecaca]"][class*="bg-[#fff1f2]"][class*="text-[#b91c1c]"],
+.report-root [class*="rounded-full"][class*="border-[#fecaca]"][class*="bg-[#fff1f2]"][class*="text-[#7f1d1d]"] {
+  color: #475569 !important;
+}
+
 .report-scroll {
   scroll-padding-top: 5rem;
   scroll-padding-bottom: 1.75rem;

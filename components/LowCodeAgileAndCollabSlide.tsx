@@ -146,6 +146,7 @@ export default function LowCodeAgileAndCollabSlide() {
             </div>
           </section>
         </div>
+
       </div>
     </div>
   );
