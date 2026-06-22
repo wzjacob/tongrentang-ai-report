@@ -1,7 +1,7 @@
 "use client";
 
-import { AlertTriangle, ArrowRight, BarChart3, Cpu, Database, DatabaseZap, LineChart, Lock, SearchCode, ShieldCheck } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { AlertTriangle, ArrowRight, BarChart3, Cpu, Database, DatabaseZap, LineChart as LineChartIcon, Lock, SearchCode, ShieldCheck } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const dataDeepDive = {
   title: "专题二：经营问数",
@@ -79,9 +79,9 @@ const styleMap = {
 } as const;
 
 const leftIcons = [Database, Lock, AlertTriangle] as const;
-const featureIcons = [BarChart3, SearchCode, LineChart] as const;
+const featureIcons = [BarChart3, SearchCode, LineChartIcon] as const;
 const deliveryLinkIcons = [ShieldCheck, DatabaseZap, Cpu, BarChart3] as const;
-const deliverySceneIcons = [BarChart3, SearchCode, LineChart, AlertTriangle] as const;
+const deliverySceneIcons = [BarChart3, SearchCode, LineChartIcon, AlertTriangle] as const;
 const queryTrendData = [
   { week: "W1", value: 120 },
   { week: "W2", value: 168 },

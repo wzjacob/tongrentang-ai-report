@@ -40,10 +40,10 @@ if not defined LOCAL_IP set "LOCAL_IP=localhost"
 
 echo.
 echo [4/4] 启动生产服务...
-echo 本机访问: http://localhost:3000
-echo 内网访问: http://%LOCAL_IP%:3000
-start "" "http://localhost:3000"
+echo 本机访问: http://localhost:3333
+echo 内网访问: http://%LOCAL_IP%:3333
+start "" "http://localhost:3333"
 
-call npm run start -- --hostname 0.0.0.0 --port 3000
+call npm run start:intranet
 
 endlocal
